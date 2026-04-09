@@ -17,10 +17,8 @@
     "products": [
       {
         "product": "Laravel",
-        "anchors": [
-          {
-            "anchor": "This is a page"
-          }
+        "pages": [
+          "installing-laravel"
         ]
       }
     ]
