@@ -1,0 +1,26 @@
+---
+title: "Partials"
+---
+
+Partials are reusable views. To reference a `/resources/views/_card.antlers.html` You don't have to enter the underscore `_`
+
+<CodeGroup>
+
+```jsx home.antlers.html
+<p>Look at my card!</p>
+{{ partial:card }}
+```
+
+```html _card.antlers.html
+<p>This is a beautiful card!</p>
+```
+
+</CodeGroup>
+
+When it's in a subdirectory like:
+
+`/resources/views/parts/_card.antlers.html`
+
+```javascript
+{{ partial:parts/card }}
+```
