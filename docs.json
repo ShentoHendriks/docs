@@ -17,12 +17,9 @@
     "products": [
       {
         "product": "Laravel",
-        "tabs": [
+        "anchors": [
           {
-            "tab": "Sex",
-            "pages": [
-              "sex-2"
-            ]
+            "anchor": "This is a page"
           }
         ]
       }
