@@ -20,6 +20,12 @@
         "pages": [
           "installing-laravel"
         ]
+      },
+      {
+        "product": "Statamic CMS",
+        "pages": [
+          "installation"
+        ]
       }
     ]
   },

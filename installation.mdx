@@ -1,0 +1,60 @@
+---
+title: "Installation"
+---
+
+<Steps>
+  <Step title="Install Laravel Herd">
+    You can download it form [here](https://herd.laravel.com/). Default settings are fine.
+  </Step>
+  <Step title="Adding Statamic CLI to Path">
+    Get the Composer's path:
+
+    ```shellscript
+    composer global config bin-dir --absolute
+    ```
+
+    Check which shell you're using:
+
+    ```shellscript
+    echo $SHELL
+    ```
+
+    <Tabs>
+      <Tab title="bash">
+        <Steps>
+          <Step title="Open shell rc file">
+            ```shellscript
+            open ~/.bashrc
+            ```
+          </Step>
+          <Step title="Replace directory with one you identified in step 2">
+            Add this at the end of the file, then save:
+
+            ```shellscript
+            export PATH="/Users/me/.composer/vendor/bin/":$PATH
+            ```
+          </Step>
+        </Steps>
+      </Tab>
+      <Tab title="zsh">
+        <Step title="Open shell rc file">
+          ```shellscript
+          open ~/.zshrc
+          ```
+        </Step>
+        <Step title="Replace directory with one you identified in step 2">
+          Add this at the end of the file, then save:
+
+          ```shellscript
+          export PATH="/Users/me/.composer/vendor/bin/":$PATH
+          ```
+        </Step>
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Install Statamic CLI">
+    ```shellscript
+    composer global require statamic/cli
+    ```
+  </Step>
+</Steps>
