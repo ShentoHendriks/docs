@@ -30,7 +30,8 @@
               "installation",
               "creating"
             ]
-          }
+          },
+          "image-compression"
         ]
       }
     ]
