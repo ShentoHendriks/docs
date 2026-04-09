@@ -13,7 +13,17 @@
       {
         "group": "Laravel",
         "pages": [
-          "sample"
+          {
+            "group": "Sample",
+            "pages": [
+              {
+                "group": "Sex",
+                "pages": [
+                  "cheese"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
