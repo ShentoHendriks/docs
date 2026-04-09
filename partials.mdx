@@ -7,7 +7,6 @@ Partials are reusable views. To reference a `/resources/views/_card.antlers.html
 <CodeGroup>
 
 ```jsx home.antlers.html
-<p>Look at my card!</p>
 {{ partial:card }}
 ```
 
@@ -23,4 +22,14 @@ When it's in a subdirectory like:
 
 ```javascript
 {{ partial:parts/card }}
+```
+
+## Passing Data
+
+```javascript
+{{ partial:card favoriteFood="Cookies" }}
+```
+
+```jsx _card.antlers.html
+<p>My favorite food is: {{ favoriteFood }}</p>
 ```
