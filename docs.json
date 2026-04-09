@@ -14,19 +14,14 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "groups": [
+    "products": [
       {
-        "group": "Laravel",
-        "pages": [
+        "product": "Laravel",
+        "tabs": [
           {
-            "group": "Sample",
+            "tab": "Sex",
             "pages": [
-              {
-                "group": "Sex",
-                "pages": [
-                  "cheese"
-                ]
-              }
+              "sex-2"
             ]
           }
         ]
