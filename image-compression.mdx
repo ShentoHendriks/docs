@@ -12,10 +12,18 @@ Statamic uses Glide for image manipulation. You're free to use as few or as many
 
 ## Parameters
 
-<ParamField body="quality" type="string">
+<ParamField path="quality" type="string">
   Defines the quality of the image. Use values between `0` and `100`. Only relevant if the format is `jpg`, `pjpg` or `webp`. Default: `90`.
+</ParamField>
 
-  <ParamField path="format" type="string">
-    Encodes the image to a specific format. Accepts `jpg`, `pjpg` (progressive jpeg), `png`, `gif`, `webp` or `avif`. If using the imagick image manipulation driver, glide can additionally handle `tif`, `bmp` and `psd`. The default format: `jpg`
-  </ParamField>
+<ParamField path="format" type="string">
+  Encodes the image to a specific format. Accepts `jpg`, `pjpg` (progressive jpeg), `png`, `gif`, `webp` If using the imagick image manipulation driver, glide can additionally handle `tif`, `bmp` and `psd`. The default format: `jpg`
+</ParamField>
+
+<ParamField path="width" type="integer">
+  Sets the width of the image, in pixels.
+</ParamField>
+
+<ParamField path="height" type="integer">
+  Sets the height of the image, in pixels.
 </ParamField>
