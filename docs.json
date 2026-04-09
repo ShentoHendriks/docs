@@ -24,7 +24,13 @@
       {
         "product": "Statamic CMS",
         "pages": [
-          "installation"
+          {
+            "group": "Getting Started",
+            "pages": [
+              "installation",
+              "creating"
+            ]
+          }
         ]
       }
     ]
