@@ -1,0 +1,21 @@
+---
+title: "Assets (Images)"
+---
+
+Assets are all files (including) images the user can upload.
+
+## Retrieving Asset
+
+If you have a single asset, or image in this case, you'd like to display. You **must** set the `max_files = 1`. This way you can retrieve the image through. If you don't set a `max_files` then you must retrieve it using the array method.
+
+```jsx
+<img src={{ hero_image }} alt={{ hero_image:alt }} />
+```
+
+## Retrieving multiple images (array)
+
+```jsx
+{{ gallery_images }}
+    <img src="{{ url }}" alt="{{ alt }}" />
+{{ /gallery_images }}
+```
