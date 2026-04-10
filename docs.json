@@ -31,7 +31,12 @@
               "creating"
             ]
           },
-          "untitled-page",
+          {
+            "group": "Fields",
+            "pages": [
+              "untitled-page"
+            ]
+          },
           "partials",
           "navigation",
           "image-compression"
