@@ -1,0 +1,28 @@
+---
+title: "Navigation"
+---
+
+Create a new Navigation, and give it a name like `Header`. Look carefully at the handle name. (This is standard the same as your name, but lowercase).
+
+## Configuring your navigation
+
+Choose the Collections you'd want to be selected. Like Pages.
+
+## Adding Links
+
+If you have a Collection selected, I'd recommend `Link to Entry` and selected the Items you want in your navigation.
+
+<img
+  src="/images/image-1.png"
+  alt="Image"
+  title="Image"
+  style={{ width:"51%" }}
+/>
+
+## Showing the links in Antlers
+
+```jsx
+{{ nav:links }}
+<a src="{{ url }}">{{ title }}</a>
+{{ /nav:links }}
+```
