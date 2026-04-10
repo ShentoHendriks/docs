@@ -26,3 +26,15 @@ If you have a Collection selected, I'd recommend `Link to Entry` and selected th
 <a src="{{ url }}">{{ title }}</a>
 {{ /nav:links }}
 ```
+
+## Check if the current page is the link
+
+Sometimes you want to some styling if it's the current page. Like showing that font in bold.
+
+```jsx
+{{ nav:links }}
+    <a src="{{ url }}" {{ if is_current }} class="current" {{ /if }}>
+        {{ title }}
+    </a>
+{{ /nav:links }}
+```
