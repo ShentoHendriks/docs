@@ -1,0 +1,49 @@
+---
+title: "container-grid"
+---
+
+`container-grid` is default page container.
+
+Use it for most sections.
+
+```html
+<section class="container-grid py-section">
+  <h2 class="heading-h2">Default section</h2>
+  <p class="body-m">Content stays inside configured container width.</p>
+</section>
+```
+
+It:
+
+- fills available width with `width: 100%`
+- caps itself at configured `--container-width`
+- centers itself with `margin-inline: auto`
+- applies side padding from `--spacing-container-margin`
+- uses desktop column count by default
+- switches to mobile column count below `--container-switch`
+
+This is best container for standard content rhythm.
+
+Use `container-grid` for:
+
+- normal page sections
+- article layouts
+- content blocks
+- product sections
+- forms
+- dashboards
+- most marketing sections
+
+### **Example**
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="w-col-8">
+    <p class="label-m mb-md">Overview</p>
+    <h1 class="display-l">A controlled content container.</h1>
+    <p class="body-l mt-lg">
+      This section uses capped container width and normal fluid typography.
+    </p>
+  </div>
+</section>
+```

@@ -1,0 +1,66 @@
+---
+title: "container-grid-fluid"
+---
+
+`container-grid-fluid` starts like normal container, then becomes viewport-wide on very large screens.
+
+Use it when design should keep opening up after configured max viewport.
+
+```html
+<section class="container-grid-fluid py-section-2xl">
+  <h1 class="display-l">A fluid large-screen section.</h1>
+</section>
+```
+
+Below max viewport, it behaves like `container-grid`:
+
+- centered
+- capped to configured container width
+- uses same margin and gutter logic
+- uses same mobile/desktop column switch
+
+At and above max viewport, it changes:
+
+- `max-width` becomes `100vw`
+- content width calculation uses full viewport width
+- column width keeps growing with viewport
+
+This makes column-based layouts continue scaling on very wide screens.
+
+### Font Scaling Inside `container-grid-fluid`
+
+Text style utilities receive special behavior inside `container-grid-fluid`.
+
+Generated text styles like `display-l`, `heading-h1`, `body-l`, etc. normally use fluid `clamp(...)` tokens. That means they grow **until** configured max viewport, then **stop**.
+
+Inside `container-grid-fluid`, generated CSS adds an **override above max viewport:**
+
+```html
+@media (min-width: [max-viewport]) {
+  .container-grid-fluid .display-l {
+    font-size: [viewport-based-value];
+  }
+}
+```
+
+This means text styles can keep scaling with viewport width inside fluid containers.
+
+So this:
+
+```html
+<section class="container-grid-fluid">
+  <h1 class="display-l">Large-screen headline</h1>
+</section>
+```
+
+will feel more proportional on very wide screens than same headline inside `container-grid`.
+
+Use this when typography and layout should scale together.
+
+Good use cases:
+
+- campaign heroes
+- immersive editorial headers
+- wide visual storytelling sections
+- large-screen brand moments
+- layouts where type should stay proportional to viewport

@@ -34,13 +34,25 @@
           {
             "group": "Fields",
             "pages": [
-              "untitled-page",
               "assets"
             ]
           },
           "partials",
           "navigation",
           "image-compression"
+        ]
+      },
+      {
+        "product": "RWA Framework",
+        "pages": [
+          {
+            "group": "Containers",
+            "pages": [
+              "containers",
+              "container-grid",
+              "cs"
+            ]
+          }
         ]
       }
     ]

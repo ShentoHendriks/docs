@@ -1,0 +1,46 @@
+---
+title: "How it works"
+---
+
+Rainy Weather Framework exports three container utilities:
+
+- `container-grid`
+- `container-grid-fluid`
+- `container-grid-fullscreen`
+
+These containers define layout context for your page. They are not only width wrappers. They also set the CSS variables used by column utilities like `w-col-*`, `ml-col-*`, `pl-col-*`, `pr-col-*`, `gap-col-*`, and `gap-x-col-*`.
+
+Use one of these container classes at section or layout-wrapper level before using grid-based utilities inside it.
+
+```html
+<section class="container-grid">
+  <div class="w-col-6">
+    ...
+  </div>
+</section>
+```
+
+## What Containers Control
+
+Each container sets the active grid environment:
+
+- container width
+- container side margin
+- gutter size
+- active column count
+- calculated column width
+- mobile/desktop column switching
+
+The generated CSS includes variables such as:
+
+`--container-columns-mobile`\
+`--container-columns-desktop`\
+`--container-switch`\
+`--container-width`\
+`--spacing-container-margin`\
+`--spacing-container-gutter`\
+`--container-column-width`
+
+You usually do **not** use these variables directly. The exported utility classes use them for you.
+
+For example, `w-col-6` calculates its width from the current container’s column width and gutter value. That means the same class can behave differently inside different container types, while still following same design system.
