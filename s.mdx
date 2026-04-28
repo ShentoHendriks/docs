@@ -1,3 +1,123 @@
 ---
 title: "Section Spacing"
 ---
+
+## Overview
+
+Section spacing utilities come from generated spacing aliases.
+
+Rainy Weather Framework exports three section roles:
+
+```text
+--spacing-section
+--spacing-section-xl
+--spacing-section-2xl
+```
+
+Tailwind lets you use them as spacing classes:
+
+```text
+py-section
+py-section-xl
+py-section-2xl
+```
+
+## Purpose
+
+Section spacing controls vertical page rhythm.
+
+Use it on major sections, not small components.
+
+```html
+<section class="container-grid py-section">
+  ...
+</section>
+```
+
+## Available Roles
+
+`py-section`
+
+Default section spacing.
+
+```html
+<section class="container-grid py-section">
+  <h2 class="heading-h2">Standard section</h2>
+</section>
+```
+
+`py-section-xl`
+
+Larger section spacing.
+
+```html
+<section class="container-grid py-section-xl">
+  <h2 class="heading-h2">Larger section</h2>
+</section>
+```
+
+`py-section-2xl`
+
+Largest section spacing.
+
+```html
+<section class="container-grid py-section-2xl">
+  <h1 class="display-l">Hero or major transition</h1>
+</section>
+```
+
+## Recommended Usage
+
+Use `py-section` for normal content sections.
+
+Use `py-section-xl` for important sections or wider breathing room.
+
+Use `py-section-2xl` for heroes, feature openers, or major page transitions.
+
+## Why Padding, Not Margin
+
+Prefer vertical padding on sections:
+
+```html
+<section class="container-grid py-section-xl">
+  ...
+</section>
+<section class="container-grid py-section-xl">
+  ...
+</section>
+```
+
+Avoid relying on margins between sections:
+
+```html
+<section class="mb-2xl">
+  ...
+</section>
+```
+
+Padding belongs to section itself. This makes backgrounds, borders, and layout rhythm more predictable.
+
+## Complete Example
+
+```html
+<section class="container-grid-fluid py-section-2xl">
+  <div class="w-col-9 ml-col-1">
+    <p class="label-m mb-md">Launch</p>
+    <h1 class="display-l">Fluid hero section.</h1>
+    <p class="body-l mt-xl w-col-6">
+      Section spacing handles page rhythm. Text styles handle typography.
+    </p>
+  </div>
+</section>
+
+<section class="container-grid py-section-xl">
+  <div class="container-columns gap-y-2xl">
+    <article class="col-span-12 desktop:col-span-7">
+      <h2 class="heading-h2 mb-lg">Content section.</h2>
+      <p class="body-m">
+        Normal spacing tokens handle local rhythm.
+      </p>
+    </article>
+  </div>
+</section>
+```

@@ -1,0 +1,354 @@
+---
+title: "Color Utilities"
+---
+
+## Overview
+
+Color tokens are exported into Tailwind as semantic color utilities.
+
+That means colors become available through normal Tailwind classes:
+
+```text
+bg-background-default
+text-text-default
+border-border-default
+```
+
+These classes come from generated CSS variables, usually shaped like:
+
+```postcss
+@theme {
+  --color-background-default: ...
+  --color-text-default: ...
+  --color-border-default: ...
+}
+```
+
+Tailwind turns `--color-background-default` into `bg-background-default`, `text-background-default`, `border-background-default`, etc.
+
+## Why Names Look Repeated
+
+Names like this can look weird at first:
+
+```text
+bg-background-default
+text-text-default
+```
+
+But there is a reason.
+
+Tailwind class prefixes describe CSS property:
+
+```text
+bg-*      background-color
+text-*    color
+border-*  border-color
+```
+
+The token name describes design role:
+
+```text
+background-default
+text-default
+border-default
+```
+
+So this class:
+
+```text
+bg-background-default
+```
+
+means:
+
+“Set background-color to color token background-default.”
+
+And this:
+
+```text
+text-text-default
+```
+
+means:
+
+“Set color to color token text-default.”
+
+The repeated word is not accidental. First text- is Tailwind property prefix. Second text-default is token name.
+
+## Mental Model
+
+Read color classes in two parts:
+
+```text
+[property]-[token-name]
+```
+
+Examples:
+
+```text
+bg-background-default
+
+Property: bg
+Token: background-default
+```
+
+```text
+text-text-default
+
+Property: text
+Token: text-default
+```
+
+```text
+border-border-default
+
+Property: border
+Token: border-default
+```
+
+This makes tokens semantic and predictable.
+
+## Why Not Just `bg-default`
+
+Because default alone does not explain what color role it belongs to.
+
+A system often has multiple **default** colors:
+
+```text
+background-default
+text-default
+border-default
+surface-default
+accent-default
+```
+
+If every token were only called `default`, code would become unclear.
+
+This is more readable:
+
+```html
+<section class="bg-background-default text-text-default">
+  ...
+</section>
+```
+
+Than this:
+
+```html
+<section class="bg-default text-default">
+  ...
+</section>
+```
+
+The longer name shows both role and state.
+
+## Common Token Groups
+
+A project may generate groups like:
+
+```text
+background-default
+background-muted
+background-inverse
+
+text-default
+text-muted
+text-inverse
+
+border-default
+border-muted
+border-strong
+
+surface-default
+surface-raised
+
+accent-default
+accent-strong
+```
+
+These become Tailwind utilities depending on property:
+
+```text
+bg-background-default
+text-text-default
+border-border-default
+```
+
+You can also technically mix property and token:
+
+```text
+border-background-default
+text-accent-default
+bg-text-default
+```
+
+But that only makes sense when design intent calls for it.
+
+In normal usage, pair property with matching role.
+
+## Usage
+
+```html
+<section class="bg-background-default text-text-default">
+  <div class="container-grid py-section-xl">
+    <p class="text-text-muted label-m mb-md">Featured</p>
+
+    <h1 class="display-l text-text-default">
+      Semantic color tokens.
+    </h1>
+
+    <p class="body-l text-text-muted mt-lg">
+      Color classes describe both CSS property and design role.
+    </p>
+  </div>
+</section>
+```
+
+## Background Colors
+
+Use `bg-*` for background color.
+
+```html
+<section class="bg-background-default">
+  ...
+</section>
+```
+
+```html
+<div class="bg-background-muted">
+  ...
+</div>
+```
+
+## Text Colors
+
+Use `text-*` for text color.
+
+```html
+<h1 class="text-text-default display-l">
+  Main heading
+</h1>
+
+
+<p class="text-text-muted body-m">
+  Supporting text
+</p>
+
+
+<p class="text-text-inverse body-m">
+  Text on dark or inverse backgrounds.
+</p>
+```
+
+## Border Colors
+
+Use border-\* for border color.
+
+```html
+<div class="border border-border-default">
+  ...
+</div>
+
+
+<div class="border border-border-muted">
+  ...
+</div>
+```
+
+**Remember:** Tailwind border color utilities usually need border width too.
+
+```text
+<div class="border border-border-default">
+  ...
+</div>
+```
+
+`border-border-default` sets color.\
+`border` creates visible border width.
+
+## Semantic Naming
+
+Color tokens should describe role, not raw color.
+
+Better:
+
+```text
+background-default
+text-muted
+accent-default
+border-strong
+```
+
+Less useful:
+
+```text
+blue-500
+gray-200
+white
+dark
+```
+
+Raw color names describe appearance. Semantic names describe purpose.
+
+This matters because color values may change between light mode, dark mode, themes, or brand updates.
+
+For example, text-text-default might be near-black in light mode and near-white in dark mode. Component code does not need to change.
+
+## Theme Modes
+
+If output includes light/dark mode variables, same class can resolve differently depending on active mode.
+
+```html
+<body class="js-light">
+  <section class="bg-background-default text-text-default">
+    ...
+  </section>
+</body>
+```
+
+```html
+<body class="js-dark">
+  <section class="bg-background-default text-text-default">
+    ...
+  </section>
+</body>
+```
+
+Same markup. Different token values.
+
+That is main benefit of semantic naming.
+
+## Recommended Pattern
+
+```html
+<section class="bg-background-default text-text-default">
+  <div class="container-grid py-section-xl">
+    <div class="w-col-8">
+      <p class="label-m text-text-muted mb-md">
+        Color System
+      </p>
+
+      <h2 class="heading-h2 text-text-default">
+        Use semantic color utilities.
+      </h2>
+
+      <p class="body-l text-text-muted mt-lg">
+        Classes may look repetitive, but each part has a job:
+        Tailwind property first, design token second.
+      </p>
+
+      <a class="button-m text-accent-default mt-xl inline-block" href="#">
+        Learn more
+      </a>
+    </div>
+  </div>
+</section>
+```
+
+## Best Practice
+
+Use `bg-background-*` for page and section backgrounds.
+
+Use t`ext-text-*` for readable text.
+
+Use `border-border-*` for structural borders.
