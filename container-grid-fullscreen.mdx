@@ -1,0 +1,51 @@
+---
+title: "container-grid-fullscreen"
+---
+
+`container-grid-fullscreen` is viewport-based from start.
+
+Use it when section should always use full viewport width for grid calculations.
+
+```html
+<section class="container-grid-fullscreen py-section-xl">
+  <div class="pl-col-1 pr-col-1">
+    <h2 class="heading-h2">Fullscreen layout area.</h2>
+  </div>
+</section>
+```
+
+It:
+
+- fills full viewport width
+- does not cap itself to configured container width
+- keeps side padding from `--spacing-container-margin`
+- calculates column width from `100vw`
+- uses same desktop/mobile column count logic
+- switches to mobile columns below `--container-switch`
+
+This is useful when layout surface is full bleed, but still needs consistent grid math.
+
+Use `container-grid-fullscreen` for:
+
+- full-bleed sections
+- app-like canvases
+- media-heavy layouts
+- horizontal compositions
+- background sections where content aligns to grid
+- sections that should ignore max container width
+
+### Font Scaling Inside` container-grid-fullscreen`
+
+`container-grid-fullscreen` changes layout width, **not text scale behavior.**
+
+Text styles inside it still use normal generated typography tokens, usually `clamp(...)`.
+
+That means:
+
+```html
+<section class="container-grid-fullscreen">
+  <h1 class="display-l">Fullscreen layout, controlled type.</h1>
+</section>
+```
+
+gets fullscreen column math, but `display-l` still stops growing at configured max typography size. Use this when layout should be wide, but typography should stay controlled.

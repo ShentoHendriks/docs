@@ -50,7 +50,8 @@
             "pages": [
               "containers",
               "container-grid",
-              "cs"
+              "cs",
+              "container-grid-fullscreen"
             ]
           }
         ]
