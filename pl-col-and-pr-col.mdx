@@ -1,0 +1,63 @@
+---
+title: "pl-col-* & pr-col-*"
+---
+
+## Overview
+
+`pl-col-*` and `pr-col-*` add grid-based inner padding.
+
+Use them when content inside an element should be inset by container columns.
+
+```html
+<section class="container-grid-fullscreen">
+  <div class="pl-col-1 pr-col-1">
+    ...
+  </div>
+</section>
+```
+
+## How It Works
+
+`pl-col-1` adds left padding equal to one column plus one gutter.
+
+`pr-col-1` adds right padding equal to one column plus one gutter.
+
+Unlike `ml-col-*` and `mr-col-*`, these utilities affect inside spacing, not outside position.
+
+## Usage
+
+```html
+<section class="container-grid-fullscreen py-section-xl">
+  <div class="pl-col-1 pr-col-1">
+    <h2 class="heading-h2">Fullscreen shell, grid-aligned content.</h2>
+    <p class="body-l mt-lg">
+      Inner content keeps column-based inset.
+    </p>
+  </div>
+</section>
+```
+
+## Common Pattern: Fullscreen Surface
+
+```html
+<section class="container-grid-fullscreen py-section-2xl">
+  <div class="pl-col-2 pr-col-2">
+    <div class="w-col-8">
+      <h1 class="display-l">Wide section with controlled inset.</h1>
+    </div>
+  </div>
+</section>
+```
+
+## When To Use
+
+Use `pl-col-*` and `pr-col-*` when:
+
+- full-width section needs inner grid inset
+- padding should scale with layout, not fixed spacing
+
+## Difference From `p-xl`
+
+`p-xl` uses spacing scale.
+
+`pl-col-1` uses column grid.

@@ -45,15 +45,23 @@
       {
         "product": "RWA Framework",
         "pages": [
+          "text-style-utilities",
+          "spacing-tokens",
+          "s",
           {
             "group": "Containers",
             "pages": [
               "containers",
               "container-grid",
               "cs",
-              "container-grid-fullscreen"
+              "container-grid-fullscreen",
+              "recommended-usage"
             ]
-          }
+          },
+          "w-col",
+          "ml-col-and-mr-col",
+          "pl-col-and-pr-col",
+          "gap"
         ]
       }
     ]

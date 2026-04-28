@@ -1,0 +1,80 @@
+---
+title: "w-col-*"
+---
+
+## Overview
+
+`w-col-*` sets an element’s width using the active container grid.
+
+It is useful when an element should be a **specific number of columns wide**.
+
+```html
+<section class="container-grid">
+  <div class="w-col-6">
+    ...
+  </div>
+</section>
+```
+
+## How It Works
+
+`w-col-*` uses the current container’s calculated column width.
+
+That means it depends on one of these parent containers:
+
+```text
+container-grid
+container-grid-fluid
+container-grid-fullscreen
+```
+
+The same `w-col-6` can produce different pixel widths depending on the container.
+
+```html
+<section class="container-grid">
+  <div class="w-col-6">Capped container width</div>
+</section>
+
+<section class="container-grid-fullscreen">
+  <div class="w-col-6">Fullscreen container width</div>
+</section>
+```
+
+This is intentional. `w-col-6` means “six grid columns,” not “fixed pixel width.”
+
+## Usage
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="w-col-8">
+    <p class="label-m mb-md">Case Study</p>
+    <h1 class="display-l">A focused content block.</h1>
+    <p class="body-l mt-lg">
+      This block is eight columns wide on the active grid.
+    </p>
+  </div>
+</section>
+```
+
+## When To Use
+
+Use `w-col-*` when:
+
+- element needs grid-based width
+- content width should follow container math
+- element sits in flex, absolute, or freeform composition
+- you want layout intent to stay readable in markup
+
+## Mobile Behavior
+
+If desktop column count is larger than mobile column count (6 columns), large `w-col-*` values fallback to 100% on smaller screens unless responsive overrides are provided.
+
+Example:
+
+```html
+<div class="w-col-10">
+  ...
+</div>
+```
+
+This will be `width: 100%` on the `switch` breakpoint.

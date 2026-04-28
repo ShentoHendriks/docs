@@ -1,0 +1,116 @@
+---
+title: "Spacing Tokens"
+---
+
+## Overview
+
+Spacing tokens are generated as Tailwind theme values.
+
+They become available through normal Tailwind spacing utilities.
+
+Examples:
+
+```text
+mt-2xl
+mb-xl
+p-lg
+px-md
+gap-sm
+space-y-lg
+```
+
+## How It Works
+
+The CSS output defines spacing tokens like:
+
+```postcss
+@theme {
+  --spacing-sm: ...;
+  --spacing-md: ...;
+  --spacing-lg: ...;
+  --spacing-xl: ...;
+  --spacing-2xl: ...;
+}
+```
+
+Tailwind then makes them usable through utility classes:
+
+```html
+<div class="mt-2xl p-xl gap-lg">
+  ...
+</div>
+```
+
+## Usage
+
+```html
+<article class="p-xl">
+  <p class="label-m mb-sm">Article</p>
+  <h2 class="heading-h2 mb-lg">Spacing tokens create local rhythm.</h2>
+  <p class="body-m">
+    Use generated spacing values for component spacing.
+  </p>
+</article>
+```
+
+## Common Utilities
+
+Margin:
+
+```text
+mt-lg
+mb-xl
+my-2xl
+mx-md
+```
+
+Padding:
+
+```text
+p-lg
+px-xl
+py-2xl
+pt-md
+pb-xl
+```
+
+Gap:
+
+```text
+gap-md
+gap-x-lg
+gap-y-xl
+```
+
+## When To Use
+
+Use spacing tokens for:
+
+- card padding
+- stack spacing
+- heading/body spacing
+- form spacing
+- local layout rhythm
+- component internals
+
+## Spacing Tokens vs Column Utilities
+
+Spacing tokens are for rhythm.
+
+Column utilities are for structure.
+
+Use this for component padding:
+
+```html
+<div class="p-xl">
+  ...
+</div>
+```
+
+Use this for grid-based structural inset:
+
+```html
+<div class="pl-col-1 pr-col-1">
+  ...
+</div>
+```

@@ -1,0 +1,96 @@
+---
+title: "ml-col-* & mr-col-*"
+---
+
+## Overview
+
+`ml-col-*` and `mr-col-*` add grid-based outside spacing.
+
+They offset an element by a number of columns plus matching gutters.
+
+```html
+<section class="container-grid">
+  <div class="w-col-6 ml-col-2">
+    ...
+  </div>
+</section>
+```
+
+## How It Works
+
+`ml-col-2` means:
+
+“Add left margin equal to two columns plus two gutters on the active container grid.”
+
+`mr-col-2` does the same on right side.
+
+These utilities depend on active container math, same as `w-col-*`.
+
+## Usage
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="w-col-7 ml-col-2">
+    <h2 class="heading-h2">Offset editorial content.</h2>
+    <p class="body-l mt-lg">
+      Content is shifted away from left edge while staying aligned to grid.
+    </p>
+  </div>
+</section>
+```
+
+Right offset:
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="w-col-7 mr-col-2">
+    <h2 class="heading-h2">Right offset content.</h2>
+  </div>
+</section>
+```
+
+## Common Patterns
+
+### Centered Column Block
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="w-col-8 ml-col-2">
+    ...
+  </div>
+</section>
+```
+
+In a 12-column grid, `w-col-8` `ml-col-2` creates centered 8-column content.
+
+### Asymmetric Layout
+
+```html
+<section class="container-grid py-section-2xl">
+  <div class="w-col-5 ml-col-1">
+    <p class="body-l">Primary text</p>
+  </div>
+
+  <div class="w-col-4 ml-col-7 mt-2xl">
+    <p class="body-m">Secondary text</p>
+  </div>
+</section>
+```
+
+## Best Practice
+
+Pair offsets with explicit widths.
+
+**Good:**
+
+```html
+<div class="w-col-6 ml-col-3">...</div>
+```
+
+**Less clear:**
+
+```text
+<div class="ml-col-3">...</div>
+```
+
+Offset without width can be valid, but harder to reason about.

@@ -1,0 +1,83 @@
+---
+title: "gap-col-*"
+---
+
+## Overview
+
+`gap-col-*` creates a grid-based gap.
+
+It is useful when space between items should equal a column span instead of normal spacing token.
+
+```html
+<section class="container-grid">
+  <div class="flex gap-col-1">
+    ...
+  </div>
+</section>
+```
+
+## How It Works
+
+`gap-col-1` calculates gap from active container column width and gutter.
+
+It creates a structural gap tied to grid rhythm.
+
+The output also includes `gap-x-col-*` for horizontal gaps only.
+
+```html
+<div class="flex gap-x-col-1 gap-y-xl">
+  ...
+</div>
+```
+
+## Usage
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="flex gap-col-1">
+    <article class="w-col-4">
+      <h3 class="heading-h3">First</h3>
+    </article>
+
+    <article class="w-col-4">
+      <h3 class="heading-h3">Second</h3>
+    </article>
+  </div>
+</section>
+```
+
+## With Wrapping Layouts
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="flex flex-wrap gap-x-col-1 gap-y-2xl">
+    <article class="w-col-4">...</article>
+    <article class="w-col-4">...</article>
+    <article class="w-col-4">...</article>
+  </div>
+</section>
+```
+
+## When To Use
+
+Use `gap-col-*` when:
+
+- gap is structural
+- gap should align with grid
+- gap should grow with container width
+- elements are sized with `w-col-*`
+- layout is custom flex/freeform composition
+
+## When Not To Use
+
+For normal component spacing, use spacing tokens:
+
+```html
+<div class="grid gap-lg">
+  ...
+</div>
+```
+
+Use `gap-lg`, `gap-xl`, or `gap-2xl` for local rhythm.
+
+Use `gap-col-*` for layout structure based on the grid.
