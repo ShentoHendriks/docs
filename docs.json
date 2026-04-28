@@ -62,7 +62,8 @@
           "w-col",
           "ml-col-and-mr-col",
           "pl-col-and-pr-col",
-          "gap"
+          "gap",
+          "responsive-utilities"
         ]
       }
     ]
