@@ -3,9 +3,9 @@
   "theme": "palm",
   "name": "Rainy Weather Agency Docs",
   "colors": {
-    "primary": "#006ee3",
-    "light": "#25a9f5",
-    "dark": "#154c80"
+    "primary": "#E62A2A",
+    "light": "#E62A2A",
+    "dark": "#F94943"
   },
   "seo": {
     "metatags": {
@@ -69,8 +69,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/light.svg"
+    "light": "/images/favicon.png",
+    "dark": "/images/favicon.png"
   },
   "navbar": {
     "links": [
@@ -105,7 +105,12 @@
     }
   },
   "fonts": {
-    "family": "Geist",
+    "family": "DM Sans",
     "format": "woff2"
+  },
+  "background": {
+    "color": {
+      "light": "#FBFBF8"
+    }
   }
 }
