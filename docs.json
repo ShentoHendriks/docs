@@ -63,7 +63,8 @@
           "ml-col-and-mr-col",
           "pl-col-and-pr-col",
           "gap",
-          "responsive-utilities"
+          "responsive-utilities",
+          "production"
         ]
       }
     ]
