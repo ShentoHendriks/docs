@@ -12,7 +12,7 @@
       "robots": "noindex"
     }
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/images/favicon.png",
   "navigation": {
     "products": [
       {
@@ -68,10 +68,7 @@
       }
     ]
   },
-  "logo": {
-    "light": "/images/favicon.png",
-    "dark": "/images/favicon.png"
-  },
+  "logo": "/images/favicon.png",
   "navbar": {
     "links": [
       {
