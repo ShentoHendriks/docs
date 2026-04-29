@@ -1,0 +1,10 @@
+#body-content :not(pre) > code,
+.prose :not(pre) > code {
+  background-color: #E62A2A !important;
+  color: #FFFFFF !important;
+}
+
+#body-content :not(pre) > code *,
+.prose :not(pre) > code * {
+  color: #FFFFFF !important;
+}
