@@ -23,6 +23,25 @@ Use the collection handle after `collection:`.
 {{ /collection:projects }}
 ```
 
+Common settings:
+
+| Setting | Example | What it does |
+| --- | --- | --- |
+| `sort` | `sort="title:asc"` | Sorts by a field handle. Use `:asc` for A-Z or oldest first, and `:desc` for Z-A or newest first. Common examples: `title:asc`, `date:desc`, `order:asc`. |
+| `limit` | `limit="6"` | Shows only the first number of matching entries. Use it for sections like "latest 3 posts" or "featured 6 projects". |
+| `offset` | `offset="3"` | Skips entries before rendering. Use it when one entry is already shown somewhere else, like a featured card above a grid. |
+
+Common `sort` values:
+
+| Sort value | Use it for |
+| --- | --- |
+| `title:asc` | Alphabetical lists, like team members or projects |
+| `title:desc` | Reverse alphabetical lists |
+| `date:desc` | Newest first, like blog posts or news |
+| `date:asc` | Oldest first, like timelines or event archives |
+| `order:asc` | Manual order from the control panel |
+| `order:desc` | Reverse manual order |
+
 ### Use from
 
 Use `from` when the collection handle should be a parameter.
@@ -35,6 +54,14 @@ Use `from` when the collection handle should be a parameter.
 {{ /collection }}
 ```
 
+Common settings:
+
+| Setting | Example | What it does |
+| --- | --- | --- |
+| `from` | `from="projects"` | Chooses the collection |
+| `sort` | `sort="title:asc"` | Sorts entries by field and direction |
+| `limit` | `limit="6"` | Limits how many entries render |
+
 Use a variable inside `from` when editors choose the collection.
 
 ```html
@@ -45,11 +72,18 @@ Use a variable inside `from` when editors choose the collection.
 {{ /collection }}
 ```
 
+Common dynamic settings:
+
+| Setting | Example | What it does |
+| --- | --- | --- |
+| `from` | `from="{selected_collection}"` | Uses a field or variable as the collection handle |
+| `limit` | `limit="6"` | Limits how many entries render |
+
 <Note>
   Use `from` for collections. Use `src` for partials.
 </Note>
 
-### Multiple collections
+<Accordion title="Multiple collections">
 
 Separate multiple collection handles with `|`.
 
@@ -61,7 +95,17 @@ Separate multiple collection handles with `|`.
 {{ /collection }}
 ```
 
-### Alias results with as
+Common settings:
+
+| Setting | Example | What it does |
+| --- | --- | --- |
+| `from` | `from="blog|events"` | Pulls entries from more than one collection |
+| `sort` | `sort="date:desc"` | Shows newest dated entries first |
+| `limit` | `limit="6"` | Limits how many entries render |
+
+</Accordion>
+
+<Accordion title="Alias results with as">
 
 Use `as` when you need wrapper markup around the results.
 
@@ -79,7 +123,17 @@ Use `as` when you need wrapper markup around the results.
 {{ /collection }}
 ```
 
-### Scope fields
+Common settings:
+
+| Setting | Example | What it does |
+| --- | --- | --- |
+| `from` | `from="blog"` | Chooses the collection |
+| `as` | `as="posts"` | Stores results under a custom variable |
+| `no_results` | `{{ if no_results }}` | Checks if the query returned nothing |
+
+</Accordion>
+
+<Accordion title="Scope fields">
 
 Use `scope` when entry fields conflict with fields already on the page.
 
@@ -91,7 +145,16 @@ Use `scope` when entry fields conflict with fields already on the page.
 {{ /collection }}
 ```
 
-### Show one entry
+Common settings:
+
+| Setting | Example | What it does |
+| --- | --- | --- |
+| `from` | `from="blog"` | Chooses the collection |
+| `scope` | `scope="post"` | Prefixes entry variables with `post:` |
+
+</Accordion>
+
+<Accordion title="Show one entry">
 
 On a single entry template, use fields directly. You do not need the collection tag.
 
@@ -101,6 +164,8 @@ On a single entry template, use fields directly. You do not need the collection 
   {{ content }}
 </article>
 ```
+
+</Accordion>
 
 ## When to use collections
 
@@ -166,16 +231,16 @@ You can also use custom entry fields in routes. Keep this simple unless the proj
 
 Scaffolding usually gives you two templates:
 
-<Files>
-  <Folder name="resources">
-    <Folder name="views">
-      <Folder name="blog">
-        <File name="index.antlers.html" />
-        <File name="show.antlers.html" />
-      </Folder>
-    </Folder>
-  </Folder>
-</Files>
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="blog">
+        <Tree.File name="index.antlers.html" />
+        <Tree.File name="show.antlers.html" />
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
 
 ### index
 
@@ -242,18 +307,18 @@ Example page fields:
 
 Statamic saves collection config and entries as project files. Editors do not need to edit these files directly.
 
-<Files>
-  <Folder name="content">
-    <Folder name="collections">
-      <File name="pages.yaml" />
-      <Folder name="pages">
-        <File name="home.md" />
-        <File name="about.md" />
-        <File name="contact.md" />
-      </Folder>
-    </Folder>
-  </Folder>
-</Files>
+<Tree>
+  <Tree.Folder defaultOpen name="content">
+    <Tree.Folder defaultOpen name="collections">
+      <Tree.File name="pages.yaml" />
+      <Tree.Folder defaultOpen name="pages">
+        <Tree.File name="home.md" />
+        <Tree.File name="about.md" />
+        <Tree.File name="contact.md" />
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
 
 ## Good defaults
 

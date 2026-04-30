@@ -7,6 +7,8 @@ Conditionals let you show markup only when content exists or when a value matche
 
 ## Code usage
 
+### Check a field
+
 Use `{{ if }}` to check if a field has a value.
 
 ```html
@@ -14,6 +16,8 @@ Use `{{ if }}` to check if a field has a value.
   <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
 {{ /if }}
 ```
+
+### Use else
 
 Use `{{ else }}` for a fallback.
 
@@ -23,6 +27,30 @@ Use `{{ else }}` for a fallback.
 {{ else }}
   <p>{{ excerpt }}</p>
 {{ /if }}
+```
+
+### Use elseif
+
+Use `{{ elseif }}` for extra branches. Use `elseif`, not `else if`.
+
+```html
+{{ if layout == "dark" }}
+  <section class="section section--dark">
+{{ elseif layout == "light" }}
+  <section class="section section--light">
+{{ else }}
+  <section class="section">
+{{ /if }}
+```
+
+### Use unless
+
+Use `{{ unless }}` when markup should render only when something is false or empty.
+
+```html
+{{ unless hero_image }}
+  <div class="image-placeholder"></div>
+{{ /unless }}
 ```
 
 ## Basic checks
@@ -87,7 +115,7 @@ Use `||` when one condition can be true.
 
 ## Elseif
 
-Use `elseif` for multiple outcomes.
+Use `elseif` for multiple outcomes. This is useful with Replicator sets.
 
 ```html
 {{ if type == "hero" }}
@@ -97,6 +125,79 @@ Use `elseif` for multiple outcomes.
 {{ else }}
   {{ partial:if_exists src="sets.{type}" }}
 {{ /if }}
+```
+
+## Navigation conditionals
+
+Navigation tags expose useful boolean values.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}" {{ if is_current || is_parent }}class="current"{{ /if }}>
+    {{ title }}
+  </a>
+{{ /nav:header }}
+```
+
+Common navigation conditionals:
+
+| Conditional | Use it for |
+| --- | --- |
+| `is_current` | The nav item is the current page |
+| `is_parent` | The nav item is a parent of the current page |
+| `is_external` | The nav item links to an external URL |
+| `children` | The nav item has child pages |
+
+Open external links in a new tab.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}" {{ if is_external }}target="_blank" rel="noopener"{{ /if }}>
+    {{ title }}
+  </a>
+{{ /nav:header }}
+```
+
+Show children only when they exist.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}">{{ title }}</a>
+
+  {{ if children }}
+    <ul>
+      {{ children }}
+        <li><a href="{{ url }}">{{ title }}</a></li>
+      {{ /children }}
+    </ul>
+  {{ /if }}
+{{ /nav:header }}
+```
+
+## No results
+
+Use `no_results` inside tags like `collection` or `nav`.
+
+```html
+{{ collection:blog }}
+  {{ if no_results }}
+    <p>No posts found.</p>
+  {{ else }}
+    <article>
+      <h2><a href="{{ url }}">{{ title }}</a></h2>
+    </article>
+  {{ /if }}
+{{ /collection:blog }}
+```
+
+You can also use `unless`.
+
+```html
+{{ nav :from="uri" }}
+  {{ unless no_results }}
+    <a href="{{ url }}">{{ title }}</a>
+  {{ /unless }}
+{{ /nav }}
 ```
 
 ## Inside loops
@@ -116,20 +217,33 @@ Conditionals work inside collection, Grid, and Replicator loops.
 
 ## Current navigation item
 
-Use `is_current` inside navigation loops.
+Use `is_current` inside navigation loops. Use `is_parent` too when parent menu items should stay active.
 
 ```html
 {{ nav:header }}
-  <a href="{{ url }}" {{ if is_current }}class="current"{{ /if }}>
+  <a href="{{ url }}" {{ if is_current || is_parent }}class="current"{{ /if }}>
     {{ title }}
   </a>
 {{ /nav:header }}
+```
+
+## Switch
+
+Use `switch` when inline conditional logic gets long.
+
+```html
+{{ switch(
+  (layout == "dark") => "section section--dark",
+  (layout == "light") => "section section--light",
+  () => "section"
+) }}
 ```
 
 ## Good defaults
 
 - Check optional fields before rendering markup.
 - Use `else` only when the fallback is helpful.
+- Use `elseif`, not `else if`.
 - Keep complex logic out of templates when possible.
 - Use `partial:if_exists` for dynamic partials that may not exist.
 

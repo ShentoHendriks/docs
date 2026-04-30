@@ -63,30 +63,30 @@ Inside `_card.antlers.html`, use the parameter handles.
 
 Use one `partials` folder and group files by purpose. Partial paths in these docs are relative to `resources/views/partials`.
 
-<Files>
-  <Folder name="resources">
-    <Folder name="views">
-      <Folder name="partials">
-        <Folder name="layout">
-          <File name="_header.antlers.html" />
-          <File name="_footer.antlers.html" />
-          <File name="_seo.antlers.html" />
-        </Folder>
-        <Folder name="components">
-          <File name="_button.antlers.html" />
-          <File name="_card.antlers.html" />
-          <File name="_image.antlers.html" />
-        </Folder>
-        <Folder name="sets">
-          <File name="_hero.antlers.html" />
-          <File name="_text.antlers.html" />
-          <File name="_quote.antlers.html" />
-          <File name="_cta.antlers.html" />
-        </Folder>
-      </Folder>
-    </Folder>
-  </Folder>
-</Files>
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="layout">
+          <Tree.File name="_header.antlers.html" />
+          <Tree.File name="_footer.antlers.html" />
+          <Tree.File name="_seo.antlers.html" />
+        </Tree.Folder>
+        <Tree.Folder defaultOpen name="components">
+          <Tree.File name="_button.antlers.html" />
+          <Tree.File name="_card.antlers.html" />
+          <Tree.File name="_image.antlers.html" />
+        </Tree.Folder>
+        <Tree.Folder defaultOpen name="sets">
+          <Tree.File name="_hero.antlers.html" />
+          <Tree.File name="_text.antlers.html" />
+          <Tree.File name="_quote.antlers.html" />
+          <Tree.File name="_cta.antlers.html" />
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
 
 ## Folder usage
 
@@ -100,44 +100,44 @@ Use one `partials` folder and group files by purpose. Partial paths in these doc
 
 For larger sites, split partials by feature area. Keep common pieces shared, and keep feature-specific partials near their purpose.
 
-<Files>
-  <Folder name="resources">
-    <Folder name="views">
-      <Folder name="partials">
-        <Folder name="layout">
-          <File name="_header.antlers.html" />
-          <File name="_footer.antlers.html" />
-          <File name="_seo.antlers.html" />
-        </Folder>
-        <Folder name="components">
-          <File name="_button.antlers.html" />
-          <File name="_card.antlers.html" />
-          <File name="_image.antlers.html" />
-        </Folder>
-        <Folder name="sets">
-          <File name="_hero.antlers.html" />
-          <File name="_text.antlers.html" />
-          <File name="_quote.antlers.html" />
-          <File name="_cta.antlers.html" />
-        </Folder>
-        <Folder name="collections">
-          <Folder name="projects">
-            <File name="_card.antlers.html" />
-            <File name="_featured.antlers.html" />
-          </Folder>
-          <Folder name="blog">
-            <File name="_card.antlers.html" />
-            <File name="_meta.antlers.html" />
-          </Folder>
-        </Folder>
-        <Folder name="forms">
-          <File name="_contact.antlers.html" />
-          <File name="_newsletter.antlers.html" />
-        </Folder>
-      </Folder>
-    </Folder>
-  </Folder>
-</Files>
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="layout">
+          <Tree.File name="_header.antlers.html" />
+          <Tree.File name="_footer.antlers.html" />
+          <Tree.File name="_seo.antlers.html" />
+        </Tree.Folder>
+        <Tree.Folder defaultOpen name="components">
+          <Tree.File name="_button.antlers.html" />
+          <Tree.File name="_card.antlers.html" />
+          <Tree.File name="_image.antlers.html" />
+        </Tree.Folder>
+        <Tree.Folder defaultOpen name="sets">
+          <Tree.File name="_hero.antlers.html" />
+          <Tree.File name="_text.antlers.html" />
+          <Tree.File name="_quote.antlers.html" />
+          <Tree.File name="_cta.antlers.html" />
+        </Tree.Folder>
+        <Tree.Folder defaultOpen name="collections">
+          <Tree.Folder defaultOpen name="projects">
+            <Tree.File name="_card.antlers.html" />
+            <Tree.File name="_featured.antlers.html" />
+          </Tree.Folder>
+          <Tree.Folder defaultOpen name="blog">
+            <Tree.File name="_card.antlers.html" />
+            <Tree.File name="_meta.antlers.html" />
+          </Tree.Folder>
+        </Tree.Folder>
+        <Tree.Folder defaultOpen name="forms">
+          <Tree.File name="_contact.antlers.html" />
+          <Tree.File name="_newsletter.antlers.html" />
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
 
 Use feature partials like this:
 
@@ -155,17 +155,17 @@ Partial files start with `_`.
 
 Use `{{ partial:components.card }}` for:
 
-<Files>
-  <Folder name="resources">
-    <Folder name="views">
-      <Folder name="partials">
-        <Folder name="components">
-          <File name="_card.antlers.html" />
-        </Folder>
-      </Folder>
-    </Folder>
-  </Folder>
-</Files>
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="components">
+          <Tree.File name="_card.antlers.html" />
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
 
 ## src vs tag syntax
 

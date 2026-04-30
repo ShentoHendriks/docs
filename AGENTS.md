@@ -26,6 +26,18 @@
 - Use sentence case for headings
 - Bold for UI elements: Click **Settings**
 - Code formatting for file names, commands, paths, and code references
+- Use Mintlify `<Tree>` components for directory and file visualizations:
+
+  ```mdx
+  <Tree>
+    <Tree.Folder defaultOpen name="untitled folder">
+      <Tree.File name="untitled file" />
+    </Tree.Folder>
+    <Tree.File name="untitled file" />
+  </Tree>
+  ```
+
+  Add `defaultOpen` to `Tree.Folder` so folders are open by default.
 
 ## Content boundaries
 

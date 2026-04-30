@@ -78,18 +78,18 @@ Create global sets in the control panel.
 
 Statamic saves global set metadata and data as project files. Editors do not need to edit these files directly.
 
-<Files>
-  <Folder name="content">
-    <Folder name="globals">
-      <File name="company.yaml" />
-      <File name="footer.yaml" />
-      <Folder name="default">
-        <File name="company.yaml" />
-        <File name="footer.yaml" />
-      </Folder>
-    </Folder>
-  </Folder>
-</Files>
+<Tree>
+  <Tree.Folder defaultOpen name="content">
+    <Tree.Folder defaultOpen name="globals">
+      <Tree.File name="company.yaml" />
+      <Tree.File name="footer.yaml" />
+      <Tree.Folder defaultOpen name="default">
+        <Tree.File name="company.yaml" />
+        <Tree.File name="footer.yaml" />
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
 
 ## Render globals
 
