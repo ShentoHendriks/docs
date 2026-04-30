@@ -1,0 +1,42 @@
+---
+title: "Taxonomy"
+description: "Use Statamic taxonomies to organize entries with reusable terms."
+---
+
+Taxonomies group entries with reusable terms.
+
+Use them when editors need to classify content across a collection. Common examples are categories, tags, topics, services, sectors, or locations.
+
+## Template usage
+
+Loop through selected taxonomy terms in Antlers:
+
+```html
+{{ topics }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /topics }}
+```
+
+Use taxonomy pages when visitors need a filtered archive for each term.
+
+## When to use taxonomies
+
+Use a taxonomy when multiple entries can share the same label.
+
+Use a normal field when the value belongs only to one entry.
+
+Use a collection when each item needs its own URL, template, content model, or publishing workflow.
+
+## Field setup
+
+Add a taxonomy field to a blueprint when editors need to choose one or more terms for an entry.
+
+Use clear field labels. For example, use **Topics** instead of **Taxonomy**.
+
+## Best practices
+
+- Keep term names short and consistent
+- Avoid creating separate taxonomies for the same grouping idea
+- Use plural taxonomy handles, like `topics` or `services`
+- Use terms for classification, not long-form content
+- Review unused terms before launching a site

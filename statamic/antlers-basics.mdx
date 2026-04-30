@@ -1,0 +1,141 @@
+---
+title: "Antlers basics"
+description: "Use Antlers variables, loops, tags, parameters, and modifiers."
+---
+
+Antlers is Statamic's template language.
+
+Use it to output field values, loop through content, include partials, and call Statamic tags.
+
+## Output variables
+
+Use double curly braces to output a variable.
+
+```html
+<h1>{{ title }}</h1>
+<p>{{ intro_text }}</p>
+```
+
+Field handles from blueprints become variables in templates.
+
+## Loop through fields
+
+Loop through repeatable fields with a tag pair.
+
+```html
+{{ features }}
+  <article>
+    <h2>{{ title }}</h2>
+    <p>{{ text }}</p>
+  </article>
+{{ /features }}
+```
+
+Inside the loop, variables come from the current item.
+
+## Use Statamic tags
+
+Tags fetch or render dynamic data.
+
+```html
+{{ collection:blog limit="3" sort="date:desc" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+  </article>
+{{ /collection:blog }}
+```
+
+Common tags:
+
+| Tag | Use it for |
+| --- | --- |
+| `collection` | Fetch entries from a collection |
+| `nav` | Render navigation links |
+| `partial` | Include reusable templates |
+| `glide` | Transform images |
+| `form` | Render and handle forms |
+
+## Parameters
+
+Pass strings with normal parameters.
+
+```html
+{{ collection:blog limit="3" sort="date:desc" }}
+  <h2>{{ title }}</h2>
+{{ /collection:blog }}
+```
+
+Pass variables with a colon.
+
+```html
+{{ collection from="{selected_collection}" :limit="entry_limit" }}
+  <h2>{{ title }}</h2>
+{{ /collection }}
+```
+
+Use shorthand when the parameter name and variable name match.
+
+```html
+{{ collection:blog :$limit }}
+  <h2>{{ title }}</h2>
+{{ /collection:blog }}
+```
+
+## Modifiers
+
+Modifiers change output.
+
+```html
+<h1>{{ title | upper }}</h1>
+<p>{{ intro_text | truncate(160) }}</p>
+```
+
+Chain modifiers when needed.
+
+```html
+<h1>{{ title | upper | ensure_right('!') }}</h1>
+```
+
+## Alternative syntaxes
+
+Many tags support more than one syntax.
+
+```html
+{{ collection:blog limit="3" }}
+  {{ title }}
+{{ /collection:blog }}
+
+{{ collection from="blog" limit="3" }}
+  {{ title }}
+{{ /collection }}
+```
+
+Use tag-part syntax when the source is fixed.
+
+Use parameter syntax when the source is dynamic or easier to read.
+
+```html
+{{ partial:components.card }}
+
+{{ partial src="components.card" }}
+```
+
+Use `src` when the partial name comes from a variable.
+
+```html
+{{ partial src="sets.{type}" }}
+```
+
+## Comments
+
+Use Antlers comments for template notes that should not render.
+
+```html
+{{# This does not render in the HTML. #}}
+```
+
+## Official docs
+
+- [Antlers templates](https://statamic.dev/frontend/antlers)
+- [Tags overview](https://statamic.dev/tags/overview)
+- [Modifiers overview](https://statamic.dev/modifiers)

@@ -1,0 +1,85 @@
+---
+title: "Entries field"
+description: "Use the Entries fieldtype to choose specific entries from collections."
+---
+
+The Entries fieldtype lets editors choose specific entries from one or more collections.
+
+Use it when editors should control the exact items and order.
+
+## Code usage
+
+Loop through selected entries in Antlers:
+
+```html
+{{ featured_projects }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+    {{ if hero_image }}
+      <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+    {{ /if }}
+  </article>
+{{ /featured_projects }}
+```
+
+Inside the loop, you have access to the data from each selected entry.
+
+For example, if the selected project has fields named `title`, `url`, `hero_image`, and `intro_text`, you can use those fields directly inside `{{ featured_projects }}`.
+
+```html
+{{ featured_projects }}
+  <article>
+    <h2>{{ title }}</h2>
+    <p>{{ intro_text }}</p>
+    <a href="{{ url }}">View project</a>
+  </article>
+{{ /featured_projects }}
+```
+
+Use field handles from the selected entry blueprint. Do not use fields from the current page unless they also exist inside the selected entry.
+
+## When to use Entries
+
+Use **Entries** when editors need to pick exact content items.
+
+Good examples:
+
+- Featured projects
+- Related posts
+- Selected team members
+- Case studies shown on a service page
+- Manual cards in a homepage section
+
+Use a collection tag when the template should query entries automatically.
+
+## Create an Entries field
+
+1. Open the blueprint in the control panel.
+2. Click **Add field**.
+3. Choose **Entries**.
+4. Set **Display** to `Featured projects`.
+5. Set **Handle** to `featured_projects`.
+6. Choose allowed collections, like `projects`.
+7. Set **Max items** when the design expects a fixed number.
+8. Save the blueprint.
+
+Recommended field settings:
+
+| Setting | Value |
+| --- | --- |
+| Display | `Featured projects` |
+| Handle | `featured_projects` |
+| Collections | `projects` |
+| Max items | `3` |
+
+## Good defaults
+
+- Use clear handles, like `featured_projects` or `related_posts`
+- Limit allowed collections
+- Set **Max items** for design-limited sections
+- Use **Entries** for manual selection
+- Use collection tags for automatic lists
+
+## Official docs
+
+- [Entries fieldtype](https://statamic.dev/fieldtypes/entries)

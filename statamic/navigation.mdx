@@ -1,40 +1,184 @@
 ---
 title: "Navigation"
+description: "Create Statamic navigations and render them with Antlers."
 ---
 
-Create a new Navigation, and give it a name like `Header`. Look carefully at the handle name. (This is standard the same as your name, but lowercase).
+Navigation stores ordered links for menus.
 
-## Configuring your navigation
+Use it for header menus, footer menus, utility links, and nested page menus.
 
-Choose the Collections you'd want to be selected. Like Pages.
+## Create a navigation
 
-## Adding Links
+1. Open the Statamic control panel.
+2. Go to **Navigation**.
+3. Click **Create Navigation**.
+4. Set **Name** to `Header`.
+5. Check the generated **Handle**. A name like `Header` usually becomes `header`.
+6. Choose allowed collections, like **Pages**.
+7. Save the navigation.
 
-If you have a Collection selected, I'd recommend `Link to Entry` and selected the Items you want in your navigation.
+## Add links
 
-<img
-  src="/images/image-1.png"
-  alt="Image"
-  title="Image"
-  style={{ width:"51%" }}
-/>
+Use **Link to Entry** when the link should point to an entry from a collection.
 
-## Showing the links in Antlers
+Use **URL** for external links or custom paths.
 
-```jsx
+Keep navigation labels short. Visitors should understand each link before they click it.
+
+## Render a navigation
+
+Use the navigation handle after `nav:`.
+
+```html
 {{ nav:header }}
-<a src="{{ url }}">{{ title }}</a>
+  <a href="{{ url }}">{{ title }}</a>
 {{ /nav:header }}
 ```
 
-## Check if the current page is the link
+Use `href`, not `src`, for links.
 
-Sometimes you want to some styling if it's the current page. Like showing that font in bold.
+## Alternative syntaxes
 
-```jsx
+Render the same navigation with a `handle` parameter:
+
+```html
+{{ nav handle="header" }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /nav }}
+```
+
+Render the default `pages` collection navigation:
+
+```html
+{{ nav }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /nav }}
+```
+
+Render an orderable collection as navigation:
+
+```html
+{{ nav:collection:pages }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /nav:collection:pages }}
+```
+
+Use tag-part syntax for fixed menus. Use parameter syntax when the handle comes from a field.
+
+```html
+{{ nav :handle="selected_navigation" }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /nav }}
+```
+
+## Active links
+
+Use `is_current` to style the current page.
+
+```html
 {{ nav:header }}
-    <a src="{{ url }}" {{ if is_current }} class="current" {{ /if }}>
-        {{ title }}
-    </a>
+  <a href="{{ url }}" {{ if is_current }}class="current"{{ /if }}>
+    {{ title }}
+  </a>
 {{ /nav:header }}
 ```
+
+Use `is_parent` when a parent link should stay active for child pages.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}" {{ if is_current || is_parent }}class="current"{{ /if }}>
+    {{ title }}
+  </a>
+{{ /nav:header }}
+```
+
+## Child links
+
+Use `children` to render nested links.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}">{{ title }}</a>
+
+  {{ if children }}
+    <ul>
+      {{ children }}
+        <li>
+          <a href="{{ url }}">{{ title }}</a>
+        </li>
+      {{ /children }}
+    </ul>
+  {{ /if }}
+{{ /nav:header }}
+```
+
+## Nested child links
+
+Nest `children` loops when the navigation has more than one level.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}">{{ title }}</a>
+
+  {{ if children }}
+    <ul>
+      {{ children }}
+        <li>
+          <a href="{{ url }}">{{ title }}</a>
+
+          {{ if children }}
+            <ul>
+              {{ children }}
+                <li>
+                  <a href="{{ url }}">{{ title }}</a>
+                </li>
+              {{ /children }}
+            </ul>
+          {{ /if }}
+        </li>
+      {{ /children }}
+    </ul>
+  {{ /if }}
+{{ /nav:header }}
+```
+
+For deeper menus, move the repeated child markup into a partial.
+
+## External links
+
+Use `is_external` to add external-link attributes.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}" {{ if is_external }}target="_blank" rel="noopener"{{ /if }}>
+    {{ title }}
+  </a>
+{{ /nav:header }}
+```
+
+## No results
+
+Use `no_results` for empty navigation output.
+
+```html
+{{ nav:header }}
+  {{ if no_results }}
+    <p>No links found.</p>
+  {{ else }}
+    <a href="{{ url }}">{{ title }}</a>
+  {{ /if }}
+{{ /nav:header }}
+```
+
+## Good defaults
+
+- Use one `header` navigation for the main menu
+- Use one `footer` navigation for footer links
+- Use **Link to Entry** for internal pages
+- Use `href="{{ url }}"` for links
+- Use `is_current || is_parent` for active menu styling
+
+## Official docs
+
+- [Nav tag](https://statamic.dev/tags/nav)

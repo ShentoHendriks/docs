@@ -29,7 +29,8 @@
             "group": "Getting Started",
             "pages": [
               "statamic/installation",
-              "statamic/creating"
+              "statamic/creating",
+              "statamic/after-clone"
             ]
           },
           {
@@ -37,6 +38,7 @@
             "pages": [
               "statamic/collections",
               "statamic/globals",
+              "statamic/taxonomy",
               "statamic/blueprints"
             ]
           },
@@ -44,6 +46,8 @@
             "group": "Fields",
             "pages": [
               "statamic/assets",
+              "statamic/entries-field",
+              "statamic/collections-field",
               "statamic/replicator",
               "statamic/grid"
             ]
@@ -51,6 +55,7 @@
           {
             "group": "Antlers",
             "pages": [
+              "statamic/antlers-basics",
               "statamic/conditionals"
             ]
           },

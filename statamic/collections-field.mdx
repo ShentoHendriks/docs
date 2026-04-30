@@ -1,0 +1,64 @@
+---
+title: "Collections field"
+description: "Use the Collections fieldtype to choose collection sources."
+---
+
+The Collections fieldtype lets editors choose one or more collections.
+
+Use it when editors should choose where entries come from, not which exact entries appear.
+
+## Code usage
+
+Use the selected collection handle with the collection tag:
+
+```html
+{{ collection from="{selected_collection}" limit="6" sort="date:desc" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+  </article>
+{{ /collection }}
+```
+
+Use multiple selected collections with `from` when the field allows more than one collection.
+
+## When to use Collections
+
+Use **Collections** when editors choose a content source.
+
+Good examples:
+
+- A listing block that can show posts, events, or projects
+- A homepage section where editors choose which collection feeds a grid
+- A reusable partial that needs a collection source
+
+Use **Entries** when editors need to pick exact items.
+
+## Create a Collections field
+
+1. Open the blueprint in the control panel.
+2. Click **Add field**.
+3. Choose **Collections**.
+4. Set **Display** to `Selected collection`.
+5. Set **Handle** to `selected_collection`.
+6. Limit the allowed collections when needed.
+7. Set **Max items** to `1` when the template expects one collection.
+8. Save the blueprint.
+
+Recommended field settings:
+
+| Setting | Value |
+| --- | --- |
+| Display | `Selected collection` |
+| Handle | `selected_collection` |
+| Max items | `1` |
+
+## Good defaults
+
+- Use singular handles when **Max items** is `1`, like `selected_collection`
+- Limit selectable collections when the template expects specific fields
+- Use **Collections** for dynamic source selection
+- Use **Entries** for manual item selection
+
+## Official docs
+
+- [Collections fieldtype](https://statamic.dev/fieldtypes/collections)

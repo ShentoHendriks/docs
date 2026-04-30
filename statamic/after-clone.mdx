@@ -1,0 +1,136 @@
+---
+title: "Set up an existing site after cloning"
+description: "Run the commands needed after cloning an existing Statamic site from GitHub."
+---
+
+Use this checklist after you clone an existing Statamic project from GitHub.
+
+## Common command order
+
+```shellscript
+composer install
+cp .env.example .env
+php artisan key:generate
+npm install
+npm run dev
+php artisan storage:link
+php please make:user
+php artisan optimize:clear
+```
+
+Skip `npm install` and `npm run dev` when the project does not have a `package.json` file.
+
+<Steps>
+  <Step title="Go to the project">
+    ```shellscript
+    cd ~/Herd/your-project-name
+    ```
+
+    Replace `your-project-name` with the folder name from the GitHub clone.
+  </Step>
+
+  <Step title="Install PHP dependencies">
+    ```shellscript
+    composer install
+    ```
+
+    This installs Laravel, Statamic, and PHP packages from `composer.lock`.
+  </Step>
+
+  <Step title="Create the environment file">
+    ```shellscript
+    cp .env.example .env
+    ```
+
+    Open `.env` and update the local settings.
+
+    Common values:
+
+    ```dotenv
+    APP_NAME="Your Project Name"
+    APP_URL=http://your-project-name.test
+    ```
+  </Step>
+
+  <Step title="Generate the app key">
+    ```shellscript
+    php artisan key:generate
+    ```
+
+    Laravel needs this key for encrypted data and sessions.
+  </Step>
+
+  <Step title="Install frontend dependencies">
+    ```shellscript
+    npm install
+    ```
+
+    Use this when the project has a `package.json` file.
+  </Step>
+
+  <Step title="Build frontend assets">
+    For local development, run:
+
+    ```shellscript
+    npm run dev
+    ```
+
+    For a production build, run:
+
+    ```shellscript
+    npm run build
+    ```
+  </Step>
+
+  <Step title="Link storage">
+    ```shellscript
+    php artisan storage:link
+    ```
+
+    Use this when the site serves uploaded files from Laravel storage.
+  </Step>
+
+  <Step title="Run database setup">
+    Many Statamic sites store content in files and do not need database migrations.
+
+    If the project uses a database, update the database values in `.env`, then run:
+
+    ```shellscript
+    php artisan migrate
+    ```
+
+    Ask the project owner for a database export when the site needs existing database content.
+  </Step>
+
+  <Step title="Create a Statamic user">
+    Create a control panel user if the cloned project does not include your user account.
+
+    ```shellscript
+    php please make:user
+    ```
+
+    Follow the prompts in the terminal.
+  </Step>
+
+  <Step title="Clear cached data">
+    ```shellscript
+    php artisan optimize:clear
+    ```
+
+    Run this when the site shows old config, routes, or cached views.
+  </Step>
+
+  <Step title="Open the site">
+    With Laravel Herd, open:
+
+    ```text
+    http://your-project-name.test
+    ```
+
+    Open the Statamic control panel at:
+
+    ```text
+    http://your-project-name.test/cp
+    ```
+  </Step>
+</Steps>

@@ -2,10 +2,69 @@
 title: "Create a new site"
 ---
 
-In your terminal `cd ~/Herd` then `statamic new your-project-name` to create a new site.
+Use the Statamic CLI to create a new site in your Laravel Herd folder.
 
-<Warning>
-  It's important to create a Super User, otherwise you can't login to your server.
-</Warning>
+<Steps>
+  <Step title="Go to your Herd folder">
+    ```shellscript
+    cd ~/Herd
+    ```
+  </Step>
 
-You can visit your site at: `http://your-project-name.test` 
+  <Step title="Create the Statamic site">
+    ```shellscript
+    statamic new your-project-name
+    ```
+
+    Replace `your-project-name` with the project folder name.
+  </Step>
+
+  <Step title="Create a super user">
+    Create a super user when the installer asks.
+
+    <Warning>
+      It's important to create a super user, otherwise you can't log in to your server.
+    </Warning>
+  </Step>
+
+  <Step title="Open the site">
+    You can visit your site at:
+
+    ```text
+    http://your-project-name.test
+    ```
+  </Step>
+</Steps>
+
+## Recommended .gitignore
+
+Add a `.gitignore` file before committing the project.
+
+```gitignore
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/storage/logs
+/vendor
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+```
+
+Keep `.env.example` committed so other developers know which environment values the project needs.
+
+<Note>
+  This `.gitignore` keeps generated files, dependencies, and local environment files out of Git. Statamic content should usually stay committed in `content/`. If your users or assets are file-based, confirm whether `users/` and your asset container should be committed.
+</Note>
