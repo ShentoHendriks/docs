@@ -1,0 +1,65 @@
+---
+title: "Text Variables"
+description: "Define role-based typography styles that export to CSS and Figma text styles."
+---
+
+## What Text Variables are
+
+**Text Variables** are typography roles.
+
+They sit above the raw type scale. A text variable combines:
+
+- assigned `--text-*` token
+- font family or font token
+- line height
+- letter spacing
+- font weight
+- font style
+- text transform
+- description metadata
+
+Examples include display, heading, body, label, caption, and button roles.
+
+## Edit selected style
+
+Select a text variable to edit its properties.
+
+Right-click or use the token picker to assign another type-scale token. The preview updates as you work.
+
+## Descriptions
+
+Text variables include descriptions. These descriptions are stored in the project export and can become Figma text-style descriptions when imported by the plugin.
+
+Use descriptions to explain:
+
+- what the style is for
+- when to use it
+- when not to use it
+- likely HTML mapping
+
+## Exported CSS
+
+Text variables export as Tailwind `@utility` classes:
+
+```css
+@utility display-l {
+  font-family: var(--font-sans);
+  font-size: var(--text-7xl);
+  line-height: 0.95;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+```
+
+Use them directly in markup:
+
+```html
+<h1 class="display-l">A clear headline.</h1>
+<p class="body-l">Lead copy using the same system.</p>
+```
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

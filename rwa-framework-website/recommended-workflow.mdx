@@ -1,0 +1,58 @@
+---
+title: "Recommended workflow"
+description: "Keep the website, Figma plugin, and production CSS in sync without confusing CSS export and project export."
+---
+
+## Use the right export
+
+RWA Framework Website has two export buttons.
+
+Use **Export CSS** when you need code for the website project.
+
+Use **Export Project** when you need a restorable project bundle or want to send the system into RWA Framework Figma.
+
+Do not paste **Export CSS** into the Figma plugin. The current plugin import expects the **Export Project** JSON bundle.
+
+## Best loop
+
+Use this loop for real projects:
+
+1. Shape the system on the website.
+2. Click **Export Project**.
+3. Paste the JSON bundle into RWA Framework Figma **Import Project**.
+4. Bind variables and styles inside Figma.
+5. Adjust values in Figma when needed.
+6. Click Figma **Export Project**.
+7. Paste the JSON back into website **Import Project**.
+8. Click website **Export CSS**.
+9. Replace generated CSS in the codebase.
+
+## Set container first
+
+Start in **Container**.
+
+Set minimum and maximum viewport widths, container margin, gutter, mobile columns, desktop columns, breakpoint, and overlay appearance before tuning type and spacing.
+
+The fluid type scale, spacing scale, and Figma responsive modes depend on those viewport and breakpoint values.
+
+## Rename structure early
+
+Rename color groups, color variables, and text-variable structure early.
+
+Value changes are easy to sync. Structural changes are more sensitive after a Figma file already has variable bindings and text styles.
+
+<Warning>
+When a Figma file is already connected, prefer syncing structural changes from Figma back to the website through **Export Project**. Avoid repeatedly rebuilding names from scratch after layers are bound.
+</Warning>
+
+## Keep value changes moving
+
+Values are safe to refine often.
+
+Typography sizes, spacing scale values, section spacing, color values, container margin, gutter, and breakpoint settings can move through the website/Figma loop as the design improves.
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

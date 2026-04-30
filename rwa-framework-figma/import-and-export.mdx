@@ -1,0 +1,77 @@
+---
+title: "Import and export"
+description: "Move RWA Framework project bundles between the website and Figma plugin."
+---
+
+## Current import format
+
+RWA Framework Figma imports **Export Project** JSON from RWA Framework Website.
+
+It is the middle step in the workflow:
+
+```text
+Website source system -> Figma project sync -> CSS utilities in code
+```
+
+The current plugin does not import raw CSS. Paste a project bundle shaped like:
+
+```json
+{
+  "format": "rwa-project-export",
+  "version": 2
+}
+```
+
+Use website **Export CSS** only for code. Use website **Export Project** for Figma.
+
+Create that bundle from [RWA Framework Website](/rwa-framework-website/overview). Ship generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).
+
+## Import Project
+
+Click **Import Project**, paste the JSON bundle, then click **Import**.
+
+The plugin reads saved website settings and creates or updates Figma variables, text styles, grid styles, and project metadata.
+
+<Warning>
+Keep the plugin open while import runs. Closing it early can leave Figma with only part of the system imported.
+</Warning>
+
+## What import creates
+
+Import can create or update these Figma collections:
+
+- `Color Tokens`
+- `Color Variables`
+- `Fluid Settings`
+- `Font Variables`
+- `Project Meta Data`
+
+It can also create or update:
+
+- local text styles
+- `Container (Light)` grid style
+- `Container (Dark)` grid style
+- stored plugin metadata for future sync
+
+## Export Project
+
+Click **Export Project** in the plugin to copy the current Figma system back to JSON.
+
+Paste that JSON into website **Import Project** to restore the website state from Figma.
+
+Then use website **Export CSS** to generate updated Tailwind CSS for code.
+
+## Practical loop
+
+1. Website: **Export Project**.
+2. Figma plugin: **Import Project**.
+3. Work in Figma with bound variables and text styles.
+4. Figma plugin: **Export Project**.
+5. Website: **Import Project**.
+6. Website: **Export CSS**.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

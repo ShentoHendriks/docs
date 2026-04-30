@@ -1,0 +1,43 @@
+---
+title: "Variable Corrector"
+description: "Repair stale or inconsistent bindings on the current selection."
+---
+
+## What Variable Corrector does
+
+**Variable Corrector** scans the current selection and fixes supported variable bindings.
+
+It is designed for files where variables or styles were imported, deleted, recreated, copied, or left with stale references.
+
+The plugin reports how many items were fixed, skipped, or left unchanged.
+
+## What it can correct
+
+Variable Corrector works across supported node data, including:
+
+- text style and text variable bindings
+- text range fill bindings
+- paint bindings
+- effect bindings
+- layout grid bindings
+- stale variable references
+
+It uses imported local collections and saved project metadata to reconnect values where possible.
+
+## When to use it
+
+Use Variable Corrector after:
+
+- importing a newer project bundle
+- copying frames between files
+- deleting and recreating variables
+- noticing bindings that no longer respond to mode changes
+- updating grid styles or text styles from a fresh import
+
+Run it on a focused selection first. Large page-wide selections can take longer.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

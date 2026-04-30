@@ -1,0 +1,72 @@
+---
+title: "Best practices"
+description: "Keep Figma files connected to the imported RWA Framework project bundle."
+---
+
+## Import project JSON, not CSS
+
+Use website **Export Project** for Figma.
+
+Website **Export CSS** belongs in code, not the plugin import box.
+
+## Bind instead of hardcoding
+
+Replace hardcoded values with imported variables where possible.
+
+Use:
+
+- `Color Variables` for fills, strokes, and text fills
+- `Fluid Settings` for width, gap, padding, and layout values
+- local text styles for typography roles
+- `Font Variables` for font-family bindings
+
+## Use Container variables on parent frames
+
+Bind parent frame widths to `Container/width` or another appropriate `Container/*` variable.
+
+Use `Container/margin`, `Container/gutter`, and `Container/column-count` through imported grid styles and layout bindings.
+
+## Apply correct modes high in the tree
+
+Set responsive and color modes on the highest frame that represents that state.
+
+Use:
+
+```text
+Fluid Settings: Desktop / Switch / Mobile
+Color Variables: Light / Dark
+```
+
+This keeps children resolving against the same system.
+
+## Use text styles before raw type variables
+
+Use local text styles generated from website **Text Variables** for real content.
+
+Use raw `Type Scale/--text-*` variables only for exceptions.
+
+## Use section spacing variables
+
+Use:
+
+```text
+Spacing Variables/section-normal
+Spacing Variables/section-large
+Spacing Variables/section-extra-large
+```
+
+for section padding where possible.
+
+## Run cleanup tools on focused selections
+
+Use **Variable Editor** to bind raw colors and inspect selected variables.
+
+Use **Variable Corrector** when bindings look stale.
+
+Use **Layer Cleaner** after structural work, before handoff, or before creating components.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

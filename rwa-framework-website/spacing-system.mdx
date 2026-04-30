@@ -1,0 +1,55 @@
+---
+title: "Spacing Scale"
+description: "Build fluid spacing tokens used by spacing variables, layout, CSS, and Figma."
+---
+
+## What Spacing Scale controls
+
+**Spacing Scale** creates the fluid distance tokens for the project.
+
+It uses the same viewport range as the rest of the website and exports spacing tokens into Tailwind `@theme`.
+
+Output looks like:
+
+```css
+@theme {
+  --spacing-sm: clamp(...);
+  --spacing-md: clamp(...);
+  --spacing-xl: clamp(...);
+}
+```
+
+## Shape layout rhythm
+
+Spacing controls rhythm across:
+
+- gaps
+- padding
+- margins
+- section spacing
+- container utilities
+- Figma gap and width variables
+
+Use the preview to judge spacing in layout context, not only as a list of values.
+
+## Add or remove steps
+
+Add steps when layouts need more fine-grained spacing.
+
+Remove steps when the scale is too noisy. Fewer well-used tokens are usually easier to maintain than many near-duplicates.
+
+## Figma import names
+
+When imported into Figma, spacing scale values are stored in `Fluid Settings` with names like:
+
+```text
+Spacing Scale/--space-sm
+Spacing Scale/--space-md
+Spacing Scale/--space-xl
+```
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

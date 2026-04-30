@@ -1,0 +1,83 @@
+---
+title: "Overview"
+description: "Use RWA Framework Website to create a responsive design-system source for CSS, Figma, and project backups."
+---
+
+## What RWA Framework Website is
+
+RWA Framework Website is the design-system builder for RWA Framework.
+
+It is the first step in the workflow:
+
+```text
+Website source system -> Figma project sync -> CSS utilities in code
+```
+
+Use it to define the project system once:
+
+- container width, margin, gutter, columns, breakpoint, and overlay settings
+- fluid type scale
+- font loading and font token naming
+- text variables
+- fluid spacing scale
+- section spacing variables
+- color tokens
+- semantic color variables
+
+The website gives you live previews and exports the system in two different formats.
+
+## Export CSS
+
+Use **Export CSS** for development handoff.
+
+This copies generated Tailwind CSS v4 output, including `@theme` variables and `@utility` classes. Put this CSS in the project stylesheet when you want to use the generated typography, spacing, color, and layout utilities in code.
+
+## Export Project
+
+Use **Export Project** for backup and Figma sync.
+
+This copies a JSON bundle with:
+
+```json
+{
+  "format": "rwa-project-export",
+  "version": 2
+}
+```
+
+The bundle stores project settings, not just generated CSS. Use it to restore the website state later, move work to another machine, or import the same system into RWA Framework Figma.
+
+Read [RWA Framework Figma import and export](/rwa-framework-figma/import-and-export) before sending the bundle to Figma.
+
+## Import Project
+
+Use **Import Project** to restore either:
+
+- generated CSS from the website
+- an **Export Project** JSON bundle
+
+For full fidelity, prefer importing the JSON project bundle. It preserves website settings such as selected panels, text-variable metadata, color groups, mode settings, and token configuration.
+
+## Current sidebar
+
+The website is organized around these panels:
+
+- **Container**
+- **Type Scale**
+- **Font Setup**
+- **Text Variables**
+- **Spacing Scale**
+- **Spacing Variables**
+- **Color Tokens**
+- **Color Variables**
+- **Guide**
+
+Each panel edits one part of the same project state.
+
+After the system is shaped, use [RWA Framework CSS getting started](/rwa-framework/rwa-getting-started) to apply the generated classes in code.
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

@@ -1,0 +1,45 @@
+---
+title: "Variable Editor"
+description: "Edit selected local color variables and assign raw colors to imported tokens."
+---
+
+## What Variable Editor does
+
+**Variable Editor** scans the current Figma selection.
+
+It shows:
+
+- bound local color variables
+- editable mode values
+- raw solid fills and strokes that can be assigned to variables
+- collection and mode context
+
+If nothing editable is found, it shows a selection message instead of changing anything.
+
+## Edit variable values
+
+For local writable color variables, edit mode values directly from the plugin.
+
+Remote variables are not edited in place. Edit those at their source.
+
+## Assign raw colors
+
+When selected layers have raw solid fills or strokes, Variable Editor shows them under **Raw colors**.
+
+Use the token picker to bind those raw colors to imported color variables. This is useful when cleaning up old designs that were not built with variables.
+
+## Alias variables
+
+Open a variable row to choose another local variable as the target.
+
+Use aliases when two semantic roles should point to the same source value instead of duplicating color values.
+
+## Selection limits
+
+The editor limits the number of displayed editable targets to keep the plugin fast on large selections. If more targets exist, it tells you how many were hidden.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

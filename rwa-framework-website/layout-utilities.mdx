@@ -1,0 +1,74 @@
+---
+title: "Container and layout utilities"
+description: "Configure container variables and generate layout utilities for Tailwind and Figma."
+---
+
+## Container panel
+
+The **Container** panel defines the responsive layout system.
+
+It controls:
+
+- min viewport
+- max viewport
+- container width
+- container margin
+- gutter
+- mobile columns
+- desktop columns
+- breakpoint
+- overlay color and opacity
+
+These values feed website previews, generated CSS, and Figma variables.
+
+## Exported CSS utilities
+
+The website exports container and column utilities such as:
+
+```text
+container-grid
+container-grid-fluid
+grid-fluid
+container-grid-fullscreen
+container-columns
+w-col-*
+ml-col-*
+mr-col-*
+pl-col-*
+pr-col-*
+gap-col-*
+gap-x-col-*
+```
+
+Use `container-grid` for normal contained layouts.
+
+Use `container-grid-fluid` when the layout should keep opening up on very wide screens.
+
+Use `container-grid-fullscreen` when the section should use full viewport width while still sharing system variables.
+
+## Mobile fallback
+
+When desktop has more columns than mobile, generated CSS includes a fallback so wide `w-col-*` spans become full width below the switch breakpoint unless a `max-switch:w-col-*` override exists.
+
+## Figma import names
+
+The plugin imports container values into `Fluid Settings` with names like:
+
+```text
+Container/width
+Container/container-width
+Container/margin
+Container/gutter
+Container/column-count
+Container/w-col-1
+Container/gap-col-1
+Container/m-col-1
+```
+
+It also creates grid styles named **Container (Light)** and **Container (Dark)** when overlay values are available.
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

@@ -1,0 +1,54 @@
+---
+title: "Font Setup"
+description: "Load fonts, create font tokens, and copy prefetch code."
+---
+
+## What Font Setup controls
+
+**Font Setup** controls font loading and font token naming.
+
+It has two main areas:
+
+- **Load font**
+- **Token Naming**
+
+It also includes a font preview and **Copy prefetch code**.
+
+## Load font
+
+Use **URL** when fonts come from a hosted stylesheet, such as Google Fonts or another CSS URL.
+
+Use **File** when fonts are self-hosted. Upload font files and set family, style, weight, format, and display details for each variant.
+
+## Copy prefetch code
+
+Use **Copy prefetch code** when loaded font files need preload or prefetch markup for the app.
+
+This is separate from the generated Tailwind theme output.
+
+## Token Naming
+
+Use default tokens for a simple project:
+
+```css
+--font-sans
+--font-serif
+--font-mono
+```
+
+Use custom tokens when the project needs more specific roles:
+
+```css
+--font-display
+--font-body
+--font-caption
+--font-code
+```
+
+Font tokens export as `--font-*` variables and import into Figma as variables in the `Font Variables` collection.
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

@@ -1,0 +1,74 @@
+---
+title: "Color Tokens and Variables"
+description: "Understand the split between palette tokens and semantic color variables."
+---
+
+## Two color layers
+
+The current website separates colors into two panels:
+
+- **Color Tokens**
+- **Color Variables**
+
+Use **Color Tokens** for reusable palette tokens.
+
+Use **Color Variables** for semantic project roles, dark mode, and state variants.
+
+## Color Tokens
+
+Color tokens are shared palette values.
+
+They are useful for scales and reusable raw colors, such as:
+
+```text
+brand-500
+neutral-950
+red-600
+```
+
+The **Import** button in this panel lets you paste a color in hex, rgb, or hsl. The website finds the closest token in the current palette and can help replace or generate from that match.
+
+## Color Variables
+
+Color variables describe usage.
+
+Examples:
+
+```text
+background-default
+text-default
+text-muted
+border-default
+semantic-error
+```
+
+Semantic variables can reference color tokens or other variables instead of duplicating raw values.
+
+## Dark mode
+
+Use **Dark Mode** to enable or disable a second mode.
+
+When dark mode is enabled, set the **Default Mode** to either **Light Mode** or **Dark Mode**. The default mode controls how the exported CSS maps unsuffixed variables.
+
+## States
+
+Color Variables include state tabs:
+
+- **Default**
+- **Hover**
+- **Active**
+- **Focus**
+
+Use states for semantic interaction colors without losing the base variable structure.
+
+## Figma import names
+
+The plugin imports palette colors into `Color Tokens` and semantic variables into `Color Variables`.
+
+Color modes become `Light` and `Dark` modes in Figma when dark mode exists.
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

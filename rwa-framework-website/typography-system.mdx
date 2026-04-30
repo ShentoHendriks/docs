@@ -1,0 +1,54 @@
+---
+title: "Type Scale"
+description: "Build the fluid text-size tokens used by text variables, CSS, and Figma."
+---
+
+## What Type Scale controls
+
+**Type Scale** creates the fluid text-size tokens for the project.
+
+It controls:
+
+- minimum viewport text sizes
+- maximum viewport text sizes
+- base size
+- ratio
+- token count
+- preview text
+
+The generated CSS exports `--text-*` variables inside `@theme`.
+
+## Fluid generation
+
+The website uses the minimum viewport, maximum viewport, base sizes, and ratios to generate fluid values.
+
+Output looks like:
+
+```css
+@theme {
+  --text-base: clamp(...);
+  --text-4xl: clamp(...);
+}
+```
+
+These tokens are the size layer. Use **Text Variables** to turn them into actual typography roles.
+
+## Add or remove steps
+
+Add steps when the project needs larger display sizes or smaller supporting sizes.
+
+Remove steps when the scale has more tokens than the design will use.
+
+Token names stay consistent so exported CSS and Figma bindings remain predictable.
+
+## Preview at real widths
+
+Use the viewport preview to judge how text changes between mobile, switch, and desktop widths.
+
+Do not judge the scale only by numbers. A good type scale needs to feel right inside the preview and inside Figma layouts.
+
+## Related workflow
+
+- Build and restore project settings in [RWA Framework Website](/rwa-framework-website/overview).
+- Import the project bundle into [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Use generated utilities from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

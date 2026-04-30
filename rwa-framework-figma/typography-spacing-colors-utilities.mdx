@@ -1,0 +1,90 @@
+---
+title: "Imported systems"
+description: "Understand current Figma collection names and imported variable structure."
+---
+
+## Color Tokens
+
+`Color Tokens` stores shared palette colors.
+
+These are imported from website **Color Tokens** and usually include palette-style names such as `brand-500` or `neutral-950`.
+
+Use this layer as reusable color source values.
+
+## Color Variables
+
+`Color Variables` stores semantic project roles.
+
+Examples:
+
+```text
+Background/default
+Text/default
+Border/default
+Semantic/error
+```
+
+This collection can use `Light` and `Dark` modes. If the website default color mode is dark, the plugin keeps that mode ordering so exports return the same default behavior.
+
+Semantic variables can alias values from `Color Tokens` or other color variables.
+
+## Fluid Settings
+
+`Fluid Settings` stores numeric responsive variables with three modes:
+
+```text
+Desktop
+Switch
+Mobile
+```
+
+It includes:
+
+```text
+Container/width
+Container/container-width
+Container/margin
+Container/gutter
+Container/column-count
+Container/w-col-1
+Container/gap-col-1
+Container/m-col-1
+Type Scale/--text-base
+Spacing Scale/--space-md
+Spacing Variables/section-normal
+Spacing Variables/section-large
+Spacing Variables/section-extra-large
+```
+
+The plugin preserves spacing aliases where possible.
+
+## Font Variables
+
+`Font Variables` stores imported `--font-*` tokens from the website.
+
+Text styles can bind to these variables so font-family choices stay connected to the project system.
+
+## Project Meta Data
+
+`Project Meta Data` stores serialized settings from the project bundle.
+
+This lets the plugin export a full `rwa-project-export` JSON bundle back to the website, including settings that are not directly visible as editable Figma variables.
+
+## Text styles and grid styles
+
+The plugin creates local text styles from website **Text Variables**.
+
+It also creates grid styles named:
+
+```text
+Container (Light)
+Container (Dark)
+```
+
+These grid styles bind column count, margin, and gutter to `Fluid Settings` variables.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

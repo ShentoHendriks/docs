@@ -1,0 +1,47 @@
+---
+title: "Layer Cleaner"
+description: "Rename selected layers with guided, context-aware suggestions."
+---
+
+## What Layer Cleaner does
+
+**Layer Cleaner** renames selected layers or layers inside selected containers.
+
+It walks through the selection, focuses the current target, suggests names, previews the final name, and lets you go back when needed.
+
+## How to start
+
+Select layers, frames, or auto-layout containers, then click **Layer Cleaner**.
+
+If nothing can be renamed, the plugin shows `Nothing to rename.` When finished, the original selection becomes active again.
+
+## Context-aware suggestions
+
+Layer Cleaner uses parent names, layout context, component patterns, and content patterns to suggest names.
+
+For example, children inside a Header are more likely to get suggestions such as Logo, Navigation, Link, or Button.
+
+## Preserve mode suffixes
+
+Layer Cleaner can preserve useful suffixes such as:
+
+```text
+Mobile
+Desktop
+Light
+Dark
+```
+
+This keeps responsive and color-mode context while cleaning base names.
+
+## Rename batches
+
+When similar sibling layers belong to the same batch, renaming one representative can rename the matching siblings too.
+
+This keeps repeated structures and mode variants consistent.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).

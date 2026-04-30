@@ -65,7 +65,63 @@
         ]
       },
       {
-        "product": "RWA Framework",
+        "product": "RWA Framework Website",
+        "pages": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "rwa-framework-website/overview",
+              "rwa-framework-website/recommended-workflow"
+            ]
+          },
+          {
+            "group": "Typography",
+            "pages": [
+              "rwa-framework-website/typography-system",
+              "rwa-framework-website/font-tokens",
+              "rwa-framework-website/text-styles"
+            ]
+          },
+          {
+            "group": "System Tokens",
+            "pages": [
+              "rwa-framework-website/spacing-system",
+              "rwa-framework-website/color-system",
+              "rwa-framework-website/layout-utilities"
+            ]
+          }
+        ]
+      },
+      {
+        "product": "RWA Framework Figma",
+        "pages": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "rwa-framework-figma/import-and-export",
+              "rwa-framework-figma/typography-spacing-colors-utilities"
+            ]
+          },
+          {
+            "group": "Plugin Tools",
+            "pages": [
+              "rwa-framework-figma/variable-editor",
+              "rwa-framework-figma/variable-corrector",
+              "rwa-framework-figma/generate-lorem",
+              "rwa-framework-figma/layer-cleaner"
+            ]
+          },
+          {
+            "group": "Workflow",
+            "pages": [
+              "rwa-framework-figma/sync-behavior",
+              "rwa-framework-figma/best-practices"
+            ]
+          }
+        ]
+      },
+      {
+        "product": "RWA Framework CSS",
         "pages": [
           {
             "group": "Getting Started",

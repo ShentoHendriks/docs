@@ -1,0 +1,62 @@
+---
+title: "Sync behavior"
+description: "How imports preserve metadata, collections, bindings, modes, and exports."
+---
+
+## Import updates existing collections
+
+The plugin tries to update existing collections instead of creating duplicate systems.
+
+It uses stored plugin data and variable name maps for:
+
+- `Color Tokens`
+- `Color Variables`
+- `Fluid Settings`
+- `Font Variables`
+- `Project Meta Data`
+- text style ids
+
+This helps imports update the same variables and styles over time.
+
+## Modes
+
+`Fluid Settings` always uses:
+
+```text
+Desktop
+Switch
+Mobile
+```
+
+`Color Variables` uses:
+
+```text
+Light
+Dark
+```
+
+If no dark colors are present, only `Light` is kept.
+
+## Project metadata
+
+Every import persists project metadata in `Project Meta Data`.
+
+Metadata stores website settings such as font settings, typography settings, spacing settings, tokens, color groups, text-variable descriptions, and UI state.
+
+This is why Figma **Export Project** can create a website-restorable JSON bundle.
+
+## Relaunch actions
+
+The plugin attaches relaunch actions to pages and selected nodes.
+
+These actions can reopen RWA Framework tools from selection context. Eligible fixed-width text layers can also expose lorem generation from relaunch.
+
+## When sync fails
+
+Use **Variable Corrector** when copied layers, recreated collections, or stale bindings stop responding to imported variables.
+
+## Related workflow
+
+- Create the source system in [RWA Framework Website](/rwa-framework-website/overview).
+- Sync project bundles with [RWA Framework Figma](/rwa-framework-figma/import-and-export).
+- Ship the generated classes from [RWA Framework CSS](/rwa-framework/rwa-getting-started).
