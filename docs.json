@@ -18,7 +18,7 @@
       {
         "product": "Laravel",
         "pages": [
-          "installing-laravel"
+          "laravel/installing-laravel"
         ]
       },
       {
@@ -27,19 +27,19 @@
           {
             "group": "Getting Started",
             "pages": [
-              "installation",
-              "creating"
+              "statamic/installation",
+              "statamic/creating"
             ]
           },
           {
             "group": "Fields",
             "pages": [
-              "assets"
+              "statamic/assets"
             ]
           },
-          "partials",
-          "navigation",
-          "image-compression"
+          "statamic/partials",
+          "statamic/navigation",
+          "statamic/image-compression"
         ]
       },
       {
@@ -48,41 +48,41 @@
           {
             "group": "Getting Started",
             "pages": [
-              "rwa-getting-started"
+              "rwa-framework/rwa-getting-started"
             ]
           },
           {
             "group": "Foundations",
             "pages": [
-              "text-style-utilities",
-              "spacing-tokens",
-              "s",
-              "colors"
+              "rwa-framework/text-style-utilities",
+              "rwa-framework/spacing-tokens",
+              "rwa-framework/s",
+              "rwa-framework/colors"
             ]
           },
           {
             "group": "Containers",
             "pages": [
-              "containers",
-              "container-grid",
-              "cs",
-              "container-grid-fullscreen",
-              "recommended-usage"
+              "rwa-framework/containers",
+              "rwa-framework/container-grid",
+              "rwa-framework/cs",
+              "rwa-framework/container-grid-fullscreen",
+              "rwa-framework/recommended-usage"
             ]
           },
           {
             "group": "Columns",
             "pages": [
-              "w-col",
-              "ml-col-and-mr-col",
-              "pl-col-and-pr-col",
-              "gap"
+              "rwa-framework/w-col",
+              "rwa-framework/ml-col-and-mr-col",
+              "rwa-framework/pl-col-and-pr-col",
+              "rwa-framework/gap"
             ]
           },
           {
             "group": "Responsive",
             "pages": [
-              "responsive-utilities"
+              "rwa-framework/responsive-utilities"
             ]
           }
         ]
