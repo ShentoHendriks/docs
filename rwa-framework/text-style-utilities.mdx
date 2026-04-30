@@ -106,7 +106,23 @@ Inside `container-grid-fluid`, text styles can receive special overrides above m
 </section>
 ```
 
-Inside `container-grid` and `container-grid-fullscreen`, text styles keep normal capped `clamp(...)` behavior.
+Inside `container-grid` and `container-grid-fullscreen`, text styles keep normal capped `clamp(...)` behavior by default.
+
+Add the matching `*-vw` helper when a single text style should keep scaling after the max viewport breakpoint.
+
+```html
+<section class="container-grid-fullscreen">
+  <h1 class="display-l-vw">Scales wider on large screens.</h1>
+</section>
+```
+
+Add the matching `*-no-vw` helper when a single text style should stay capped inside a fluid container.
+
+```html
+<section class="container-grid-fluid">
+  <h1 class="display-l-no-vw">Stays capped on large screens.</h1>
+</section>
+```
 
 ## Best Practice
 

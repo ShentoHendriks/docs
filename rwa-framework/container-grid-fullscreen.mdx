@@ -34,9 +34,9 @@ Use `container-grid-fullscreen` for:
 - background sections where content aligns to grid
 - sections that should ignore max container width
 
-### Font Scaling Inside` container-grid-fullscreen`
+### Font Scaling Inside `container-grid-fullscreen`
 
-`container-grid-fullscreen` changes layout width, **not text scale behavior.**
+`container-grid-fullscreen` changes layout width, but text styles keep normal capped typography by default.
 
 Text styles inside it still use normal generated typography tokens, usually `clamp(...)`.
 
@@ -49,6 +49,14 @@ That means:
 ```
 
 gets fullscreen column math, but `display-l` still stops growing at configured max typography size. Use this when layout should be wide, but typography should stay controlled.
+
+Add the matching `*-vw` helper when the text should keep scaling after the max viewport breakpoint.
+
+```html
+<section class="container-grid-fullscreen">
+  <h1 class="display-l-vw">Fullscreen layout, fluid type.</h1>
+</section>
+```
 
 ## Related workflow
 
