@@ -1,10 +1,54 @@
 #body-content :not(pre) > code,
 .prose :not(pre) > code {
-  background-color: #E62A2A !important;
-  color: #FFFFFF !important;
+  background-color: rgba(230, 42, 42, 0.1) !important;
+  color: #B91C1C !important;
+  border: 1px solid rgba(230, 42, 42, 0.22) !important;
+  border-radius: 6px !important;
+  padding: 0.15rem 0.38rem !important;
+  font-weight: 600 !important;
 }
 
 #body-content :not(pre) > code *,
 .prose :not(pre) > code * {
-  color: #FFFFFF !important;
+  color: #B91C1C !important;
+}
+
+#body-content {
+  color: #292524;
+}
+
+#body-content h1,
+#body-content h2,
+#body-content h3 {
+  color: #171717;
+  letter-spacing: 0;
+}
+
+#body-content h1 {
+  font-weight: 750;
+}
+
+#body-content h2 {
+  border-top: 1px solid rgba(41, 37, 36, 0.1);
+  padding-top: 1.5rem;
+}
+
+#body-content a:not(.docs-card) {
+  color: #C81E1E;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+#body-content a:not(.docs-card):hover {
+  color: #991B1B;
+}
+
+#body-content table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#body-content th {
+  background-color: rgba(230, 42, 42, 0.08);
+  color: #171717;
 }

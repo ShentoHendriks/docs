@@ -45,10 +45,21 @@
       {
         "product": "RWA Framework",
         "pages": [
-          "text-style-utilities",
-          "spacing-tokens",
-          "s",
-          "colors",
+          {
+            "group": "Getting Started",
+            "pages": [
+              "rwa-getting-started"
+            ]
+          },
+          {
+            "group": "Foundations",
+            "pages": [
+              "text-style-utilities",
+              "spacing-tokens",
+              "s",
+              "colors"
+            ]
+          },
           {
             "group": "Containers",
             "pages": [
@@ -59,11 +70,21 @@
               "recommended-usage"
             ]
           },
-          "w-col",
-          "ml-col-and-mr-col",
-          "pl-col-and-pr-col",
-          "gap",
-          "responsive-utilities"
+          {
+            "group": "Columns",
+            "pages": [
+              "w-col",
+              "ml-col-and-mr-col",
+              "pl-col-and-pr-col",
+              "gap"
+            ]
+          },
+          {
+            "group": "Responsive",
+            "pages": [
+              "responsive-utilities"
+            ]
+          }
         ]
       }
     ]

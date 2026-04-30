@@ -1,0 +1,86 @@
+---
+title: "Getting started"
+description: "Learn the normal RWA Framework workflow with Tailwind CSS."
+---
+
+## What this is
+
+RWA Framework is a Tailwind CSS utility layer for layouts, typography, spacing, colors, and responsive behavior.
+
+You write normal HTML and Tailwind classes. The framework adds project-specific utilities such as `display-l`, `py-section`, `container-grid`, and `w-col-*`.
+
+## What you will learn
+
+These docs show how to:
+
+- use text styles instead of raw typography classes
+- apply spacing tokens for local rhythm
+- use section spacing for page rhythm
+- choose the right container
+- size and offset elements with column utilities
+- write responsive layouts with framework breakpoints
+
+## Casual workflow
+
+Start with a container:
+
+```html
+<section class="container-grid py-section-xl">
+  ...
+</section>
+```
+
+For more immersive layouts, prefer `container-grid-fluid`.
+
+It starts controlled, then opens up on very large screens. This makes it a strong default for expressive, Awwwards-style websites where layout and typography should keep breathing on wide viewports.
+
+Add content with text styles:
+
+```html
+<h1 class="display-l">A clear page headline.</h1>
+<p class="body-l mt-lg">Supporting content with consistent typography.</p>
+```
+
+Control width with columns:
+
+```html
+<div class="w-col-8">
+  ...
+</div>
+```
+
+Add responsive changes when needed:
+
+```html
+<div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
+  ...
+</div>
+```
+
+Desktop-first is the preferred workflow. Start from the desktop design, then use `max-desktop:` and `max-switch:` to simplify the layout on smaller screens.
+
+## Example
+
+```html
+<section class="container-grid-fluid py-section-xl max-switch:py-section">
+  <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
+    <p class="label-m mb-md">Project</p>
+    <h1 class="display-l">Build faster with shared layout rules.</h1>
+    <p class="body-l mt-lg w-col-6 max-switch:w-col-6">
+      The framework keeps spacing, typography, and grid behavior consistent.
+    </p>
+  </div>
+</section>
+```
+
+## Recommended path
+
+Read these pages in order:
+
+1. [Text styles](/text-style-utilities)
+2. [Spacing tokens](/spacing-tokens)
+3. [Section spacing](/s)
+4. [Colors](/colors)
+5. [Container overview](/containers)
+6. [Column width](/w-col)
+7. [Responsive utilities](/responsive-utilities)

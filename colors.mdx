@@ -1,5 +1,5 @@
 ---
-title: "Color Utilities"
+title: "Colors"
 ---
 
 ## Overview
@@ -12,6 +12,17 @@ That means colors become available through normal Tailwind classes:
 bg-background-default
 text-text-default
 border-border-default
+```
+
+## Usage
+
+```html
+<section class="bg-background-default text-text-default">
+  <article class="border border-border-default">
+    <p class="text-text-muted">Project</p>
+    <h2 class="heading-h2">Semantic color utilities.</h2>
+  </article>
+</section>
 ```
 
 These classes come from generated CSS variables, usually shaped like:
@@ -118,7 +129,6 @@ A system often has multiple **default** colors:
 background-default
 text-default
 border-default
-surface-default
 accent-default
 ```
 
@@ -158,9 +168,6 @@ text-inverse
 border-default
 border-muted
 border-strong
-
-surface-default
-surface-raised
 
 accent-default
 accent-strong
@@ -349,6 +356,6 @@ That is main benefit of semantic naming.
 
 Use `bg-background-*` for page and section backgrounds.
 
-Use t`ext-text-*` for readable text.
+Use `text-text-*` for readable text.
 
 Use `border-border-*` for structural borders.

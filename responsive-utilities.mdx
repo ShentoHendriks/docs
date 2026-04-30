@@ -1,5 +1,5 @@
 ---
-title: "Responsive Utilities"
+title: "Responsive utilities"
 ---
 
 ## Overview
@@ -17,6 +17,16 @@ switch:
 max-switch:
 desktop:
 max-desktop:
+```
+
+## Usage
+
+```html
+<section class="container-grid-fluid py-section-xl max-switch:py-section">
+  <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
+    <h1 class="display-l">Desktop-first responsive layout.</h1>
+  </div>
+</section>
 ```
 
 They come from generated breakpoint tokens:
@@ -44,18 +54,22 @@ Maximum viewport used by system. This is where normal fluid typography and spaci
 
 Each breakpoint can be used as a `min-width` or `max-width` variant.
 
-`min-width` variants apply from breakpoint upward:
+Max variants are the preferred way to work in this framework.
 
-```text
-switch:w-col-6
-desktop:py-section-2xl
-```
+Start with the desktop layout as the default. Then use `max-desktop:` and `max-switch:` to reduce and simplify the layout for smaller screens.
 
 `max-width` variants apply up to breakpoint:
 
 ```text
 max-switch:w-col-6
 max-desktop:py-section-xl
+```
+
+`min-width` variants apply from breakpoint upward:
+
+```text
+switch:w-col-6
+desktop:py-section-2xl
 ```
 
 Read them like this:
@@ -68,9 +82,31 @@ desktop:      from desktop breakpoint and up
 max-desktop:  from desktop breakpoint and down
 ```
 
+## Preferred: Desktop-First Approach
+
+Desktop-first means base classes define desktop layout. Max variants reduce layout for smaller screens.
+
+Example:
+
+```html
+<section class="container-grid-fluid py-section-2xl max-desktop:py-section-xl max-switch:py-section">
+  <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
+    <h1 class="display-l">Desktop-first section.</h1>
+  </div>
+</section>
+```
+
+Read this as:
+
+- `default:` large/desktop behavior
+- `max-desktop:` adjusts below desktop width
+- `max-switch:` adjusts below grid switch point
+
+This matches how most visual designs are built in Figma: desktop first, then simplified for smaller screens.
+
 ## Mobile-First Approach
 
-Mobile-first means base classes define mobile layout. Larger variants enhance layout as viewport grows.
+Mobile-first is still available when a section is easier to build from the smallest layout upward.
 
 Example:
 
@@ -87,28 +123,6 @@ Read this as:
 - **default:** mobile/small behavior
 - **switch:** changes layout once grid switches
 - **desktop:** changes layout on large screens
-
-## Desktop-First Approach
-
-Desktop-first means base classes define desktop layout. Max variants reduce layout for smaller screens.
-
-Example:
-
-```html
-<section class="container-grid py-section-2xl max-desktop:py-section-xl max-switch:py-section">
-  <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
-    <h1 class="display-l">Desktop-first section.</h1>
-  </div>
-</section>
-```
-
-Read this as:
-
-- `default:` large/desktop behavior
-- `max-desktop:` adjusts below desktop width
-- `max-switch:` adjusts below grid switch point
-
-This can be useful when implementing desktop designs first from Figma.
 
 ## `switch:` And `max-switch:`
 
@@ -127,16 +141,6 @@ switch: 768px
 Below switch, container uses mobile columns.\
 Above switch, container uses desktop columns.
 
-Use `switch:` when layout should become desktop-like:
-
-```html
-<section class="container-grid py-section switch:py-section-xl">
-  <div class="w-col-6 switch:w-col-8">
-    ...
-  </div>
-</section>
-```
-
 Use `max-switch:` when desktop base layout needs mobile fallback:
 
 ```html
@@ -147,11 +151,21 @@ Use `max-switch:` when desktop base layout needs mobile fallback:
 </section>
 ```
 
+Use `switch:` only when you intentionally build mobile-first:
+
+```html
+<section class="container-grid py-section switch:py-section-xl">
+  <div class="w-col-6 switch:w-col-8">
+    ...
+  </div>
+</section>
+```
+
 ## `mobile:` And `max-mobile:`
 
 mobile represents configured minimum viewport.
 
-Most projects do not need `mobile:` often, because base classes already cover small screens when working mobile-first, and `switch:` covers the changed layout when working desktop-first.
+Most projects do not need `mobile:` often.
 
 Use `mobile:` only when you need behavior to start exactly at configured minimum viewport and up.
 
@@ -175,14 +189,6 @@ This is mostly for edge cases, tiny viewports, embedded contexts, or preview han
 
 desktop represents configured maximum viewport.
 
-Use desktop: for behavior that should only happen at very large sizes.
-
-```html
-<section class="container-grid-fluid py-section-xl desktop:py-section-2xl">
-  <h1 class="display-l">Large-screen behavior.</h1>
-</section>
-```
-
 Use `max-desktop:` when base style is large-screen and you need to reduce below max viewport.
 
 ```html
@@ -191,11 +197,29 @@ Use `max-desktop:` when base style is large-screen and you need to reduce below 
 </section>
 ```
 
-`desktop:` is especially useful with `container-grid-fluid`, because fluid containers have special large-screen behavior above max viewport.
+Use `desktop:` for behavior that should only happen at very large sizes.
+
+```html
+<section class="container-grid-fluid py-section-xl desktop:py-section-2xl">
+  <h1 class="display-l">Large-screen behavior.</h1>
+</section>
+```
+
+`desktop:` can still be useful with `container-grid-fluid`, because fluid containers have special large-screen behavior above max viewport.
 
 ## Column Responsiveness
 
 Column utilities often need responsive variants.
+
+Preferred desktop-first:
+
+```html
+<section class="container-grid py-section-xl">
+  <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
+    ...
+  </div>
+</section>
+```
 
 Mobile-first:
 
@@ -207,31 +231,37 @@ Mobile-first:
 </section>
 ```
 
-Desktop-first:
-
-```html
-<section class="container-grid py-section-xl">
-  <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
-    ...
-  </div>
-</section>
-```
-
 If mobile grid has 6 columns and desktop grid has 12, then:
 
 `w-col-6`
 
 means `full-width` on mobile, `half-width` on desktop.
 
-So sometimes you need explicit responsive classes for clarity:
+With desktop-first, make smaller states explicit:
 
 ```html
-<div class="w-col-6 switch:w-col-8">
+<div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
   ...
 </div>
 ```
 
-## Recommended Mobile-First Pattern
+## Recommended Desktop-First Pattern
+
+```html
+<section class="container-grid-fluid py-section-xl max-switch:py-section">
+  <div class="w-col-9 max-desktop:w-col-8 max-switch:w-col-6">
+    <p class="label-m mb-md">Responsive</p>
+    <h1 class="display-l">Desktop-first section layout.</h1>
+    <p class="body-l mt-lg w-col-6 max-switch:w-col-6">
+      Base classes match desktop design. Max variants simplify smaller screens.
+    </p>
+  </div>
+</section>
+```
+
+## Mobile-First Pattern
+
+Use this only when it fits the section better.
 
 ```html
 <section class="container-grid py-section">
@@ -245,45 +275,33 @@ So sometimes you need explicit responsive classes for clarity:
 </section>
 ```
 
-## Recommended Desktop-First Pattern
+## Choosing An Approach
 
-```text
-<section class="container-grid py-section">
-  <div class="w-col-9 max-desktop:w-col-8 max-switch:w-col-6">
-    <p class="label-m mb-md">Responsive</p>
-    <h1 class="display-l">Desktop-first section layout.</h1>
-    <p class="body-l mt-lg w-col-6 max-switch:w-col-6">
-      Base classes match desktop design. Max variants simplify smaller screens.
-    </p>
-  </div>
-</section>
-```
-
-## Choosing Mobile-First Or Desktop-First
-
-Use **mobile-first** when:
-
-- building from scratch
-- design needs to grow naturally
-- team already writes Tailwind this way
-- base layout should be simplest
-
-Use **desktop-first** when:
+Prefer **desktop-first** when:
 
 - translating desktop Figma designs
 - desktop layout is more specific
 - mobile is simplified version of desktop
 - team prefers max breakpoint overrides
 
-Both are valid. Pick one per component or section and stay consistent.
+Use **mobile-first** only when:
+
+- building from scratch
+- design needs to grow naturally
+- team already writes Tailwind this way
+- base layout should be simplest
+
+Both work, but desktop-first is the recommended default for RWA Framework docs.
 
 ## Best Practice
 
 Use base classes for default layout.
 
-Use `switch:` or `max-switch:` for main layout changes.
+Use `max-switch:` for main layout changes.
 
-Use `desktop:` or `max-desktop:` for large-screen refinements.
+Use `max-desktop:` for large-screen refinements below the desktop breakpoint.
+
+Use `switch:` and `desktop:` only when a mobile-first section fits better.
 
 Use `mobile:` and `max-mobile:` rarely.
 
