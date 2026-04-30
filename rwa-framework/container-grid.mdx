@@ -34,6 +34,26 @@ Use `container-grid` for:
 - dashboards
 - most marketing sections
 
+### Font Scaling Inside `container-grid`
+
+Text styles inside `container-grid` keep normal capped `clamp(...)` behavior by default.
+
+Use the matching `*-vw` helper when one text style should keep scaling after the max viewport breakpoint.
+
+```html
+<section class="container-grid py-section-xl">
+  <h1 class="display-l-vw">Default container, viewport-scaled headline.</h1>
+</section>
+```
+
+Use the matching `*-no-vw` helper when one text style should stay capped. This is the default in `container-grid`, but the helper is useful when the same markup may move into a fluid container.
+
+```html
+<section class="container-grid py-section-xl">
+  <h1 class="display-l-no-vw">Default container, capped headline.</h1>
+</section>
+```
+
 ### **Example**
 
 ```html

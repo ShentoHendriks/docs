@@ -61,6 +61,22 @@ will feel more proportional on very wide screens than same headline inside `cont
 
 Use this when typography and layout should scale together.
 
+Use the matching `*-vw` helper when one text style should explicitly keep this viewport-scaled behavior as a standalone class.
+
+```html
+<section class="container-grid-fluid">
+  <h1 class="display-l-vw">Fluid container, viewport-scaled headline.</h1>
+</section>
+```
+
+Use the matching `*-no-vw` helper when one text style should stay capped inside a fluid container.
+
+```html
+<section class="container-grid-fluid">
+  <h1 class="display-l-no-vw">Fluid container, capped headline.</h1>
+</section>
+```
+
 Good use cases:
 
 - campaign heroes
