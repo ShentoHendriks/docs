@@ -61,14 +61,6 @@ will feel more proportional on very wide screens than same headline inside `cont
 
 Use this when typography and layout should scale together.
 
-Use the matching `*-vw` helper when one text style should explicitly keep this viewport-scaled behavior as a standalone class.
-
-```html
-<section class="container-grid-fluid">
-  <h1 class="display-l-vw">Fluid container, viewport-scaled headline.</h1>
-</section>
-```
-
 Use the matching `*-no-vw` helper when one text style should stay capped inside a fluid container.
 
 ```html
@@ -87,13 +79,16 @@ Good use cases:
 
 ## `grid-fluid`
 
-Is useful if you want the fullscreen the margins, but still want the fluid typography spacing.
+Use `grid-fluid` when you want full-width grid math without container side padding, while keeping the same large-screen fluid typography behavior.
 
 ```html
 <section class="grid-fluid">
-  <h1 class="display-xl">Large screen headline</h1>
+  <h1 class="display-l">Large screen headline</h1>
 </section>
 ```
+
+For details, see [Fluid grid](/rwa-framework/grid-fluid).
+
 ## Related workflow
 
 - Use this page as part of [RWA Framework CSS](/rwa-framework/rwa-getting-started), generated from [RWA Framework Website](/rwa-framework-website/overview).
