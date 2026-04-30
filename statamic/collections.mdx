@@ -1,0 +1,269 @@
+---
+title: "Collections"
+description: "Model repeatable content in Statamic with collections and entries."
+---
+
+Collections hold groups of related entries. Use them for pages, blog posts, projects, products, vacancies, or team members.
+
+## Code usage
+
+### List entries
+
+Use the collection handle after `collection:`.
+
+```html
+{{ collection:projects sort="title:asc" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+
+    {{ if hero_image }}
+      <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+    {{ /if }}
+  </article>
+{{ /collection:projects }}
+```
+
+### Use from
+
+Use `from` when the collection handle should be a parameter.
+
+```html
+{{ collection from="projects" sort="title:asc" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+  </article>
+{{ /collection }}
+```
+
+Use a variable inside `from` when editors choose the collection.
+
+```html
+{{ collection from="{selected_collection}" limit="6" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+  </article>
+{{ /collection }}
+```
+
+<Note>
+  Use `from` for collections. Use `src` for partials.
+</Note>
+
+### Multiple collections
+
+Separate multiple collection handles with `|`.
+
+```html
+{{ collection from="blog|events" sort="date:desc" limit="6" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+  </article>
+{{ /collection }}
+```
+
+### Alias results with as
+
+Use `as` when you need wrapper markup around the results.
+
+```html
+{{ collection from="blog" as="posts" }}
+  {{ if no_results }}
+    <p>No posts found.</p>
+  {{ else }}
+    <ul>
+      {{ posts }}
+        <li><a href="{{ url }}">{{ title }}</a></li>
+      {{ /posts }}
+    </ul>
+  {{ /if }}
+{{ /collection }}
+```
+
+### Scope fields
+
+Use `scope` when entry fields conflict with fields already on the page.
+
+```html
+{{ collection from="blog" scope="post" }}
+  <article>
+    <h2><a href="{{ post:url }}">{{ post:title }}</a></h2>
+  </article>
+{{ /collection }}
+```
+
+### Show one entry
+
+On a single entry template, use fields directly. You do not need the collection tag.
+
+```html
+<article>
+  <h1>{{ title }}</h1>
+  {{ content }}
+</article>
+```
+
+## When to use collections
+
+Use a collection when editors create multiple items with the same content type.
+
+Common examples:
+
+| Collection | Use it for |
+| --- | --- |
+| `pages` | Normal website pages |
+| `blog` | News or articles |
+| `projects` | Portfolio or case studies |
+| `team` | Team member profiles |
+| `products` | Product pages |
+| `vacancies` | Job posts |
+
+## Create a collection
+
+Create collections in the control panel.
+
+1. Open **Collections**.
+2. Click **Create collection**.
+3. Enter a name like `Pages`, `Blog`, or `Projects`.
+4. Choose whether entries need URLs.
+5. Set the route.
+6. Set the template.
+7. Save the collection.
+
+## Routes
+
+The **Route** controls each entry URL. It is a pattern with variables inside curly braces.
+
+### Basic routes
+
+| Use case | Route | Example URL |
+| --- | --- | --- |
+| Pages | `{slug}` | `/about` |
+| Blog posts | `blog/{slug}` | `/blog/my-first-post` |
+| Projects | `projects/{slug}` | `/projects/site-redesign` |
+
+With `blog/{slug}`, an entry titled `My first post` becomes `/blog/my-first-post`.
+
+With `{slug}`, an entry titled `About` becomes `/about`.
+
+### Route variables
+
+| Variable | Use it for | Example |
+| --- | --- | --- |
+| `{slug}` | Entry slug | `blog/{slug}` |
+| `{year}` | Dated collections | `blog/{year}/{slug}` |
+| `{month}` | Dated collections | `blog/{year}/{month}/{slug}` |
+| `{day}` | Dated collections | `blog/{year}/{month}/{day}/{slug}` |
+| `{parent_uri}` | Nested entries | `{parent_uri}/{slug}` |
+| `{mount}` | Mounted collections | `{mount}/{slug}` |
+
+You can also use custom entry fields in routes. Keep this simple unless the project needs advanced routing.
+
+<Tip>
+  A route like `blog/{slug}` creates URLs for blog entries. It does not create the `/blog` listing page.
+</Tip>
+
+## Index and show templates
+
+Scaffolding usually gives you two templates:
+
+<Files>
+  <Folder name="resources">
+    <Folder name="views">
+      <Folder name="blog">
+        <File name="index.antlers.html" />
+        <File name="show.antlers.html" />
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+### index
+
+Use `index.antlers.html` for the listing page.
+
+Example URL: `/blog`
+
+```html
+{{ collection:blog sort="date:desc" }}
+  <article>
+    <h2><a href="{{ url }}">{{ title }}</a></h2>
+    {{ if excerpt }}
+      <p>{{ excerpt }}</p>
+    {{ /if }}
+  </article>
+{{ /collection:blog }}
+```
+
+### show
+
+Use `show.antlers.html` for one entry detail page.
+
+Example URL: `/blog/my-first-post`
+
+```html
+<article>
+  <h1>{{ title }}</h1>
+  {{ content }}
+</article>
+```
+
+## Make a listing page
+
+The `index.antlers.html` file is only a template. It does not create `/blog` by itself.
+
+Recommended GUI setup:
+
+1. Create a `Pages` collection if you do not have one.
+2. Create a page entry named `Blog`.
+3. Set its slug to `blog`.
+4. Set its template to `blog/index`.
+5. In the `Blog` collection settings, set the entry template to `blog/show`.
+
+Result:
+
+| URL | Template | Purpose |
+| --- | --- | --- |
+| `/blog` | `blog/index` | Lists blog entries |
+| `/blog/my-first-post` | `blog/show` | Shows one blog entry |
+
+## Entry fields
+
+Every entry has fields from its blueprint. Use the field handle in templates.
+
+Example page fields:
+
+| Display | Handle | Code usage |
+| --- | --- | --- |
+| Hero title | `hero_title` | `{{ hero_title }}` |
+| Hero image | `hero_image` | `{{ hero_image }}` |
+| SEO title | `seo_title` | `{{ seo_title }}` |
+
+## Stored files
+
+Statamic saves collection config and entries as project files. Editors do not need to edit these files directly.
+
+<Files>
+  <Folder name="content">
+    <Folder name="collections">
+      <File name="pages.yaml" />
+      <Folder name="pages">
+        <File name="home.md" />
+        <File name="about.md" />
+        <File name="contact.md" />
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+## Good defaults
+
+- Use plural handles: `projects`, not `project`.
+- Keep handles lowercase and use underscores if needed.
+- Use `pages` for normal site pages.
+- Use dedicated collections for structured content like projects or team members.
+- Use `from` when the collection handle comes from a variable.
+
+## Official docs
+
+- [Collections](https://statamic.dev/content-modeling/collections)
+- [Content queries](https://statamic.dev/frontend/content-queries)

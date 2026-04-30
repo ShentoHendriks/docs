@@ -24,6 +24,7 @@
       {
         "product": "Statamic CMS",
         "pages": [
+          "statamic/overview",
           {
             "group": "Getting Started",
             "pages": [
@@ -32,9 +33,25 @@
             ]
           },
           {
+            "group": "Content modeling",
+            "pages": [
+              "statamic/collections",
+              "statamic/globals",
+              "statamic/blueprints"
+            ]
+          },
+          {
             "group": "Fields",
             "pages": [
-              "statamic/assets"
+              "statamic/assets",
+              "statamic/replicator",
+              "statamic/grid"
+            ]
+          },
+          {
+            "group": "Antlers",
+            "pages": [
+              "statamic/conditionals"
             ]
           },
           "statamic/partials",

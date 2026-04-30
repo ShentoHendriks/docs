@@ -1,0 +1,143 @@
+---
+title: "Replicator"
+description: "Build flexible ordered content blocks with Statamic Replicator."
+---
+
+Replicator lets editors add, reorder, and configure different content sets in one field. Use it for flexible page builders.
+
+<Warning>
+  Statamic's flexible block fieldtype is **Replicator**.
+</Warning>
+
+## Code usage
+
+Loop through a Replicator field and render each set by its `type`.
+
+```html
+{{ page_builder }}
+  {{ if type == "hero" }}
+    <section class="hero">
+      <h1>{{ heading }}</h1>
+    </section>
+  {{ elseif type == "text" }}
+    <section class="content">
+      {{ body }}
+    </section>
+  {{ /if }}
+{{ /page_builder }}
+```
+
+For bigger projects, render each set with a matching partial.
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.{type}" }}
+{{ /page_builder }}
+```
+
+## When to use Replicator
+
+Use Replicator when each row can have a different shape.
+
+Good examples:
+
+- Hero section
+- Text block
+- Image block
+- Quote block
+- CTA block
+- FAQ block
+- Feature section
+
+Use Grid instead when each row has the same fields.
+
+## Create a Replicator field
+
+1. Open the blueprint in the control panel.
+2. Click **Add field**.
+3. Choose **Replicator**.
+4. Set **Display** to `Page builder`.
+5. Set **Handle** to `page_builder`.
+6. Set **Button label** to `Add section`.
+7. Add sets like **Hero**, **Text**, **Quote**, and **CTA**.
+8. Add fields inside each set.
+9. Save the blueprint.
+
+Example set structure:
+
+| Set | Fields |
+| --- | --- |
+| Hero | `heading`, `image` |
+| Text | `body` |
+| Quote | `quote`, `cite` |
+| CTA | `heading`, `text`, `button_label`, `button_link` |
+
+## How editors use it
+
+Editors choose a set, fill in its fields, and reorder sections by dragging them.
+
+Each saved section has a `type`. The `type` matches the set handle, like `hero`, `text`, or `quote`.
+
+## Render with conditions
+
+```html
+{{ page_builder }}
+  {{ if type == "hero" }}
+    <section class="hero">
+      <h1>{{ heading }}</h1>
+      {{ if image }}
+        <img src="{{ image }}" alt="{{ image:alt }}" />
+      {{ /if }}
+    </section>
+  {{ elseif type == "text" }}
+    <section class="content">
+      {{ body | markdown }}
+    </section>
+  {{ elseif type == "quote" }}
+    <blockquote>
+      <p>{{ quote }}</p>
+      {{ if cite }}<cite>{{ cite }}</cite>{{ /if }}
+    </blockquote>
+  {{ /if }}
+{{ /page_builder }}
+```
+
+## Render with partials
+
+For bigger sites, use one partial per set.
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.{type}" }}
+{{ /page_builder }}
+```
+
+Example partial files:
+
+<Files>
+  <Folder name="resources">
+    <Folder name="views">
+      <Folder name="partials">
+        <Folder name="sets">
+          <File name="_hero.antlers.html" />
+          <File name="_text.antlers.html" />
+          <File name="_quote.antlers.html" />
+        </Folder>
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+## Good defaults
+
+- Name the field `page_builder` or `sections`.
+- Keep set handles short and specific.
+- Use **Max sets** only when layout needs a hard limit.
+- Use **Add section** as the button label.
+- Render sets with partials once templates grow.
+- Do not use Replicator for the `content` field.
+
+## Official docs
+
+- [Replicator fieldtype](https://statamic.dev/fieldtypes/replicator)
+- [Grid fieldtype](https://statamic.dev/fieldtypes/grid)

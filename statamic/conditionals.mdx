@@ -1,0 +1,138 @@
+---
+title: "Conditionals"
+description: "Use Antlers conditionals to show or hide markup."
+---
+
+Conditionals let you show markup only when content exists or when a value matches a rule.
+
+## Code usage
+
+Use `{{ if }}` to check if a field has a value.
+
+```html
+{{ if hero_image }}
+  <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+{{ /if }}
+```
+
+Use `{{ else }}` for a fallback.
+
+```html
+{{ if intro_text }}
+  <p>{{ intro_text }}</p>
+{{ else }}
+  <p>{{ excerpt }}</p>
+{{ /if }}
+```
+
+## Basic checks
+
+Check if a value exists.
+
+```html
+{{ if title }}
+  <h1>{{ title }}</h1>
+{{ /if }}
+```
+
+Check if a value does not exist.
+
+```html
+{{ if ! hero_image }}
+  <div class="placeholder"></div>
+{{ /if }}
+```
+
+## Compare values
+
+Use comparison operators when a field needs to match a specific value.
+
+```html
+{{ if layout == "dark" }}
+  <section class="section section--dark">
+{{ else }}
+  <section class="section">
+{{ /if }}
+```
+
+Common comparisons:
+
+| Operator | Meaning |
+| --- | --- |
+| `==` | Equals |
+| `!=` | Does not equal |
+| `>` | Greater than |
+| `<` | Less than |
+| `>=` | Greater than or equal |
+| `<=` | Less than or equal |
+
+## Multiple conditions
+
+Use `&&` when both conditions must be true.
+
+```html
+{{ if title && hero_image }}
+  <h1>{{ title }}</h1>
+  <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+{{ /if }}
+```
+
+Use `||` when one condition can be true.
+
+```html
+{{ if intro_text || excerpt }}
+  <p>{{ intro_text ?? excerpt }}</p>
+{{ /if }}
+```
+
+## Elseif
+
+Use `elseif` for multiple outcomes.
+
+```html
+{{ if type == "hero" }}
+  {{ partial src="sets.hero" }}
+{{ elseif type == "text" }}
+  {{ partial src="sets.text" }}
+{{ else }}
+  {{ partial:if_exists src="sets.{type}" }}
+{{ /if }}
+```
+
+## Inside loops
+
+Conditionals work inside collection, Grid, and Replicator loops.
+
+```html
+{{ collection:projects }}
+  {{ if featured }}
+    <article>
+      <h2>{{ title }}</h2>
+      <a href="{{ url }}">View project</a>
+    </article>
+  {{ /if }}
+{{ /collection:projects }}
+```
+
+## Current navigation item
+
+Use `is_current` inside navigation loops.
+
+```html
+{{ nav:header }}
+  <a href="{{ url }}" {{ if is_current }}class="current"{{ /if }}>
+    {{ title }}
+  </a>
+{{ /nav:header }}
+```
+
+## Good defaults
+
+- Check optional fields before rendering markup.
+- Use `else` only when the fallback is helpful.
+- Keep complex logic out of templates when possible.
+- Use `partial:if_exists` for dynamic partials that may not exist.
+
+## Official docs
+
+- [Antlers conditions](https://statamic.dev/frontend/antlers#conditions)

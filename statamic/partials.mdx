@@ -1,35 +1,191 @@
 ---
 title: "Partials"
+description: "Reuse Antlers templates with partial tags."
 ---
 
-Partials are reusable views. To reference a `/resources/views/_card.antlers.html` You don't have to enter the underscore `_`
+Partials are reusable views. Use them for layout pieces, small components, and Replicator set templates.
 
-<CodeGroup>
+## Code usage
 
-```jsx home.antlers.html
-{{ partial:card }}
+### Render a layout partial
+
+Use dot syntax from the recommended `partials` folder. You do not include `partials.` in the tag.
+
+```html
+{{ partial:layout.header }}
 ```
+
+### Render a component partial
+
+```html
+{{ partial:components.card }}
+```
+
+### Render a dynamic set partial
+
+Use `src` when the partial name is dynamic.
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.{type}" }}
+{{ /page_builder }}
+```
+
+When `type` is `hero`, Statamic renders `resources/views/partials/sets/_hero.antlers.html`.
+
+### Render only if the partial exists
+
+Use `partial:if_exists` when a dynamic partial may not exist.
+
+```html
+{{ page_builder }}
+  {{ partial:if_exists src="sets.{type}" }}
+{{ /page_builder }}
+```
+
+### Pass data
+
+Pass variables as parameters.
+
+```html
+{{ partial:components.card title="Project title" url="/projects/example" }}
+```
+
+Inside `_card.antlers.html`, use the parameter handles.
 
 ```html _card.antlers.html
-<p>This is a beautiful card!</p>
+<article>
+  <h2><a href="{{ url }}">{{ title }}</a></h2>
+</article>
 ```
 
-</CodeGroup>
+## Recommended folder structure
 
-When it's in a subdirectory like:
+Use one `partials` folder and group files by purpose. Partial paths in these docs are relative to `resources/views/partials`.
 
-`/resources/views/parts/_card.antlers.html`
+<Files>
+  <Folder name="resources">
+    <Folder name="views">
+      <Folder name="partials">
+        <Folder name="layout">
+          <File name="_header.antlers.html" />
+          <File name="_footer.antlers.html" />
+          <File name="_seo.antlers.html" />
+        </Folder>
+        <Folder name="components">
+          <File name="_button.antlers.html" />
+          <File name="_card.antlers.html" />
+          <File name="_image.antlers.html" />
+        </Folder>
+        <Folder name="sets">
+          <File name="_hero.antlers.html" />
+          <File name="_text.antlers.html" />
+          <File name="_quote.antlers.html" />
+          <File name="_cta.antlers.html" />
+        </Folder>
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
 
-```javascript
-{{ partial:parts/card }}
+## Folder usage
+
+| Folder | Use it for | Example |
+| --- | --- | --- |
+| `layout` | Site structure | `{{ partial:layout.header }}` |
+| `components` | Reusable UI pieces | `{{ partial:components.button }}` |
+| `sets` | Replicator set templates | `{{ partial src="sets.{type}" }}` |
+
+## Big site structure
+
+For larger sites, split partials by feature area. Keep common pieces shared, and keep feature-specific partials near their purpose.
+
+<Files>
+  <Folder name="resources">
+    <Folder name="views">
+      <Folder name="partials">
+        <Folder name="layout">
+          <File name="_header.antlers.html" />
+          <File name="_footer.antlers.html" />
+          <File name="_seo.antlers.html" />
+        </Folder>
+        <Folder name="components">
+          <File name="_button.antlers.html" />
+          <File name="_card.antlers.html" />
+          <File name="_image.antlers.html" />
+        </Folder>
+        <Folder name="sets">
+          <File name="_hero.antlers.html" />
+          <File name="_text.antlers.html" />
+          <File name="_quote.antlers.html" />
+          <File name="_cta.antlers.html" />
+        </Folder>
+        <Folder name="collections">
+          <Folder name="projects">
+            <File name="_card.antlers.html" />
+            <File name="_featured.antlers.html" />
+          </Folder>
+          <Folder name="blog">
+            <File name="_card.antlers.html" />
+            <File name="_meta.antlers.html" />
+          </Folder>
+        </Folder>
+        <Folder name="forms">
+          <File name="_contact.antlers.html" />
+          <File name="_newsletter.antlers.html" />
+        </Folder>
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+Use feature partials like this:
+
+```html
+{{ partial:collections.projects.card }}
+{{ partial:collections.blog.meta }}
+{{ partial:forms.newsletter }}
 ```
 
-## Passing Data
+Use this structure when shared `components` starts getting too broad. For small sites, keep the simple `layout`, `components`, and `sets` structure.
 
-```javascript
-{{ partial:card favoriteFood="Cookies" }}
+## Naming rules
+
+Partial files start with `_`.
+
+Use `{{ partial:components.card }}` for:
+
+<Files>
+  <Folder name="resources">
+    <Folder name="views">
+      <Folder name="partials">
+        <Folder name="components">
+          <File name="_card.antlers.html" />
+        </Folder>
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+## src vs tag syntax
+
+Use tag syntax for fixed partials.
+
+```html
+{{ partial:components.card }}
 ```
 
-```jsx _card.antlers.html
-<p>My favorite food is: {{ favoriteFood }}</p>
+Use `src` for dynamic partial names.
+
+```html
+{{ partial src="sets.{type}" }}
 ```
+
+## Good defaults
+
+- Keep all shared partials inside `resources/views/partials`.
+- Prefix partial files with `_`.
+- Use `layout` for layout partials.
+- Use `components` for reusable UI pieces.
+- Use `sets` for Replicator set templates.
+- Use `src` only when the partial name is dynamic.

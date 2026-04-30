@@ -1,0 +1,149 @@
+---
+title: "Globals"
+description: "Use global sets for site-wide content and settings."
+---
+
+Globals store content that belongs to the whole site, not one page. They are available in every view.
+
+## Code usage
+
+Use global set handles directly in templates.
+
+```html
+<footer>
+  {{ if company:logo }}
+    <img src="{{ company:logo }}" alt="{{ company:logo:alt }}" />
+  {{ /if }}
+
+  <p>{{ company:name }}</p>
+  <a href="mailto:{{ company:email }}">{{ company:email }}</a>
+
+  {{ socials:links }}
+    <a href="{{ url }}">{{ label }}</a>
+  {{ /socials:links }}
+</footer>
+```
+
+You can also enter the global set as a tag pair. Inside the pair, use field handles without the `company:` prefix.
+
+```html
+{{ company }}
+  {{ if logo }}
+    <img src="{{ logo }}" alt="{{ logo:alt }}" />
+  {{ /if }}
+
+  <p>{{ name }}</p>
+  <a href="mailto:{{ email }}">{{ email }}</a>
+{{ /company }}
+```
+
+## When to use globals
+
+Use globals for:
+
+- Company name, logo, address, email, and phone number
+- Footer content
+- Social links
+- Default SEO values
+- Site-wide notices
+- Feature toggles
+- Cookie, form, or success messages
+
+Do not use globals for repeatable entries like projects or blog posts. Use a collection for that.
+
+## Global sets
+
+Globals are organized into sets. Each set has a handle, and that handle becomes the scope in Antlers.
+
+Example sets:
+
+- `company`
+- `footer`
+- `socials`
+- `seo`
+- `settings`
+
+## Create a global set
+
+Create global sets in the control panel.
+
+1. Open **Globals**.
+2. Click **Create global set**.
+3. Enter a name like `Company`, `Footer`, or `Socials`.
+4. Add fields to the global set blueprint.
+5. Save the global set.
+6. Fill in the global content.
+
+## Stored files
+
+Statamic saves global set metadata and data as project files. Editors do not need to edit these files directly.
+
+<Files>
+  <Folder name="content">
+    <Folder name="globals">
+      <File name="company.yaml" />
+      <File name="footer.yaml" />
+      <Folder name="default">
+        <File name="company.yaml" />
+        <File name="footer.yaml" />
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+## Render globals
+
+Use the global set handle before the field handle.
+
+```html
+<footer>
+  {{ if company:logo }}
+    <img src="{{ company:logo }}" alt="{{ company:logo:alt }}" />
+  {{ /if }}
+
+  <p>{{ company:name }}</p>
+  <a href="mailto:{{ company:email }}">{{ company:email }}</a>
+  <p>{{ footer:copyright }}</p>
+</footer>
+```
+
+Or scope fields with a tag pair.
+
+```html
+{{ company }}
+  {{ if logo }}
+    <img src="{{ logo }}" alt="{{ logo:alt }}" />
+  {{ /if }}
+
+  <p>{{ name }}</p>
+  <a href="mailto:{{ email }}">{{ email }}</a>
+{{ /company }}
+```
+
+If your project has one default global set named `global`, fields can also be accessed without scope. Prefer scoped globals when you have multiple sets.
+
+## Blueprint globals
+
+Blueprints are optional, but create one for any global set editors manage in the control panel.
+
+Example `company` fields:
+
+| Display | Handle | Fieldtype |
+| --- | --- | --- |
+| Name | `name` | Text |
+| Logo | `logo` | Assets |
+| Email | `email` | Text |
+| Phone | `phone` | Text |
+
+## Good defaults
+
+- Keep globals small and purposeful.
+- Use one set per content purpose.
+- Use scoped syntax like `{{ company:name }}`.
+- Store navigation items in Navigation, not globals.
+- Store reusable page sections in collections or Replicator fields, not globals.
+
+## Official docs
+
+- [Globals](https://statamic.dev/content-modeling/globals)
+- [Blueprints](https://statamic.dev/content-modeling/blueprints)

@@ -1,0 +1,86 @@
+---
+title: "Grid"
+description: "Use Grid for repeated rows with the same fields."
+---
+
+Grid stores repeatable rows. Every row has the same columns.
+
+Use Grid when editors need structured lists. Use Replicator when editors need different section types.
+
+## Code usage
+
+Loop through a Grid field like an array.
+
+```html
+{{ features }}
+  <article>
+    <h3>{{ title }}</h3>
+    <p>{{ text }}</p>
+  </article>
+{{ /features }}
+```
+
+Use the column handles inside the loop.
+
+## When to use Grid
+
+Good examples:
+
+- Pricing rows
+- Opening hours
+- FAQ items
+- Feature lists
+- Team contact rows
+- Comparison tables
+
+## Create a Grid field
+
+1. Open the blueprint in the control panel.
+2. Click **Add field**.
+3. Choose **Grid**.
+4. Set **Display** to `Features`.
+5. Set **Handle** to `features`.
+6. Set **Add row** to `Add feature`.
+7. Add columns like `title` and `text`.
+8. Save the blueprint.
+
+Example columns:
+
+| Display | Handle | Fieldtype |
+| --- | --- | --- |
+| Title | `title` | Text |
+| Text | `text` | Textarea |
+
+## Render Grid rows
+
+```html
+{{ features }}
+  <article>
+    <h3>{{ title }}</h3>
+    <p>{{ text }}</p>
+  </article>
+{{ /features }}
+```
+
+## Grid vs Replicator
+
+Use **Grid** when all rows share one structure.
+
+Use **Replicator** when editors choose from different sets.
+
+Example:
+
+- FAQ list: Grid
+- Page builder with hero, image, text, and CTA sections: Replicator
+
+## Good defaults
+
+- Use Grid for compact repeatable data.
+- Use **Max rows** for design-limited lists.
+- Use **Stacked** mode when rows have many fields.
+- Keep column handles clear.
+
+## Official docs
+
+- [Grid fieldtype](https://statamic.dev/fieldtypes/grid)
+- [Replicator fieldtype](https://statamic.dev/fieldtypes/replicator)

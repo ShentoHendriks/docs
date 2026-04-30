@@ -1,0 +1,63 @@
+---
+title: "Statamic CMS"
+description: "Use Statamic to model content, build fields, and render content in Antlers."
+---
+
+Use the Statamic control panel for editing content, collections, globals, fields, and blueprints. Treat saved project files as developer-only storage.
+
+## Code usage
+
+Render a page with collection fields, global content, and a Replicator page builder.
+
+```html
+<main>
+  <h1>{{ title }}</h1>
+
+  {{ page_builder }}
+    {{ partial src="sets.{type}" }}
+  {{ /page_builder }}
+</main>
+
+<footer>
+  <a href="mailto:{{ company:email }}">{{ company:email }}</a>
+</footer>
+```
+
+## Core pieces
+
+<CardGroup cols={2}>
+  <Card title="Collections" icon="folder-tree" href="/statamic/collections">
+    Store related entries like pages, posts, team members, projects, or products.
+  </Card>
+
+  <Card title="Globals" icon="globe" href="/statamic/globals">
+    Store site-wide content like company details, footer text, and settings.
+  </Card>
+
+  <Card title="Blueprints" icon="brackets-curly" href="/statamic/blueprints">
+    Define fields and publish forms for entries, globals, assets, forms, and users.
+  </Card>
+
+  <Card title="Replicator" icon="blocks" href="/statamic/replicator">
+    Build flexible page sections with reusable content sets.
+  </Card>
+</CardGroup>
+
+## Quick decision guide
+
+Use a **Collection** when editors create multiple items of the same type.
+
+Use **Globals** when content belongs to the whole site, not one URL.
+
+Use a **Blueprint** when you need to control which fields editors see.
+
+Use **Replicator** when editors need flexible ordered blocks, like hero, text, image, CTA, and FAQ sections.
+
+Use **Grid** when editors need repeated rows with the same columns, like pricing rows, feature lists, or team contact details.
+
+## Official docs
+
+- [Statamic collections](https://statamic.dev/content-modeling/collections)
+- [Statamic globals](https://statamic.dev/content-modeling/globals)
+- [Statamic blueprints](https://statamic.dev/content-modeling/blueprints)
+- [Statamic Replicator fieldtype](https://statamic.dev/fieldtypes/replicator)

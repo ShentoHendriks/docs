@@ -1,27 +1,106 @@
 ---
 title: "Assets"
+description: "Use Statamic asset fields for images and files."
 ---
 
-Assets are all files (including) images the user can upload.
+Assets are files editors upload and select in Statamic. Use asset fields for images, documents, downloads, and media.
 
-## Retrieving Asset
+## Code usage
 
-If you have a single asset, or image in this case, you'd like to display. You **must** set the `max_files = 1`. This way you can retrieve the image through. If you don't set a `max_files` then you must retrieve it using the array method.
+Render one asset field.
 
-```jsx
-<img src={{ hero_image }} alt={{ hero_image:alt }} />
+```html
+{{ if hero_image }}
+  <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+{{ /if }}
 ```
 
-## Retrieving multiple images (array)
+Render multiple assets.
 
-```jsx
+```html
 {{ gallery_images }}
-    <img src="{{ url }}" alt="{{ alt }}" />
+  <img src="{{ url }}" alt="{{ alt }}" />
 {{ /gallery_images }}
 ```
 
-## Allow only certain file types
+## Single asset
 
-Go to `Validation` and add: `mimes:jpg,jpeg,png,webp` 
+In the control panel, add an **Assets** field and set **Max files** to `1` when the template expects one file.
 
-For example you'd like only `.zip` files. You can write `mimes:zip`
+Recommended field settings:
+
+| Setting | Value |
+| --- | --- |
+| Display | `Hero image` |
+| Handle | `hero_image` |
+| Container | `assets` |
+| Max files | `1` |
+
+```html
+{{ if hero_image }}
+  <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+{{ /if }}
+```
+
+## Multiple assets
+
+Leave **Max files** empty or set a number higher than `1` when editors can select multiple files.
+
+Recommended field settings:
+
+| Setting | Value |
+| --- | --- |
+| Display | `Gallery images` |
+| Handle | `gallery_images` |
+| Container | `assets` |
+
+```html
+{{ gallery_images }}
+  <img src="{{ url }}" alt="{{ alt }}" />
+{{ /gallery_images }}
+```
+
+## File type validation
+
+Use **Validation** to allow only specific file types.
+
+Add this rule for images:
+
+```text
+mimes:jpg,jpeg,png,webp
+```
+
+For `.zip` files:
+
+```text
+mimes:zip
+```
+
+## Dynamic folders
+
+Use **Dynamic folder** when uploaded files should go into a folder based on entry data.
+
+Example settings:
+
+| Setting | Value |
+| --- | --- |
+| Folder | `projects` |
+| Dynamic folder | `slug` |
+
+This uploads files into a folder like `projects/my-entry-slug`.
+
+<Warning>
+  Dynamic folder names do not stay in sync. If the entry slug changes, rename the asset folder manually.
+</Warning>
+
+## Good defaults
+
+- Use **Max files** set to `1` for single images.
+- Use `alt` text in templates.
+- Keep image fields specific, like `hero_image` or `featured_image`.
+- Add `mimes` validation for editor-facing file fields.
+
+## Official docs
+
+- [Assets fieldtype](https://statamic.dev/fieldtypes/assets)
+- [Image manipulation](https://statamic.dev/frontend/image-manipulation)

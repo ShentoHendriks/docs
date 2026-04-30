@@ -1,0 +1,108 @@
+---
+title: "Blueprints"
+description: "Define Statamic publish forms with fields, sections, and validation."
+---
+
+Blueprints define fields editors use in the control panel. Build and update them in Statamic's GUI unless a developer specifically asks you to edit files.
+
+## Code usage
+
+Blueprint field handles become template variables.
+
+```html
+<section class="hero">
+  <h1>{{ hero_title }}</h1>
+
+  {{ if hero_image }}
+    <img src="{{ hero_image }}" alt="{{ hero_image:alt }}" />
+  {{ /if }}
+</section>
+
+{{ page_builder }}
+  {{ partial src="sets.{type}" }}
+{{ /page_builder }}
+```
+
+If the blueprint handle is `hero_title`, the template variable is `{{ hero_title }}`.
+
+## What blueprints control
+
+Use blueprints to define:
+
+- Field handles
+- Fieldtypes
+- Display names
+- Instructions
+- Validation
+- Conditional visibility
+- Sections and tabs
+
+## Where to edit blueprints
+
+Open the Statamic control panel and go to **Blueprints**.
+
+You can also edit a blueprint from the thing it belongs to:
+
+- For entries: go to **Collections**, choose a collection, then open its blueprint.
+- For globals: go to **Globals**, choose a global set, then open its blueprint.
+- For assets: go to **Assets**, choose the container, then open its blueprint.
+- For forms: go to **Forms**, choose the form, then open its blueprint.
+
+## Create a page blueprint
+
+1. Open **Collections**.
+2. Choose **Pages**.
+3. Open **Blueprints**.
+4. Create or edit the page blueprint.
+5. Add a **Text** field named `title`.
+6. Add a **Replicator** field named `page_builder`.
+7. Add sets inside the Replicator, such as **Hero**, **Text**, **Quote**, and **CTA**.
+8. Save the blueprint.
+
+Each field needs a clear **Display name** and **Handle**. Templates use the handle.
+
+## Field handles
+
+Use clear, stable handles. Changing handles later changes template variables and saved data keys.
+
+Good handles:
+
+- `hero_title`
+- `featured_image`
+- `intro_text`
+- `cta_label`
+- `cta_link`
+
+Avoid vague handles:
+
+- `text_1`
+- `image2`
+- `section`
+- `button`
+
+## Validation
+
+Add validation in the field settings when content is required for layout or business logic.
+
+Useful validation rules:
+
+- `required`
+- `max:120`
+- `mimes:jpg,jpeg,png,webp`
+
+For image fields, add `mimes:jpg,jpeg,png,webp` in **Validation**.
+
+## Good defaults
+
+- Use one `main` tab for simple content.
+- Add `SEO` tab only when editors need custom metadata.
+- Keep field instructions short.
+- Use `Replicator` for flexible page sections.
+- Use `Grid` for repeated rows with the same columns.
+- Use **Assets** with **Max files** set to `1` when templates expect one file.
+
+## Official docs
+
+- [Blueprints](https://statamic.dev/content-modeling/blueprints)
+- [Fields](https://statamic.dev/content-modeling/fields)
+- [Validation](https://statamic.dev/content-modeling/validation)
