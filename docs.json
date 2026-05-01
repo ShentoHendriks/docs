@@ -30,6 +30,7 @@
             "pages": [
               "statamic/installation",
               "statamic/creating",
+              "statamic/setup-script",
               "statamic/after-clone"
             ]
           },
@@ -61,7 +62,13 @@
           },
           "statamic/partials",
           "statamic/navigation",
-          "statamic/image-compression"
+          "statamic/image-compression",
+          {
+            "group": "Deployment",
+            "pages": [
+              "statamic/deployment"
+            ]
+          }
         ]
       },
       {
@@ -126,7 +133,8 @@
           {
             "group": "Getting Started",
             "pages": [
-              "rwa-framework/rwa-getting-started"
+              "rwa-framework/rwa-getting-started",
+              "rwa-framework/installing"
             ]
           },
           {

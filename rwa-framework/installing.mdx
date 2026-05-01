@@ -1,0 +1,47 @@
+---
+title: "Installation"
+description: "Install generated RWA Framework CSS in a project stylesheet."
+---
+
+Install RWA Framework CSS by copying the generated CSS from **Export CSS** into its own file.
+
+## Statamic
+
+<Steps>
+  <Step title="Export the CSS">
+    In RWA Framework Website, click **Export CSS**.
+  </Step>
+
+  <Step title="Create the framework CSS file">
+    In the Statamic project, create:
+
+    ```text
+    resources/css/fluid.css
+    ```
+  </Step>
+
+  <Step title="Paste the generated CSS">
+    Paste the generated CSS into `resources/css/fluid.css`.
+  </Step>
+
+  <Step title="Import it from the site stylesheet">
+    Add this to the main site stylesheet:
+
+    ```css resources/css/site.css
+    @import "./fluid.css";
+    ```
+
+    For many Statamic projects, this file is `resources/css/site.css`.
+
+    If the project uses a different main stylesheet, add the import there instead.
+  </Step>
+</Steps>
+
+<Tree>
+  <Tree.Folder name="resources" defaultOpen>
+    <Tree.Folder name="css" defaultOpen>
+      <Tree.File name="fluid.css" />
+      <Tree.File name="site.css" />
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>

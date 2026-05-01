@@ -1,0 +1,153 @@
+---
+title: "Run the RWA setup script"
+description: "Install the Rainy Weather Agency Statamic starter setup after creating a new site."
+---
+
+Run the RWA setup script after you create a new Statamic site.
+
+The script lives in:
+
+```text
+git@github.com:ShentoHendriks/rwa-setup-statamic.git
+```
+
+It should be copied into your Statamic project instead of cloned inside it. This keeps your project from containing a nested Git repository.
+
+## What it installs
+
+The setup script can install:
+
+- Image partial.
+- CSS obfuscation setup.
+- Grid overlay partial.
+- SEO starter files.
+
+By default, all starter features are selected.
+
+## Requirements
+
+Run this in a Statamic project that contains:
+
+- `composer.json` with `statamic/cms` in `require`.
+- `package.json`.
+
+## Install the script
+
+<Steps>
+  <Step title="Go to the project">
+    ```shellscript
+    cd ~/Herd/your-project-name
+    ```
+
+    Replace `your-project-name` with the project folder name.
+  </Step>
+
+  <Step title="Copy the setup script into the project">
+    ```shellscript
+    temp_dir=$(mktemp -d)
+    git clone git@github.com:ShentoHendriks/rwa-setup-statamic.git "$temp_dir"
+    mkdir -p scripts
+    cp "$temp_dir/scripts/setup-rwa.mjs" scripts/setup-rwa.mjs
+    rm -rf "$temp_dir"
+    ```
+  </Step>
+
+  <Step title="Add the npm script">
+    ```shellscript
+    npm pkg set scripts.setup-rwa="node scripts/setup-rwa.mjs"
+    ```
+  </Step>
+
+  <Step title="Run the setup">
+    ```shellscript
+    npm run setup-rwa -- --yes --install
+    ```
+
+    This installs the default selected features and runs `npm install` after updating the files.
+  </Step>
+</Steps>
+
+## Choose features manually
+
+Run the setup without `--yes` to choose features in the terminal.
+
+```shellscript
+npm run setup-rwa
+```
+
+Use arrow keys to move, space to toggle features, and enter to install.
+
+## Install one feature
+
+Install only CSS obfuscation:
+
+```shellscript
+npm run setup-rwa -- --css-obfuscation
+```
+
+Install only the grid overlay:
+
+```shellscript
+npm run setup-rwa -- --grid-overlay
+```
+
+Install only SEO starter files:
+
+```shellscript
+npm run setup-rwa -- --seo-plugin
+```
+
+## Add SEO fields to collections
+
+After installing the SEO starter files, add the SEO fieldset to each collection blueprint that needs SEO controls.
+
+For example, to add SEO fields to pages:
+
+<Steps>
+  <Step title="Open the pages blueprint">
+    In the Statamic control panel, go to **Content > Collections > Pages > Blueprints** and open the page blueprint.
+  </Step>
+
+  <Step title="Add the SEO fieldset">
+    Add the SEO fieldset to the blueprint.
+  </Step>
+
+  <Step title="Save the blueprint">
+    Save the blueprint, then edit a page to confirm the SEO fields are visible.
+  </Step>
+</Steps>
+
+## After running
+
+Review generated changes before committing.
+
+If you did not use `--install`, run:
+
+```shellscript
+npm install
+```
+
+Then build the frontend:
+
+```shellscript
+npm run build
+```
+
+## Test CSS obfuscation
+
+CSS obfuscation only runs for production builds. To test it locally, set this in `.env`:
+
+```dotenv
+APP_ENV=production
+```
+
+Then build and serve the site:
+
+```shellscript
+npm run build
+php artisan serve
+```
+
+Open the local Laravel server and check that the site still renders correctly.
+
+Existing generated files are copied to `.bak` before the script overwrites them.

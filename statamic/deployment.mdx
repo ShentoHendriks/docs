@@ -1,0 +1,57 @@
+---
+title: "Test before shipping"
+description: "Test a Statamic site locally with production-like settings before deployment."
+---
+
+Before you deploy, test the site with production-like settings.
+
+<Steps>
+  <Step title="Back up your local environment file">
+    ```shellscript
+    cp .env .env.local
+    ```
+  </Step>
+
+  <Step title="Use production settings">
+    Open `.env` and update these values:
+
+    ```dotenv
+    APP_ENV=production
+    APP_DEBUG=false
+    APP_URL=http://127.0.0.1:8000
+    ```
+  </Step>
+
+  <Step title="Build production assets">
+    ```shellscript
+    npm run build
+    ```
+  </Step>
+
+  <Step title="Clear cached data">
+    ```shellscript
+    php artisan optimize:clear
+    ```
+  </Step>
+
+  <Step title="Serve the site">
+    ```shellscript
+    php artisan serve
+    ```
+
+    Open:
+
+    ```text
+    http://127.0.0.1:8000
+    ```
+  </Step>
+
+  <Step title="Restore your local environment file">
+    When you finish testing, restore your local `.env` file.
+
+    ```shellscript
+    mv .env.local .env
+    php artisan optimize:clear
+    ```
+  </Step>
+</Steps>
