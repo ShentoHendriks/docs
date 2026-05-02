@@ -1,42 +1,147 @@
 ---
-title: "Taxonomy"
-description: "Use Statamic taxonomies to organize entries with reusable terms."
+title: "Taxonomy basics"
+description: "Create a Statamic taxonomy and render a simple term archive."
 ---
 
 Taxonomies group entries with reusable terms.
 
-Use them when editors need to classify content across a collection. Common examples are categories, tags, topics, services, sectors, or locations.
+Use them for categories, tags, topics, services, sectors, or locations.
 
-## Template usage
+Example:
 
-Loop through selected taxonomy terms in Antlers:
+```text
+Work entry: Project A
+Categories: Design, Development
 
-```html
-{{ topics }}
-  <a href="{{ url }}">{{ title }}</a>
-{{ /topics }}
+Work entry: Project B
+Categories: Design
 ```
 
-Use taxonomy pages when visitors need a filtered archive for each term.
+The `Design` term page only shows entries that have `Design` selected.
 
-## When to use taxonomies
+## Setup
 
-Use a taxonomy when multiple entries can share the same label.
+In the Statamic control panel:
 
-Use a normal field when the value belongs only to one entry.
+1. Go to **Taxonomies**
+2. Create **Categories**
+3. Use handle `categories`
+4. Attach it to the `work` collection
+5. Add terms like `Design`, `Development`, `E-commerce`
+6. Select terms on work entries
 
-Use a collection when each item needs its own URL, template, content model, or publishing workflow.
+Statamic stores selected terms on entries:
 
-## Field setup
+```yaml
+categories:
+  - design
+  - development
+```
 
-Add a taxonomy field to a blueprint when editors need to choose one or more terms for an entry.
+Editors do this through the control panel. Do not edit entry YAML by hand.
 
-Use clear field labels. For example, use **Topics** instead of **Taxonomy**.
+## Create templates
 
-## Best practices
+Create these files:
 
-- Keep term names short and consistent
-- Avoid creating separate taxonomies for the same grouping idea
-- Use plural taxonomy handles, like `topics` or `services`
-- Use terms for classification, not long-form content
-- Review unused terms before launching a site
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="taxonomies">
+        <Tree.File name="categories.antlers.html" />
+        <Tree.File name="category.antlers.html" />
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+These names are a convention, not a requirement. You can name templates differently, for example `taxonomy-index.antlers.html` or `topic.antlers.html`. The important part is that the value you choose in the control panel matches the file path.
+
+In **Taxonomies → Categories → Edit**, set:
+
+| Setting | Value |
+| --- | --- |
+| Template | `taxonomies/categories` |
+| Term template | `taxonomies/category` |
+
+This means:
+
+```text
+taxonomies/categories
+= resources/views/taxonomies/categories.antlers.html
+
+taxonomies/category
+= resources/views/taxonomies/category.antlers.html
+```
+
+The folder name `taxonomies` is also a convention. It keeps taxonomy templates easy to find.
+
+## Taxonomy index
+
+`categories.antlers.html` renders all terms:
+
+```html
+<section>
+  <h1>{{ title }}</h1>
+
+  <ul>
+    {{ terms }}
+      <li><a href="{{ url }}">{{ title }}</a></li>
+    {{ /terms }}
+  </ul>
+</section>
+```
+
+This powers:
+
+```text
+/categories
+```
+
+## Term archive
+
+`category.antlers.html` renders one selected term:
+
+```html
+<section>
+  <h1>#{{ title }}</h1>
+
+  {{ entries }}
+    <article>
+      <h2><a href="{{ url }}">{{ title }}</a></h2>
+    </article>
+  {{ /entries }}
+</section>
+```
+
+This powers:
+
+```text
+/categories/design
+```
+
+`{{ entries }}` is already filtered by Statamic. On `/categories/design`, it only contains entries that have the `design` term.
+
+## Link terms from an entry
+
+Inside a work detail template:
+
+```html
+{{ if categories }}
+  <div>
+    {{ categories }}
+      <a href="{{ url }}">#{{ title }}</a>
+    {{ /categories }}
+  </div>
+{{ /if }}
+```
+
+`{{ url }}` points to the archive for that term.
+
+## After changes
+
+After changing taxonomy settings or templates:
+
+```bash
+php artisan statamic:stache:clear
+```

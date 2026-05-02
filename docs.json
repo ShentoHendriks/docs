@@ -39,7 +39,14 @@
             "pages": [
               "statamic/collections",
               "statamic/globals",
-              "statamic/taxonomy",
+              {
+                "group": "Taxonomies",
+                "pages": [
+                  "statamic/taxonomy",
+                  "statamic/template-vs-term-template",
+                  "statamic/taxonomy-collection-scoped"
+                ]
+              },
               "statamic/blueprints"
             ]
           },

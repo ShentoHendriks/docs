@@ -1,0 +1,104 @@
+---
+title: "Template vs term template"
+description: "Understand the difference between Statamic taxonomy Template and Term template settings."
+---
+
+Taxonomies use two template settings.
+
+| Setting | Page | Example URL | Purpose |
+| --- | --- | --- | --- |
+| Template | Taxonomy index | `/categories` | Shows all terms |
+| Term template | Term archive | `/categories/design` | Shows entries for one term |
+
+Template names are flexible. `taxonomies/categories` and `taxonomies/category` are recommended conventions, not required names.
+
+Statamic only needs the selected template value to match a real Antlers file.
+
+```text
+selected value: taxonomies/category
+file: resources/views/taxonomies/category.antlers.html
+```
+
+## Template
+
+The taxonomy **Template** is exact.
+
+If you set:
+
+```text
+taxonomies/categories
+```
+
+Statamic renders:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="taxonomies">
+        <Tree.File name="categories.antlers.html" />
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+Use it for the taxonomy overview:
+
+```html
+{{ terms }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /terms }}
+```
+
+You could also call this template `archives/categories-index` if you prefer:
+
+```text
+archives/categories-index
+= resources/views/archives/categories-index.antlers.html
+```
+
+The convention `taxonomies/categories` is clearer because it keeps taxonomy templates together.
+
+## Term template
+
+The taxonomy **Term template** renders one term archive.
+
+If you set:
+
+```text
+taxonomies/category
+```
+
+Statamic renders:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="taxonomies">
+        <Tree.File name="category.antlers.html" />
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+Use it for entries in the current term:
+
+```html
+<h1>#{{ title }}</h1>
+
+{{ entries }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /entries }}
+```
+
+Statamic reads the term from the URL and filters `{{ entries }}` for you.
+
+This file also does not have to be named `category.antlers.html`. It can be any template selected in the **Term template** field.
+
+## Good defaults
+
+For a `categories` taxonomy:
+
+| Setting | Value |
+| --- | --- |
+| Template | `taxonomies/categories` |
+| Term template | `taxonomies/category` |

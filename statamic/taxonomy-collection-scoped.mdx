@@ -1,0 +1,140 @@
+---
+title: "Collection-scoped taxonomy URLs"
+description: "Render taxonomy pages like /work/categories/design in Statamic."
+---
+
+When a taxonomy is attached to a collection, Statamic can generate collection-scoped URLs.
+
+Example:
+
+```text
+Collection: work
+Taxonomy: categories
+Term: design
+```
+
+Inside a work entry:
+
+```html
+{{ categories }}
+  <a href="{{ url }}">#{{ title }}</a>
+{{ /categories }}
+```
+
+The URL can become:
+
+```text
+/work/categories/design
+```
+
+That means:
+
+```text
+Show work entries in the Design category.
+```
+
+## Folder setup
+
+Keep root taxonomy templates for the control panel and global URLs.
+
+Add collection taxonomy templates for collection-scoped URLs.
+
+This folder structure is a convention, not a hard rule. It is recommended because it mirrors the URL and makes the Statamic control panel easier to use.
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="taxonomies">
+        <Tree.File name="categories.antlers.html" />
+        <Tree.File name="category.antlers.html" />
+      </Tree.Folder>
+
+      <Tree.Folder defaultOpen name="work">
+        <Tree.Folder defaultOpen name="taxonomies">
+          <Tree.File name="categories.antlers.html" />
+          <Tree.File name="category.antlers.html" />
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+Root templates support:
+
+```text
+/categories
+/categories/design
+```
+
+Work templates support:
+
+```text
+/work/categories
+/work/categories/design
+```
+
+The names can change if your taxonomy or collection handles change.
+
+Examples:
+
+| Collection | Taxonomy | Common template folder |
+| --- | --- | --- |
+| `work` | `categories` | `resources/views/work/taxonomies` |
+| `blog` | `tags` | `resources/views/blog/taxonomies` |
+| `projects` | `services` | `resources/views/projects/taxonomies` |
+
+The file names can also change. `category.antlers.html` is a readable convention for one term page. You can use another name if you select that same template in the taxonomy settings.
+
+## Control panel settings
+
+Set the taxonomy like this:
+
+| Setting | Value |
+| --- | --- |
+| Template | `taxonomies/categories` |
+| Term template | `taxonomies/category` |
+
+These values are examples for this convention.
+
+For another taxonomy, adapt the names. A `tags` taxonomy could use:
+
+| Setting | Value |
+| --- | --- |
+| Template | `taxonomies/tags` |
+| Term template | `taxonomies/tag` |
+
+Do not choose:
+
+```text
+work/taxonomies/category
+```
+
+Statamic automatically adds the collection prefix for term pages:
+
+```text
+taxonomies/category
++ work collection
+= resources/views/work/taxonomies/category.antlers.html
+```
+
+If you select `work/taxonomies/category`, Statamic can look for:
+
+```text
+work.work/taxonomies/category
+```
+
+That causes 404s.
+
+## Troubleshooting
+
+If `/work/categories/design` 404s:
+
+- Check `resources/views/work/taxonomies/category.antlers.html` exists
+- Check `resources/views/taxonomies/category.antlers.html` exists
+- Check term template is `taxonomies/category`
+- Check taxonomy is attached to `work`
+- Clear Stache
+
+```bash
+php artisan statamic:stache:clear
+```
