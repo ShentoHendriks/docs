@@ -56,6 +56,7 @@
           {
             "group": "Antlers",
             "pages": [
+              "statamic/rwa-antlers-extension",
               "statamic/antlers-basics",
               "statamic/conditionals"
             ]
