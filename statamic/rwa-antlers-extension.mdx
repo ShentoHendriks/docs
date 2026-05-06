@@ -1,237 +1,159 @@
 ---
 title: "RWA Statamic Antlers Extension"
-description: "A smarter VS Code editing experience for Statamic Antlers templates."
+description: "A complete guide to the VS Code extension for Statamic Antlers templates."
 ---
 
-The RWA Statamic Antlers Extension makes `.antlers.html` files feel like first-class editor files in VS Code. It brings together Statamic-aware suggestions, native HTML support, Tailwind utility completion, smart formatting, and comfortable editing helpers for the way Rainy Weather Agency builds Statamic sites.
+The RWA Statamic Antlers Extension turns `.antlers.html` files into a project-aware VS Code editing environment for Statamic sites.
 
-Instead of treating Antlers templates like plain text, the extension understands the common building blocks of a Statamic project: collections, taxonomies, globals, blueprints, fieldsets, assets, partials, Bard sets, Replicator sets, and template conventions.
+It understands Antlers syntax, Statamic project folders, blueprints, fieldsets, partials, collections, taxonomies, globals, assets, Bard, Replicator sets, Grid fields, Entries relationships, Tailwind classes, and common Rainy Weather Agency template workflows.
 
-## Why it exists
+## What the extension does
 
-Statamic templates sit between HTML, Antlers, content modeling, and project-specific field handles. That means a good editor experience needs more than generic autocomplete.
+<CardGroup cols={2}>
+  <Card title="Setup and project index" icon="database" href="/statamic/rwa-antlers-extension-setup">
+    Learn what the extension reads from a Statamic project and how the workspace index powers suggestions.
+  </Card>
 
-This extension helps you stay in flow by surfacing the things you are likely to need while you type:
+  <Card title="IntelliSense" icon="sparkles" href="/statamic/rwa-antlers-extension-intellisense">
+    Use context-aware completions for tags, handles, fields, attributes, modifiers, conditions, assets, and Tailwind utilities.
+  </Card>
 
-- Collection handles when writing collection tags
-- Blueprint fields when working inside templates
-- Asset properties when using image fields
-- Partial handles when including reusable template files
-- Set variables when rendering Bard and Replicator content
-- HTML and Tailwind suggestions inside normal markup
+  <Card title="Blueprint context" icon="brackets-curly" href="/statamic/rwa-antlers-extension-blueprints">
+    Understand how templates, globals, taxonomies, fields, sets, and partials get their relevant blueprint fields.
+  </Card>
 
-The goal is simple: fewer trips to the control panel, fewer guessed field names, and less manual cleanup while writing templates.
+  <Card title="Editing shortcuts" icon="keyboard" href="/statamic/rwa-antlers-extension-editing">
+    Use smart braces, Enter pairing, Ctrl or Command Enter example insertion, tag syncing, and closing-tag helpers.
+  </Card>
 
-## Project-aware IntelliSense
+  <Card title="Formatting" icon="wand-sparkles" href="/statamic/rwa-antlers-extension-formatting">
+    Format mixed HTML, Antlers, Tailwind classes, attributes, blocks, and inline markup safely.
+  </Card>
 
-The extension reads the structure of the Statamic project and uses it to improve suggestions.
+  <Card title="Diagnostics" icon="triangle-alert" href="/statamic/rwa-antlers-extension-diagnostics">
+    Catch Antlers tag mistakes, filename convention issues, delimiter mismatches, and spacing problems.
+  </Card>
 
-For example, when a collection has a blueprint, the extension can suggest the relevant fields from that blueprint while editing templates. If a collection has fields like `title`, `intro_text`, `featured_image`, or `page_builder`, those handles can show up as IntelliSense suggestions where they make sense.
+  <Card title="Partials and refactors" icon="scissors" href="/statamic/rwa-antlers-extension-refactors">
+    Extract partials, create Replicator sets, create fields, set page blueprints, and keep partial references synced.
+  </Card>
 
-It also understands common Statamic locations such as:
-
-- `content/collections`
-- `content/navigation`
-- `content/globals`
-- `content/taxonomies`
-- `resources/blueprints`
-- `resources/views/partials`
-
-That means suggestions are based on the project in front of you, not only on a fixed list of generic words.
-
-## Collection and taxonomy suggestions
-
-When writing collection or taxonomy tags, the extension can suggest known handles.
-
-```html
-{{ collection:blog }}
-  {{ title }}
-{{ /collection:blog }}
-```
-
-It also supports parameter-style usage:
-
-```html
-{{ collection from="blog" limit="3" }}
-  {{ title }}
-{{ /collection }}
-```
-
-This helps when templates use dynamic or readable parameter syntax instead of tag-part syntax.
-
-## Blueprint-aware fields
-
-Blueprint-aware suggestions are one of the most useful parts of the extension.
-
-When the extension can connect a template to a collection, taxonomy, global, or known content structure, it can suggest fields from the related blueprint. This makes it easier to write templates without jumping back and forth to check exact field handles.
-
-It can also help inside nested content structures such as:
-
-- Replicators
-- Bard fields
-- Grid fields
-- Nested sets
-- Asset fields
-
-For example, inside a Replicator set loop, the extension can surface the fields that belong to that set instead of showing a flat list of unrelated suggestions.
-
-## Bard and Replicator workflows
-
-Bard and Replicator templates often use dynamic partials:
-
-```html
-{{ page_builder }}
-  {{ partial src="sets.{type}" }}
-{{ /page_builder }}
-```
-
-The extension understands this pattern and can suggest the `type` variable where it is commonly used. It also supports nested set fields, making page-builder templates easier to write and easier to maintain.
-
-## Partial navigation and suggestions
-
-Partials are a core part of the RWA Statamic workflow.
-
-The extension indexes partial files and suggests handles while writing partial tags:
-
-```html
-{{ partial:layout.header }}
-```
-
-or:
-
-```html
-{{ partial src="layout.header" }}
-```
-
-Nested partial folders are suggested in a readable way, so a folder structure like `resources/views/partials/sets/pages/hero.antlers.html` becomes easier to discover while typing.
-
-You can also command-click or ctrl-click supported partial references to jump to the matching partial file.
-
-## Asset field helpers
-
-When working with asset fields, the extension can suggest common asset properties such as:
-
-- `url`
-- `src`
-- `alt`
-- `title`
-- `width`
-- `height`
-- file metadata
-
-This is especially useful in image-heavy templates where you want to quickly reach for the right asset value without checking the field output manually.
-
-## Native HTML and Tailwind support
-
-Antlers templates are still HTML files at heart, so the extension keeps HTML editing comfortable.
-
-It provides native HTML IntelliSense for tags and attributes in `.antlers.html` files, while making sure Antlers expressions do not confuse the HTML suggestions.
-
-Tailwind CSS IntelliSense can also treat Antlers files like HTML, so utility suggestions work inside class attributes when the official Tailwind CSS extension is installed.
-
-```html
-<section class="container-grid gap-lg">
-  {{ title }}
-</section>
-```
-
-This makes the template feel much closer to a normal HTML file while still keeping Statamic-specific help available.
-
-## Smart formatting and indentation
-
-The extension includes formatting and editing helpers for mixed HTML and Antlers templates.
-
-It can keep nested HTML and Antlers blocks readable:
-
-```html
-<section>
-  {{ collection:blog }}
-    <article>
-      <h2>{{ title }}</h2>
-    </article>
-  {{ /collection:blog }}
-</section>
-```
-
-It also handles common editing moments, like pressing Enter between same-line HTML pairs or inside inline Antlers tags wrapped by HTML.
-
-For example:
-
-```html
-<ul></ul>
-```
-
-can expand into:
-
-```html
-<ul>
-  
-</ul>
-```
-
-And an inline Statamic block can become a properly indented block:
-
-```html
-<section>{{ collection from="blog" }}</section>
-```
-
-```html
-<section>
-  {{ collection from="blog" }}
-    
-  {{ /collection }}
-</section>
-```
-
-Standalone tags stay simple and do not get unnecessary closing tags.
-
-## Smarter tag pairing
-
-The extension helps with Antlers tag pairs, closing tags, and adjacent tag syncing.
-
-It can expand common block tags, keep matching opening and closing tag names aligned, and clean up small typing mistakes such as duplicate closing braces.
-
-This is helpful for collection loops, conditionals, taxonomy loops, and blueprint-backed fields that behave like repeatable blocks.
-
-## Syntax highlighting that fits your theme
-
-The extension uses theme-friendly token scopes, so Antlers code fits naturally into the active VS Code theme instead of relying on hardcoded colors.
-
-It also supports Antlers expressions inside quoted HTML attributes:
-
-```html
-<img src="{{ featured_image }}" alt="{{ title }}">
-```
-
-That keeps braces readable even when Antlers is mixed into HTML attributes.
-
-## What it improves day to day
-
-The extension is designed to make Statamic template work feel faster and less fragile.
-
-It helps with:
-
-- Remembering exact field handles
-- Discovering available collection, taxonomy, global, and partial handles
-- Writing Bard and Replicator set templates
-- Working with asset output
-- Keeping HTML and Antlers indentation clean
-- Getting Tailwind utilities in class attributes
-- Moving through partial-heavy projects
-- Reducing small syntax mistakes while typing
-
-It does not replace understanding Statamic. It gives the editor enough project awareness to stay out of your way and make the right suggestions at the right time.
+  <Card title="Syntax, HTML, and Tailwind" icon="palette" href="/statamic/rwa-antlers-extension-syntax-tailwind">
+    Keep theme-friendly highlighting, HTML completions, Tailwind sorting, and custom utility support inside Antlers files.
+  </Card>
+</CardGroup>
 
 ## Best used for
 
-Use the RWA Statamic Antlers Extension when building Statamic sites with:
+Use the extension when building Statamic sites with:
 
-- Antlers templates
-- Collection-driven pages
+- Antlers templates in `resources/views/**/*.antlers.html`
+- Collection-driven pages and taxonomy routes
 - Blueprint-heavy content models
 - Reusable partials
-- Bard or Replicator page builders
-- Tailwind or utility-based styling
+- Bard, Grid, and Replicator page builders
+- Entries relationship fields
 - Asset-heavy layouts
+- Tailwind or utility-based styling
 
-It is especially useful for larger projects where field handles, partial names, and content structures become hard to keep in your head.
+It is especially useful on larger projects where exact field handles, set handles, partial paths, and content contexts become too much to keep in your head.
+
+## Daily workflow
+
+A typical workflow looks like this:
+
+```html
+<main>
+  <h1>{{ title }}</h1>
+
+  {{ page_builder }}
+    {{ partial src="sets.pages.{type}" }}
+  {{ /page_builder }}
+</main>
+```
+
+While you type, the extension can suggest:
+
+- `title` from the current blueprint
+- `page_builder` as a Replicator field
+- `type` inside Bard or Replicator loops
+- `sets.pages.hero_section` from real partial files
+- child fields inside the selected Replicator set partial
+- asset variables such as `url`, `alt`, `width`, and `height`
+- collection, taxonomy, global, nav, and partial handles from project files
+
+## Extension settings
+
+The extension contributes these defaults for Antlers files:
+
+```json
+{
+  "[antlers]": {
+    "editor.defaultFormatter": "local.rwa-antlers-support",
+    "editor.wordBasedSuggestions": "off",
+    "editor.snippetSuggestions": "bottom",
+    "editor.quickSuggestions": {
+      "strings": "on"
+    }
+  },
+  "emmet.includeLanguages": {
+    "antlers": "html"
+  },
+  "emmet.showSuggestionsAsSnippets": true,
+  "tailwindCSS.includeLanguages": {
+    "antlers": "html"
+  }
+}
+```
+
+The optional language server can be disabled when you only want highlighting, formatting, tag pairing, and extension-side IntelliSense:
+
+```json
+{
+  "antlers.languageServer.enabled": false
+}
+```
+
+## Commands and shortcuts
+
+| Feature | Command or shortcut |
+| --- | --- |
+| Normalize tag spacing | **Antlers: Normalize Tag Spacing** |
+| Open suggestions on demand | `Ctrl+.` on Windows/Linux, `Command+.` on macOS in Antlers files |
+| Insert selected suggestion example | `Ctrl+Enter` on Windows/Linux, `Command+Enter` on macOS while IntelliSense is open |
+| Extract to partial | **Antlers: Extract to Partial** quick action |
+| Create Replicator set | **Antlers: Create Replicator Set** quick action |
+| Create field | **Antlers: Create Field** quick action |
+| Set page blueprint | **Antlers: Set Blueprint** quick action |
+| Create folder in Extract to Partial picker | `Ctrl+N` on Windows/Linux, `Command+N` on macOS |
+
+## File conventions
+
+The extension is tuned for normal Statamic project layout:
+
+<Tree>
+  <Tree.Folder defaultOpen name="content">
+    <Tree.Folder defaultOpen name="collections" />
+    <Tree.Folder defaultOpen name="globals" />
+    <Tree.Folder defaultOpen name="navigation" />
+    <Tree.Folder defaultOpen name="taxonomies" />
+  </Tree.Folder>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="blueprints" />
+    <Tree.Folder defaultOpen name="fieldsets" />
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials" />
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+## Related pages
+
+- [Setup and workspace index](/statamic/rwa-antlers-extension-setup)
+- [IntelliSense](/statamic/rwa-antlers-extension-intellisense)
+- [Blueprint context](/statamic/rwa-antlers-extension-blueprints)
+- [Editing shortcuts](/statamic/rwa-antlers-extension-editing)
+- [Formatting](/statamic/rwa-antlers-extension-formatting)
+- [Diagnostics](/statamic/rwa-antlers-extension-diagnostics)
+- [Partials and refactors](/statamic/rwa-antlers-extension-refactors)
+- [Syntax, HTML, and Tailwind](/statamic/rwa-antlers-extension-syntax-tailwind)

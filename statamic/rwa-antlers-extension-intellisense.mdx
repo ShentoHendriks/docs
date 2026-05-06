@@ -1,0 +1,222 @@
+---
+title: "IntelliSense"
+description: "Use project-aware suggestions for Statamic handles, tags, fields, attributes, modifiers, and examples."
+---
+
+The extension provides IntelliSense that understands both Statamic conventions and the project currently open in VS Code.
+
+Suggestions are not just generic snippets. They can come from collections, taxonomies, globals, navigation files, blueprints, fieldsets, partial files, open Antlers blocks, and surrounding HTML attributes.
+
+## Core Statamic tag suggestions
+
+At the start of an Antlers tag, the extension suggests common Statamic tags with rich documentation and examples.
+
+Examples include:
+
+- `if`
+- `unless`
+- `collection`
+- `nav`
+- `partial`
+- `taxonomy`
+- `terms`
+- `entries`
+- `global`
+
+Documentation can include:
+
+- Summary text
+- Common variables
+- Common parameters
+- Fenced Antlers examples
+- Official Statamic documentation links
+
+## Open suggestions on demand
+
+Press `Ctrl+.` on Windows/Linux or `Command+.` on macOS in an Antlers file to open VS Code's normal suggestion widget.
+
+Use this when quick suggestions are hidden, dismissed, or you want to ask for project-aware Antlers completions at the current cursor position.
+## Insert the shown example
+
+When the IntelliSense details panel shows a code example, press `Ctrl+Enter` on Windows/Linux or `Command+Enter` on macOS.
+
+The extension accepts the currently selected suggestion and expands that same suggestion's first documented code example.
+
+For example, if the selected suggestion is `featured_image`, the example can expand into:
+
+```html
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+If the selected suggestion is `title`, the inserted example is based on the `title` suggestion instead.
+
+When the cursor is inside an unfinished Antlers tag such as `{{ fea }}`, the whole tag is replaced with the example. This avoids nested braces and keeps the pasted code clean.
+
+## Collection suggestions
+
+Collection handle suggestions work in shorthand tags:
+
+```html
+{{ collection:blog }}
+  {{ title }}
+{{ /collection:blog }}
+```
+
+They also work inside `from` attributes:
+
+```html
+{{ collection from="blog" limit="3" }}
+  {{ title }}
+{{ /collection }}
+```
+
+Collection suggestions can show:
+
+- Shorthand usage
+- `from` usage
+- Indexed entry counts
+- Recent entry titles when content files are available
+
+When you complete a `from="..."` value, the cursor moves outside the closing quote so you can keep typing attributes.
+
+## Navigation, taxonomy, global, and partial handles
+
+The extension suggests:
+
+- Navigation handles after `{{ nav: }}`
+- Taxonomy handles after `{{ taxonomy: }}` and inside `from=""`
+- Global set handles at the start of Antlers tags
+- Partial handles after `{{ partial: }}` and inside `src=""`
+- Partial handles in `partial:if_exists` and `partial:exists`
+
+Partial suggestions hide leading underscores from filenames while still resolving the correct file.
+
+A file named `_hero_card.antlers.html` is suggested as `hero_card`.
+
+Nested folders are suggested one segment at a time. A partial at `resources/views/partials/sets/pages/_hero_section.antlers.html` can be discovered through `sets`, then `sets.pages`, then `sets.pages.hero_section`.
+
+## Partial documentation
+
+Partial handle suggestions read the matching partial file and show:
+
+- Inferred props
+- Default slots
+- Named slots
+- A focused usage example
+
+The prop inference ignores common Statamic variables such as `title`, `url`, `slug`, and `permalink` so loop partials do not get noisy fake props.
+
+## Attribute suggestions
+
+Collection, navigation, taxonomy, and partial tags include parameter suggestions.
+
+Collection tags suggest values such as:
+
+- `from`
+- `not_from`
+- `limit`
+- `sort`
+- `paginate`
+- `as`
+- `scope`
+- `show_future`
+- `show_past`
+- `site`
+- `locale`
+- taxonomy filters
+- query scopes
+
+Navigation tags suggest:
+
+- `handle`
+- `from`
+- `max_depth`
+- `select`
+- `include_home`
+- `include_parents`
+- `show_unpublished`
+- `as`
+
+Taxonomy tags suggest:
+
+- `from`
+- `not_from`
+- `min_count`
+- `collection`
+- `sort`
+- `filter`
+
+Partial tags suggest:
+
+- `src`
+- `when`
+- `unless`
+- inferred props from the partial file
+
+## Sort value suggestions
+
+Inside `sort=""`, collections suggest built-in fields and top-level blueprint fields when the collection handle is known.
+
+```html
+{{ collection from="articles" sort="date:desc" }}
+  {{ title }}
+{{ /collection }}
+```
+
+After a value like `date:`, the extension narrows to `asc` and `desc` and documents what the direction means for the current field.
+
+## Modifiers
+
+Modifier suggestions work after pipes:
+
+```html
+{{ title | }}
+```
+
+Suggestions are ranked by inferred field type.
+
+Text fields prioritize text modifiers. Date fields prioritize date modifiers. Assets prioritize image and file modifiers. Arrays prioritize collection-like modifiers.
+
+Documentation examples use the value being piped, so examples stay close to the code you are writing.
+
+## Conditions and operators
+
+Inside condition tags, the extension ranks boolean-like fields first and suggests comparison operators after completed condition values.
+
+```html
+{{ if featured }}
+  ...
+{{ /if }}
+```
+
+```html
+{{ if title contains "Research" }}
+  ...
+{{ /if }}
+```
+
+Condition operator suggestions show full in-context examples for `==`, `!=`, `>`, `>=`, `<`, `<=`, `contains`, `starts_with`, `ends_with`, `is empty`, and related patterns.
+
+Collection condition operators are also suggested after field prefixes like `title:` or `taxonomy:tags:`.
+
+## HTML attribute context
+
+Suggestions change based on the HTML attribute around the cursor.
+
+In URL attributes such as `href` and `src`, the extension prioritizes:
+
+- `url`
+- `permalink`
+- `uri`
+- URL fields
+- asset fields
+
+In text attributes such as `alt` and `aria-label`, it prioritizes text-like values.
+
+In `id`-style attributes, it prioritizes identifiers like `id`, `slug`, and `handle`.
+
+In `class` attributes, it prioritizes boolean variables that are useful for conditional classes.
+
+Duplicate suggestions from overlapping nav variables, form variables, and blueprint fields are collapsed so the highest-ranked match appears once.

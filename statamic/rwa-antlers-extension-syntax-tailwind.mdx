@@ -1,0 +1,178 @@
+---
+title: "Syntax, HTML, and Tailwind"
+description: "Theme-aware Antlers highlighting, HTML completions, attribute support, Emmet, and Tailwind utility behavior."
+---
+
+The extension makes `.antlers.html` files feel like HTML files that also understand Statamic.
+
+It combines TextMate grammar, HTML language service completions, Tailwind integration, Emmet support, and Antlers-specific attribute handling.
+
+## Antlers language registration
+
+Files ending in `.antlers.html` are registered as the `antlers` language.
+
+The extension also contributes the official Statamic hot pink mark as the Antlers file icon.
+
+## Theme-friendly highlighting
+
+The grammar uses HTML and JSX-like token scopes for:
+
+- Tag names
+- Attributes
+- Strings
+- Punctuation
+- Embedded HTML
+- Embedded PHP where relevant
+
+That means Antlers code follows your active VS Code theme instead of relying on hardcoded extension colors.
+
+## Antlers in HTML attributes
+
+The extension supports Antlers expressions inside quoted HTML attributes.
+
+```html
+<img src="{{ featured_image }}" alt="{{ title }}">
+```
+
+It also supports single-brace values often used inside Statamic-style attributes:
+
+```html
+{{ partial image_src="{ featured_image }" }}
+```
+
+While typing inside quoted attributes, brace decorations keep Antlers delimiters readable with theme colors.
+
+## Native HTML IntelliSense
+
+The extension asks the official VS Code HTML language service for HTML tag and attribute completions.
+
+Before HTML completions run, Antlers tags are masked so `{{ ... }}` expressions do not confuse the HTML parser.
+
+This gives you native HTML suggestions around Antlers code without taking over open Antlers tags.
+
+## Emmet
+
+The extension maps Antlers files to HTML for Emmet.
+
+```json
+{
+  "emmet.includeLanguages": {
+    "antlers": "html"
+  },
+  "emmet.showSuggestionsAsSnippets": true
+}
+```
+
+The Emmet guard keeps Emmet available below Statamic suggestions instead of letting it dominate Antlers contexts.
+
+## Tailwind CSS IntelliSense
+
+The extension maps Antlers files to HTML for the official Tailwind CSS extension.
+
+```json
+{
+  "tailwindCSS.includeLanguages": {
+    "antlers": "html"
+  }
+}
+```
+
+It also enables quick suggestions inside strings for Antlers files, so utility suggestions can appear inside `class=""` attributes.
+
+## Project utility suggestions
+
+The extension can also suggest project `@utility` declarations directly inside HTML `class` attributes.
+
+Wildcard utilities expand to numbered suggestions from `1` through `12`.
+
+Examples:
+
+- `w-col-*`
+- `ml-col-*`
+- `mr-col-*`
+- `pl-col-*`
+- `pr-col-*`
+- `gap-col-*`
+
+Custom variants are included when the project defines them.
+
+```html
+<section class="max-switch:w-col-5">
+  {{ title }}
+</section>
+```
+
+## Tailwind v4 theme tokens
+
+The extension scans project CSS for Tailwind v4 `@theme` variables and `@utility` declarations.
+
+It recognizes tokens such as:
+
+- `--spacing-section-xl`
+- `--spacing-sm`
+- `--color-brand-primary`
+- `--radius-card`
+- `--shadow-soft`
+- custom breakpoints
+
+This improves both completion behavior and formatting order for custom utilities.
+
+## Context-aware variables in attributes
+
+The same blueprint and navigation suggestions work inside HTML attributes.
+
+URL-like attributes prioritize URL values:
+
+```html
+<a href="{{ url }}">{{ title }}</a>
+<img src="{{ featured_image.url }}" alt="{{ featured_image.alt }}">
+```
+
+Text attributes prioritize text-like fields:
+
+```html
+<img src="{{ url }}" alt="{{ alt ?? title }}">
+```
+
+Class attributes prioritize boolean variables useful for conditional classes:
+
+```html
+<nav class="{{ is_current ? 'is-active' : '' }}">
+  {{ title }}
+</nav>
+```
+
+## Asset dot completions in attributes
+
+Asset dot completions respect the surrounding HTML attribute.
+
+In `src`, the extension prioritizes:
+
+- `src`
+- `url`
+- `permalink`
+
+In `alt`, it prioritizes:
+
+- `alt`
+- `title`
+
+```html
+<img src="{{ image.url }}" alt="{{ image.alt }}">
+```
+
+## Class sorting during formatting
+
+Static Tailwind class values are sorted when formatting Antlers files.
+
+The formatter understands custom Tailwind v4 tokens and utility declarations, so project-specific classes can sort with standard utility groups.
+
+Dynamic class attributes are left alone when sorting could change meaning.
+
+## Syntax and formatting edge cases
+
+The extension is careful around mixed template syntax.
+
+It does not normalize Antlers comments or PHP blocks.
+
+It keeps scalar Antlers tags inline before closing HTML tags, supports Antlers inside quoted attributes, and avoids treating standalone scalar tags as block pairs.

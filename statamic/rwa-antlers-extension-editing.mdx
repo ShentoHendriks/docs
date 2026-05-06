@@ -1,0 +1,272 @@
+---
+title: "Editing shortcuts"
+description: "Smart braces, Enter behavior, tag pairing, example insertion, and tag syncing for Antlers templates."
+---
+
+The extension adds editing helpers for the moments where Antlers and HTML usually feel a little awkward in VS Code.
+
+These helpers are scoped to `.antlers.html` files.
+
+## Smart Antlers braces
+
+Typing `{{` expands into a spaced Antlers tag and triggers suggestions.
+
+```html
+{{  }}
+```
+
+The cursor lands between the spaces so you can type a field, tag, or condition immediately.
+
+## Single-brace interpolation in attributes
+
+Inside quoted Antlers attribute values, typing `{` inserts the matching `}`.
+
+This is useful for dynamic partial paths:
+
+```html
+{{ partial src="sets.pages.{type}" }}
+```
+
+The cursor stays inside the interpolation.
+
+## Enter inside block tags
+
+Pressing Enter inside a block-like Antlers tag creates an indented line and a matching closing tag.
+
+```html
+{{ collection:posts }}
+  
+{{ /collection:posts }}
+```
+
+This works for:
+
+- `if`
+- `unless`
+- `foreach`
+- `switch`
+- `case`
+- `collection`
+- `taxonomy`
+- `terms`
+- `entries`
+- namespaced tags like `collection:posts`
+- global set handles
+- blueprint-backed block fields
+- Entries relationships
+- Grid fields
+- multi-value Select fields
+- multi-asset fields
+- Bard and Replicator fields
+
+## Existing pair expansion
+
+When an opening tag already has a matching closing tag below it, pressing Enter after the opening tag inserts an indented blank line between the pair.
+
+```html
+{{ nav:header }}
+  
+{{ /nav:header }}
+```
+
+Pressing Enter before the closing `}}` of the opening tag also works:
+
+```html
+{{ hero_background| }}
+{{ /hero_background }}
+```
+
+The extension expands between the existing pair instead of creating a second closing tag.
+
+## Enter before an opening tag
+
+Pressing Enter before an opening Antlers tag falls back to normal editor newline behavior.
+
+This matters when the cursor is before the tag or in indentation before the tag:
+
+```html
+|{{ section }}
+{{ /section }}
+```
+
+The extension does not jump inside the tag pair in that case.
+
+## Nested conditionals
+
+Nested `if` and `unless` tags receive their own closing tags at any nesting depth.
+
+The extension does not mistake a parent `{{ /if }}` for the closing tag of a newly typed child condition.
+
+```html
+{{ if featured }}
+  {{ if title }}
+    {{ title }}
+  {{ /if }}
+{{ /if }}
+```
+
+## Standalone tag Enter behavior
+
+Pressing Enter inside standalone tags keeps the tag intact and starts a new line below.
+
+```html
+{{ title }}
+
+```
+
+The extension does not add an unnecessary closing tag for scalar variables.
+
+## HTML pair Enter behavior
+
+Pressing Enter between same-line HTML pairs creates an indented blank line and moves the closing tag onto its own line.
+
+```html
+<ul>
+  
+</ul>
+```
+
+## Inline HTML-wrapped Antlers blocks
+
+When an inline Antlers tag is wrapped by a same-line HTML pair, Enter splits the HTML pair and formats the Antlers block.
+
+```html
+<section>{{ collection from="posts" }}</section>
+```
+
+becomes:
+
+```html
+<section>
+  {{ collection from="posts" }}
+    
+  {{ /collection }}
+</section>
+```
+
+Standalone Antlers tags stay on their own indented line and keep the cursor after the tag.
+
+## Attribute value exit
+
+Pressing Enter at the end of an Antlers attribute value moves the cursor outside the closing quote.
+
+This is designed for fast parameter editing:
+
+```html
+{{ collection from="posts"| }}
+```
+
+After Enter, the cursor moves after the quote so you can type the next attribute.
+
+## Open suggestions on demand
+
+Press `Ctrl+.` on Windows/Linux or `Command+.` on macOS to open VS Code's suggestion widget in Antlers files.
+
+This uses VS Code's normal `editor.action.triggerSuggest` command, scoped to the Antlers language, so it shows the same project-aware completions as automatic IntelliSense.
+## Insert IntelliSense example
+
+When IntelliSense is open and the details panel shows a code example, press:
+
+- `Ctrl+Enter` on Windows/Linux
+- `Command+Enter` on macOS
+
+The extension accepts the currently selected suggestion and expands that same suggestion's first documented example.
+
+If you are inside an unfinished tag, the whole tag is replaced.
+
+```html
+{{ fea }}
+```
+
+can become:
+
+```html
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+If the selected suggestion is `title`, the inserted code is the `title` example instead of the top-ranked asset example.
+
+## Plus and double-dot pair expansion
+
+Typing `+` or `..` before the end of an Antlers tag expands it into a matching pair while preserving attributes.
+
+```html
+{{ collection:posts + }}
+```
+
+becomes:
+
+```html
+{{ collection:posts }}
+{{ /collection:posts }}
+```
+
+Double-dot expansion supports attributes:
+
+```html
+{{ collection from="posts" .. }}
+```
+
+becomes:
+
+```html
+{{ collection from="posts" }}
+{{ /collection }}
+```
+
+## Adjacent pair syncing
+
+Adjacent opening and closing tag names stay synced while editing.
+
+If you rename the opening tag, the closing tag updates when the extension can safely identify the pair.
+
+```html
+{{ collection:news }}
+{{ /collection:news }}
+```
+
+Shorthand collection tags pair exactly, while attribute collection tags close with `{{ /collection }}`.
+
+## Closing tag completion
+
+Typing a partial closing tag can complete the nearest unclosed opening tag.
+
+```html
+{{ collection:blog }}
+{{ / }}
+```
+
+becomes:
+
+```html
+{{ collection:blog }}
+{{ /collection:blog }}
+```
+
+## Duplicate brace cleanup
+
+Accidental duplicate `}}` after a closing tag is cleaned automatically.
+
+```html
+{{ /collection }} }}
+```
+
+becomes:
+
+```html
+{{ /collection }}
+```
+
+## Slotted partial pairing
+
+Partial tags that point to a partial containing `{{ slot }}` expand into paired blocks on Enter.
+
+```html
+{{ partial:components.card }}
+  
+{{ /partial:components.card }}
+```
+
+This gives slotted partials a natural place for inner content.

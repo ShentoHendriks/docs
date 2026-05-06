@@ -1,0 +1,307 @@
+---
+title: "Blueprint context"
+description: "How the extension understands template, global, taxonomy, field, Grid, Entries, Bard, and Replicator context."
+---
+
+Blueprint-aware suggestions are one of the extension's most important features.
+
+The extension reads Statamic blueprints and uses them to decide which fields are relevant at the cursor. It does this for normal templates, collection views, taxonomy views, global set blocks, nested fields, Bard sets, Replicator sets, Grid rows, Entries relationships, and set partial files.
+
+## Top-level blueprint fields
+
+When the extension can connect a template to a blueprint, it suggests fields from that blueprint.
+
+```html
+<h1>{{ title }}</h1>
+<p>{{ intro_text }}</p>
+```
+
+Field suggestions show:
+
+- Field handle
+- Field type
+- Required or optional status
+- Source blueprint
+- Instructions when they add useful information
+- A practical usage example
+- Useful child variables for complex fields
+
+The extension keeps blueprint field order, so suggestions follow the same order editors see in the Control Panel.
+
+## Template inference
+
+The extension infers the current blueprint from several Statamic patterns.
+
+It supports:
+
+- Entry `template:` front matter
+- Entry `blueprint:` front matter
+- Collection config template mappings
+- Conventional collection views such as `projects/index.antlers.html`
+- Conventional collection show views such as `projects/show.antlers.html`
+- Taxonomy views such as `tags/index.antlers.html` and `tags/show.antlers.html`
+- Collection taxonomy views such as `products/tags/index.antlers.html`
+- Global set handles and global blueprints
+
+If a collection has no explicit blueprint file, the extension still exposes default entry variables such as:
+
+- `title`
+- `url`
+- `permalink`
+- `slug`
+- `date`
+- `id`
+- `content`
+
+## Scoped field tags
+
+Scoped tags suggest nested blueprint fields.
+
+```html
+{{ faq:heading }}
+{{ faq:questions:question }}
+```
+
+The extension can walk through Grid and Replicator definitions so nested fields appear in the right scope.
+
+## Open block context
+
+Inside an open field block, suggestions switch to that field's children.
+
+```html
+{{ questions }}
+  {{ question }}
+  {{ answer }}
+{{ /questions }}
+```
+
+After the matching closing tag, suggestions return to the parent blueprint context.
+
+This also works for collection blocks:
+
+```html
+{{ collection:faq }}
+  {{ title }}
+  {{ answer }}
+{{ /collection:faq }}
+```
+
+And for parameter syntax:
+
+```html
+{{ collection from="faq" }}
+  {{ title }}
+{{ /collection }}
+```
+
+## Global blocks
+
+Open global set blocks suggest fields from the global blueprint.
+
+```html
+{{ company }}
+  <a href="mailto:{{ email }}">{{ email }}</a>
+{{ /company }}
+```
+
+Global set suggestions also document available fields when the index knows them.
+
+## Taxonomy context
+
+Taxonomy views infer taxonomy blueprint fields and default term variables.
+
+Common term variables include:
+
+- `title`
+- `slug`
+- `url`
+- `permalink`
+- `content`
+- `entries_count`
+
+Collection taxonomy views can infer both the collection and taxonomy handles, so suggestions stay useful in mixed templates.
+
+## Option-backed fields
+
+Select, Radio, Checkboxes, and Button Group fields read `options` from several Statamic YAML shapes:
+
+- Keyed maps
+- Inline lists
+- `key` and `value` arrays
+
+Documentation shows available option values and labels.
+
+Single-value option fields use a simple inline example:
+
+```html
+<span>{{ category }}</span>
+```
+
+Multi-value options use tag-pair examples:
+
+```html
+{{ categories }}
+  <span>{{ label }}</span>
+{{ /categories }}
+```
+
+Dot access inside option loops suggests:
+
+- `label`
+- `value`
+- `key`
+
+## Asset fields
+
+Asset field support covers both `asset` and `assets` blueprint field types.
+
+The extension reads `max_files` to decide whether an asset behaves like a standalone value or a block field.
+
+Dot access suggests common asset properties:
+
+```html
+<img src="{{ featured_image.url }}" alt="{{ featured_image.alt }}">
+```
+
+Inside asset blocks, it suggests the same asset variables:
+
+```html
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+Standalone asset output does not open an asset block unless a matching closing tag exists.
+
+## Entries relationships
+
+Entries fields expose fields from their selected collections.
+
+```html
+{{ related_entries }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /related_entries }}
+```
+
+If an Entries field has explicit `collections`, suggestions use those collection blueprints.
+
+If it has no explicit collections, suggestions fall back to all indexed collections.
+
+Entries fields are always treated as block tags for pairing and open-context IntelliSense, even when `max_items: 1`.
+
+## Grid fields
+
+Grid fields always behave as block fields.
+
+```html
+{{ opening_hours }}
+  <span>{{ day }}</span>
+  <span>{{ hours }}</span>
+{{ /opening_hours }}
+```
+
+Grid child suggestions stay scoped to the current Grid. They do not inherit unrelated Bard or Replicator set handles from elsewhere in the blueprint.
+
+## Bard and Replicator fields
+
+Bard and Replicator loops expose loop variables:
+
+- `type`
+- `count`
+- `index`
+
+`count` starts at `1`. `index` starts at `0`.
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.pages.{type}" }}
+{{ /page_builder }}
+```
+
+Set handles are suggested in type checks:
+
+```html
+{{ if type == "hero_section" }}
+  ...
+{{ /if }}
+```
+
+Set handles are also suggested inside dynamic partial paths:
+
+```html
+{{ partial src="sets.pages.{hero_section}" }}
+```
+
+## Replicator set fields
+
+Inside an open Bard or Replicator field, available set tags appear before generic tag names.
+
+```html
+{{ page_builder }}
+  {{ hero_section }}
+    {{ heading }}
+  {{ /hero_section }}
+{{ /page_builder }}
+```
+
+Fields that belong to a specific set stay scoped to that set block.
+
+## Set partial context
+
+Partial files can infer their Bard or Replicator set context from paths such as:
+
+```text
+resources/views/partials/sets/pages/_hero_section.antlers.html
+```
+
+Inside that partial, the extension can suggest fields from the `hero_section` set.
+
+This also works when the partial filename matches a set handle.
+
+Grid blocks inside set partials keep their child field IntelliSense, loop variables, and auto-closing tag pairing.
+
+## Replicator documentation examples
+
+Replicator field documentation uses real partial paths when matching files exist.
+
+Examples can include collection-specific folders:
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.projects.project_details" }}
+{{ /page_builder }}
+```
+
+When multiple sets share a folder, examples can use dynamic paths:
+
+```html
+{{ page_builder }}
+  {{ partial src="components.projects.{type}" }}
+{{ /page_builder }}
+```
+
+If no matching partial is known, examples render inline fields instead of guessing a folder.
+
+## Form blocks
+
+Open form blocks suggest form variables such as:
+
+- `success`
+- `errors`
+- `fields`
+- `old`
+- `values`
+- `submission`
+- `honeypot`
+- `csrf_token`
+- `params`
+
+Nested `{{ fields }}` loops suggest field variables such as:
+
+- `handle`
+- `display`
+- `type`
+- `value`
+- `error`
+- `input`
+- `field`

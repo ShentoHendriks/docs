@@ -1,0 +1,12 @@
+{
+  "name": "rwa-docs",
+  "private": true,
+  "scripts": {
+    "dev": "mint dev",
+    "broken-links": "mint broken-links",
+    "update": "mint update"
+  },
+  "devDependencies": {
+    "mint": "latest"
+  }
+}

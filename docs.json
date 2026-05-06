@@ -61,9 +61,22 @@
             ]
           },
           {
-            "group": "Antlers",
+            "group": "RWA Statamic Antlers Extension",
             "pages": [
               "statamic/rwa-antlers-extension",
+              "statamic/rwa-antlers-extension-setup",
+              "statamic/rwa-antlers-extension-intellisense",
+              "statamic/rwa-antlers-extension-blueprints",
+              "statamic/rwa-antlers-extension-editing",
+              "statamic/rwa-antlers-extension-formatting",
+              "statamic/rwa-antlers-extension-diagnostics",
+              "statamic/rwa-antlers-extension-refactors",
+              "statamic/rwa-antlers-extension-syntax-tailwind"
+            ]
+          },
+          {
+            "group": "Antlers",
+            "pages": [
               "statamic/antlers-basics",
               "statamic/conditionals"
             ]
