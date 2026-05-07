@@ -7,6 +7,10 @@ RWA Antlers Support registers itself as the default formatter for `.antlers.html
 
 It formats Antlers and nested HTML without requiring `prettier-plugin-antlers`.
 
+## Format on paste
+
+The extension enables VS Code's native `editor.formatOnPaste` for Antlers files by default. Pasted `.antlers.html` snippets run through the same Antlers and nested HTML formatter as manual document formatting.
+
 ## Format command
 
 Use the normal VS Code format commands:
@@ -144,6 +148,16 @@ Scalar Antlers variables stay inline when they sit directly before an HTML closi
 
 This avoids format-on-save churn.
 
+## Textareas and placeholders
+
+The formatter keeps scalar textarea content inline:
+
+```html
+<textarea placeholder="{{ placeholder }}">{{ old }}</textarea>
+```
+
+It does not add whitespace before `{{ old }}`, so empty generated textareas still show their placeholder text.
+
 ## Blank line cleanup
 
 Whitespace-only lines are removed during formatting, including blank lines left between closing HTML or Antlers tags.
@@ -200,6 +214,16 @@ This lets custom utilities sort with the right utility group instead of being tr
 Dynamic class attributes are kept unsorted.
 
 When a class value depends on Antlers expressions or complex runtime conditions, the formatter avoids rearranging it in a way that could change meaning.
+
+## Tailwind important modifiers
+
+Tailwind v4-style important modifiers stay in suffix form, such as:
+
+```html
+<div class="max-switch:basis-full! max-switch:max-w-full!"></div>
+```
+
+Generated form helpers use class-based widths such as `basis-[calc(50%-1rem)]` and `max-w-[calc(50%-1rem)]` instead of inline styles. That lets responsive utilities override field widths correctly.
 
 ## What formatting does not do
 

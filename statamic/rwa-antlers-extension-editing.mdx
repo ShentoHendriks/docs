@@ -188,6 +188,22 @@ can become:
 
 If the selected suggestion is `title`, the inserted code is the `title` example instead of the top-ranked asset example.
 
+## Manual form completion behavior
+
+Manual form completions are inserted from the form blueprint and replace the whole unfinished tag, including the closing braces.
+
+```html
+{{ form:contact_us:manual }}
+```
+
+The generated code points to the form partial instead of pasting the whole form inline:
+
+```html
+{{ partial:forms.contact_us }}
+```
+
+The partial itself is regenerated from the current form blueprint. This keeps the editor insertion small, keeps undo behavior normal, and avoids duplicate closing tags when completion starts inside an existing `{{ ... }}` pair.
+
 ## Plus and double-dot pair expansion
 
 Typing `+` or `..` before the end of an Antlers tag expands it into a matching pair while preserving attributes.

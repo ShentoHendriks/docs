@@ -81,6 +81,129 @@ Collection suggestions can show:
 
 When you complete a `from="..."` value, the cursor moves outside the closing quote so you can keep typing attributes.
 
+## Current collection helpers
+
+The `collection:next` and `collection:previous` completions are context-aware. Their examples use the current entry collection instead of hard-coding a collection handle.
+
+```html
+{{ collection:next in="{ collection }" as="next_entries" }}
+  {{ if no_results }}
+    <span class="opacity-50 pointer-events-none">Next</span>
+  {{ /if }}
+
+  {{ next_entries }}
+    <a href="{{ url }}">Next: {{ title }}</a>
+  {{ /next_entries }}
+{{ /collection:next }}
+```
+
+Inside the `in=""` value, IntelliSense suggests every indexed collection plus `{ collection }` for the current entry collection.
+
+## Collection search generator
+
+Type `{{ search:generate }}` in an Antlers file to create a reusable collection search partial.
+
+When you accept the completion, the extension inserts a partial call like this:
+
+```html
+{{ partial:search.search
+  search_collection="projects"
+  search_result_partial="search.result"
+  search_no_results_text="No results."
+/ }}
+```
+
+It also creates these files:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="search">
+          <Tree.File name="search.antlers.html" />
+          <Tree.File name="_result.antlers.html" />
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+Use `search_collection` to choose the collection:
+
+```html
+{{ partial:search.search
+  search_collection="projects"
+  search_result_partial="search.result"
+  search_no_results_text="No results."
+/ }}
+```
+
+For multiple collections, separate handles with a pipe and no spaces:
+
+```html
+{{ partial:search.search
+  search_collection="pages|projects"
+  search_result_partial="search.result"
+  search_no_results_text="No results."
+/ }}
+```
+
+Edit `resources/views/partials/search/_result.antlers.html` to style each result. It renders inside the collection entry context, so entry variables such as `{{ url }}`, `{{ title }}`, and `{{ content }}` point at the actual result.
+
+```html
+<a href="{{ url }}">
+  <h2>{{ title }}</h2>
+  <p>{{ content | strip_tags | truncate:180 }}</p>
+</a>
+```
+
+The generated search partial uses a `q` query parameter, fetches the current page, and swaps the `#results` element without a full page reload.
+
+## Manual form partial generator
+
+After a form handle, type `:manual` to create a blueprint-driven manual form partial. Use Statamic's singular `form` tag.
+
+```html
+{{ form:contact:manual }}
+```
+
+The completion inserts this at the cursor:
+
+```html
+{{ partial:forms.contact }}
+```
+
+It also creates the generated form partial and the missing fieldtype partials:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="forms">
+          <Tree.File name="_contact.antlers.html" />
+          <Tree.Folder defaultOpen name="fields">
+            <Tree.Folder defaultOpen name="contact">
+              <Tree.File name="_style.antlers.html" />
+              <Tree.File name="_required.antlers.html" />
+              <Tree.File name="_options.antlers.html" />
+              <Tree.File name="_input_type.antlers.html" />
+              <Tree.File name="_autocomplete.antlers.html" />
+            </Tree.Folder>
+            <Tree.File name="_text.antlers.html" />
+            <Tree.File name="_textarea.antlers.html" />
+            <Tree.File name="_select.antlers.html" />
+            <Tree.File name="_checkboxes.antlers.html" />
+          </Tree.Folder>
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+The generated form partial uses `data-statamic-ajax-*` attributes and an inline guarded `fetch` handler. It does not require `resources/js/forms/ajax.js` in the Vite manifest, and CSS class obfuscation will not break the JavaScript.
+
+Running `{{ form:contact:manual }}` again preserves custom form markup and custom field partial markup. It only repairs known generated helpers and migrates older generated form partials away from the old Vite-loaded AJAX file.
+
 ## Navigation, taxonomy, global, and partial handles
 
 The extension suggests:
@@ -220,3 +343,107 @@ In `id`-style attributes, it prioritizes identifiers like `id`, `slug`, and `han
 In `class` attributes, it prioritizes boolean variables that are useful for conditional classes.
 
 Duplicate suggestions from overlapping nav variables, form variables, and blueprint fields are collapsed so the highest-ranked match appears once.
+
+## Blueprint-generated form partials
+
+Form handle completions read `resources/forms/*.yaml` and the form blueprint referenced by that form. When fields are indexed, the completion documentation lists each field with its type, required state, and instructions.
+
+After a form handle, type a second colon to use the `manual` starter:
+
+```html
+{{ form:contact_us:manual }}
+```
+
+Accepting it inserts only a partial reference at the cursor:
+
+```html
+{{ partial:forms.contact_us }}
+```
+
+The extension then creates the implementation files:
+
+```txt
+resources/views/partials/forms/_contact_us.antlers.html
+resources/views/partials/forms/fields/_text.antlers.html
+resources/views/partials/forms/fields/_textarea.antlers.html
+resources/views/partials/forms/fields/contact_us/_style.antlers.html
+resources/views/partials/forms/fields/contact_us/_required.antlers.html
+```
+
+The generated form partial renders runtime fields by type and includes a guarded inline AJAX handler:
+
+```html
+{{ form:create in="contact_us" data-statamic-ajax-form="true" data-statamic-ajax-success-message="Thanks, your message has been sent." }}
+  <div data-statamic-ajax-success {{ unless success }}hidden{{ /unless }}>
+    <p role="status">{{ success ?? 'Thanks, your message has been sent.' }}</p>
+  </div>
+
+  <div data-statamic-ajax-errors role="alert" {{ unless errors }}hidden{{ /unless }}>
+    {{ if errors }}
+      {{ errors }}
+        <p>{{ value }}</p>
+      {{ /errors }}
+    {{ /if }}
+  </div>
+
+  <div class="form-fields flex w-full flex-wrap gap-4">
+    {{ fields }}
+      {{ partial:forms.fields.{type} form_handle="contact_us" }}
+    {{ /fields }}
+  </div>
+
+  <button data-statamic-ajax-submit type="submit">Submit</button>
+{{ /form:create }}
+
+<script>
+(() => {
+  if (window.__statamicAjaxFormsInitialized) return
+  window.__statamicAjaxFormsInitialized = true
+
+  document.addEventListener("submit", async (event) => {
+    const form = event.target.closest("[data-statamic-ajax-form]")
+    if (!form) return
+
+    event.preventDefault()
+    ...
+  })
+})()
+</script>
+```
+
+Generated field partials are shared by field type. For example, `name` and `e_mail` both use `_text.antlers.html`, while `message` uses `_textarea.antlers.html`.
+
+Form-specific helper partials keep blueprint settings available during Statamic's runtime `{{ fields }}` loop:
+
+- `_style.antlers.html` maps each field handle to Tailwind width classes such as `basis-[calc(50%-1rem)]`.
+- `_required.antlers.html` renders the required `*` marker for required blueprint fields.
+
+These helper partials are regenerated from the current form blueprint when `:manual` runs, and they refresh again when Statamic or VS Code saves files under `resources/forms/` or `resources/blueprints/forms/`.
+
+Fieldtype partials and generated form partials are created only when missing, so custom Tailwind classes or edits are preserved on later `:manual` generations. Existing generated form partials migrate away from the old `{{ vite src="resources/js/forms/ajax.js" }}` line without overwriting custom form markup. Existing generated fieldtype partials only receive narrow migrations: slash paths to dot notation, old important modifier order to Tailwind suffix order, old inline width styles to class helpers, and `flex flex-col` wrappers so labels sit above controls.
+
+## AJAX form behavior
+
+Generated manual form partials inline the vanilla JavaScript handler in the partial.
+
+The handler:
+
+- intercepts submit events on `[data-statamic-ajax-form]`
+- sends `FormData`, including Statamic's hidden `_token` and `_params` values
+- sends `Accept: application/json`
+- sends `X-Requested-With: XMLHttpRequest`
+- updates `[data-statamic-ajax-success]` and `[data-statamic-ajax-errors]` in place
+- disables the submit button while the request is running
+- resets the form on success
+
+Because the handler uses only `data-statamic-ajax-*` selectors, CSS obfuscators can safely rename classes without breaking form behavior. Because it is inline, it does not require `resources/js/forms/ajax.js` to exist in the Vite manifest.
+
+## Form field condition suggestions
+
+Inside a manual form condition like this:
+
+```html
+{{ if handle == "..." }}
+```
+
+the extension suggests field handles from the current form blueprint.

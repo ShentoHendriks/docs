@@ -40,6 +40,8 @@ The index includes:
 - Global set handles from `content/globals`
 - Taxonomy handles from `content/taxonomies`
 - Blueprint fields from `resources/blueprints/**/*.yaml` and `*.yml`
+- Form handles from `resources/forms/*.yaml` and `*.yml`
+- Form blueprint fields from `resources/blueprints/forms/*.yaml` and `*.yml`
 - Imported fieldsets from `resources/fieldsets`
 - Partial handles from `resources/views/partials/**/*.antlers.html`
 - Partial paths used by Bard and Replicator set examples
@@ -55,8 +57,11 @@ This means completion details can update after you:
 - Change a Replicator set
 - Add a collection or taxonomy
 - Add entries that select a different template
+- Save a form or form blueprint from the Statamic Control Panel
 
 The extension uses cached index data rather than scanning the project from scratch for every keystroke.
+
+Manual form helper partials refresh from the current form blueprint when files under `resources/forms/` or `resources/blueprints/forms/` are created or changed. That keeps generated width styles and required markers synced with Control Panel form settings.
 
 ## Language server
 
