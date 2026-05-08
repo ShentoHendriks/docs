@@ -1,0 +1,187 @@
+---
+title: "Building forms"
+description: "Use automatic Statamic form rendering first, then generate editable form partials when you need full markup control."
+---
+
+The RWA Antlers VS Code Extension helps you work with Statamic forms in two ways:
+
+- Use **automatic form rendering** when you want the quickest setup.
+- Use **manual form partials** when you need control over the rendered markup, classes, field wrappers, and AJAX behavior.
+
+Start with automatic rendering. Switch to manual partials when the design needs custom form markup.
+
+## Example contact form
+
+This guide uses a `contact` form with common contact fields:
+
+- `name`
+- `email`
+- `phone`
+- `subject`
+- `message`
+- consent or terms checkbox
+
+A simplified form shape can look like this:
+
+```yaml
+# resources/forms/contact.yaml
+title: Contact
+fields:
+  -
+    handle: name
+    field:
+      type: text
+      display: Name
+      validate: required
+  -
+    handle: email
+    field:
+      type: text
+      input_type: email
+      display: Email
+      validate: required|email
+  -
+    handle: phone
+    field:
+      type: text
+      display: Phone
+  -
+    handle: subject
+    field:
+      type: text
+      display: Subject
+  -
+    handle: message
+    field:
+      type: textarea
+      display: Message
+      validate: required
+  -
+    handle: consent
+    field:
+      type: checkboxes
+      display: Consent
+      options:
+        accept: I agree to be contacted about my message.
+      validate: required
+```
+
+The extension reads form handles from `resources/forms/*.yaml` and `*.yml`, so `contact` can appear as a suggestion after `{{ form:`.
+
+## Start with automatic form rendering
+
+Use Statamic's normal form handle syntax when you want Statamic to render the form from its configuration.
+
+```antlers
+{{ form:contact }}
+```
+
+<Steps>
+  <Step title="Type the form tag">
+    In an `.antlers.html` file, type:
+
+    ```antlers
+    {{ form:
+    ```
+  </Step>
+
+  <Step title="Select the contact form">
+    Choose `contact` from the IntelliSense suggestions.
+
+    Normal completion inserts the form handle so you can finish the tag as `{{ form:contact }}`.
+  </Step>
+
+  <Step title="Insert the documented example when needed">
+    If you want to paste the example shown in the completion details, press **Cmd+Enter** on macOS or **Ctrl+Enter** on Windows/Linux while the completion is selected.
+  </Step>
+</Steps>
+
+Use this workflow when the default rendered form is enough and you do not need to customize every field wrapper.
+
+## Switch to manual form partials
+
+Use manual form partials when the form needs project-specific markup, Tailwind classes, custom field wrappers, or AJAX submission without a page refresh.
+
+Start by typing the form handle with a second colon:
+
+```antlers
+{{ form:contact:
+```
+
+Choose `manual` from the suggestions.
+
+The extension replaces the current tag with only this partial reference:
+
+```antlers
+{{ partial:forms.contact }}
+```
+
+The larger form markup is generated into a partial file instead of being pasted into the current template.
+
+## Generated files
+
+For the `contact` example, the extension creates editable starter partials like these:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="forms">
+          <Tree.File name="_contact.antlers.html" />
+          <Tree.Folder defaultOpen name="fields">
+            <Tree.File name="_text.antlers.html" />
+            <Tree.File name="_textarea.antlers.html" />
+            <Tree.File name="_checkboxes.antlers.html" />
+          </Tree.Folder>
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+| File | Purpose |
+| --- | --- |
+| `resources/views/partials/forms/_contact.antlers.html` | The main contact form partial rendered by `{{ partial:forms.contact }}` |
+| `resources/views/partials/forms/fields/_text.antlers.html` | Shared markup for text-like fields such as `name`, `email`, `phone`, and `subject` |
+| `resources/views/partials/forms/fields/_textarea.antlers.html` | Shared markup for textarea fields such as `message` |
+| `resources/views/partials/forms/fields/_checkboxes.antlers.html` | Shared markup for checkbox groups such as `consent` |
+
+<Info>
+  The extension may also create form-specific helper partials for required markers, field widths, options, input types, and autocomplete values. Customize the fieldtype partials such as `_text.antlers.html`, `_textarea.antlers.html`, and `_checkboxes.antlers.html`. Do not edit generated width/helper partials unless you are okay with them being refreshed from the form blueprint later.
+</Info>
+
+## Customize the field partials
+
+After generation, edit the fieldtype partials to match your design system.
+
+For example, customize text fields in:
+
+```txt
+resources/views/partials/forms/fields/_text.antlers.html
+```
+
+That partial is reused for text-like fields in the form. You can adjust labels, wrappers, classes, help text, and error placement in one place.
+
+The generated main form partial uses the current field type to choose the right field partial:
+
+```antlers
+{{ fields }}
+  {{ partial:forms.fields.{type} form_handle="contact" }}
+{{ /fields }}
+```
+
+This keeps the form connected to the fields defined in Statamic while still letting you control the frontend markup.
+
+## AJAX behavior
+
+Manual generated forms include a vanilla AJAX submit handler in the form partial.
+
+That means the form can submit without refreshing the page. The generated markup uses data attributes for success messages, errors, and submit state, so the behavior does not depend on a separate Vite form script entry.
+
+Use this when the form should feel smoother on the frontend, but you still want the form fields to come from Statamic.
+
+## If suggestions do not appear
+
+<Note>
+  Open VS Code at the Statamic project root, make sure the form exists at `resources/forms/contact.yaml`, save the form file, and confirm you are editing a `.antlers.html` file.
+</Note>

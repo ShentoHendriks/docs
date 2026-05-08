@@ -84,8 +84,12 @@
         "pages": [
           "rwa-antlers-vscode-extension/overview",
           "rwa-antlers-vscode-extension/getting-started",
+          "rwa-antlers-vscode-extension/formatting-and-diagnostics",
+          "rwa-antlers-vscode-extension/editing-shortcuts-and-helpers",
           "rwa-antlers-vscode-extension/project-aware-intellisense",
           "rwa-antlers-vscode-extension/working-with-partials",
+          "rwa-antlers-vscode-extension/building-forms",
+          "rwa-antlers-vscode-extension/building-collection-search",
           "rwa-antlers-vscode-extension/page-builders-with-replicator-sets",
           "rwa-antlers-vscode-extension/page-specific-fields-and-page-builders"
         ]

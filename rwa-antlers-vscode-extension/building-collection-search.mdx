@@ -1,0 +1,128 @@
+---
+title: "Building collection search"
+description: "Generate a reusable search partial for a Statamic collection and customize the result card partial."
+---
+
+The RWA Antlers VS Code Extension can generate a reusable search partial for a Statamic collection.
+
+Use this workflow when you want a fast project search starter without writing the form, result container, collection loop, and fetch behavior by hand.
+
+This guide uses a `projects` collection.
+
+## Generate the search partial
+
+Start in an `.antlers.html` template where you want the search form to appear.
+
+<Steps>
+  <Step title="Type the generator tag">
+    Type:
+
+    ```antlers
+    {{ search:generate }}
+    ```
+  </Step>
+
+  <Step title="Accept the completion">
+    Choose the `generate` completion.
+
+    The extension inserts a reusable search partial call and creates the generated search files.
+  </Step>
+</Steps>
+
+The inserted partial call uses these props:
+
+```antlers
+{{ partial:search.search
+  search_collection="projects"
+  search_result_partial="search.result"
+  search_no_results_text="No results."
+/}}
+```
+
+| Prop | Purpose |
+| --- | --- |
+| `search_collection` | The collection to search. In this example, it searches `projects`. |
+| `search_result_partial` | The partial used to render each search result. |
+| `search_no_results_text` | The message shown when the query has no matches. |
+
+## Generated files
+
+The extension creates the search partials under `resources/views/partials/search`.
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="search">
+          <Tree.File name="search.antlers.html" />
+          <Tree.File name="_result.antlers.html" />
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+| File | Purpose |
+| --- | --- |
+| `resources/views/partials/search/search.antlers.html` | Owns the search form, `#results` container, collection filtering, and fetch behavior. |
+| `resources/views/partials/search/_result.antlers.html` | Owns the markup for each result card. This is the main file to customize. |
+
+## Customize the result card
+
+Edit the result partial to match your project design:
+
+```txt
+resources/views/partials/search/_result.antlers.html
+```
+
+The generated starter renders each result with the entry context from the searched collection, so variables such as `url`, `title`, and `content` come from the matching `projects` entry.
+
+A simple customized result card could look like this:
+
+```antlers
+<a href="{{ url }}" class="block rounded-card border p-6">
+  <h2>{{ title }}</h2>
+
+  {{ if content }}
+    <p>{{ content | strip_tags | truncate:180 }}</p>
+  {{ /if }}
+</a>
+```
+
+<Info>
+  Keep result-specific markup in `_result.antlers.html`. Keep the search form and result-loop behavior in `search.antlers.html` unless you need to change how the search itself works.
+</Info>
+
+## No-results text
+
+The generated call includes:
+
+```antlers
+search_no_results_text="No results."
+```
+
+Change this text to fit the page:
+
+```antlers
+{{ partial:search.search
+  search_collection="projects"
+  search_result_partial="search.result"
+  search_no_results_text="No matching projects found."
+/}}
+```
+
+The generated search partial checks for no results before rendering the result partial. This avoids accidentally falling back to current page content when Statamic runs the collection body for an empty result.
+
+## Results update without a full page refresh
+
+The generated `search.antlers.html` partial includes a small fetch script.
+
+When someone types into the search input, the script updates the query string, fetches the current page, and swaps the contents of the `#results` container. The page does not fully refresh.
+
+This gives you a lightweight search interaction while keeping the markup in normal Antlers partials.
+
+## If suggestions do not appear
+
+<Note>
+  Open VS Code at the Statamic project root, make sure you are editing a `.antlers.html` file, and confirm the extension is active for Antlers files.
+</Note>

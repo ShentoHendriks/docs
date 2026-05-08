@@ -1,0 +1,159 @@
+---
+title: "Editing shortcuts and helpers"
+description: "Use completion examples, paired tags, linked editing, and navigation helpers to write Antlers templates faster."
+---
+
+The RWA Antlers VS Code Extension includes small editing helpers that make everyday Antlers work faster.
+
+Use them while writing `.antlers.html` files to insert documented examples, create paired tags, keep opening and closing tags in sync, and move between partial calls and partial files.
+
+## Shortcut summary
+
+| Helper | macOS | Windows/Linux | What it does |
+| --- | --- | --- | --- |
+| Insert documented completion example | **Cmd+Enter** or **Cmd+.** | **Ctrl+Enter** or **Ctrl+.** | Inserts the example shown for the selected IntelliSense item |
+| Pair an Antlers block | **Enter** | **Enter** | Adds an indented line and matching closing tag for block-like tags |
+| Open a partial | **Cmd-click** | **Ctrl-click** | Opens the partial file referenced by a partial handle |
+| Pair dynamic path braces | Type `{` | Type `{` | Inserts `}` inside quoted Antlers attribute values |
+| Expand a tag into a block | Type `+` or `..` before the end of the tag | Type `+` or `..` before the end of the tag | Expands the tag into an opening and closing pair |
+
+## Insert documented completion examples
+
+Some IntelliSense suggestions include a ready-to-use Antlers example in the completion details panel.
+
+When the suggestion is selected, press **Cmd+Enter** or **Cmd+.** on macOS. On Windows/Linux, press **Ctrl+Enter** or **Ctrl+.**.
+
+The extension inserts the documented example for that selected suggestion.
+
+For example, if your page blueprint has a `featured_image` asset field, select the `featured_image` suggestion and use the shortcut. The extension can insert an image loop like this:
+
+```antlers
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+This is useful for fields, forms, modifiers, and other completions where the example is more helpful than only inserting the handle.
+
+<Warning>
+  The suggestion widget must still be open and the intended item must be selected. The shortcut inserts the example for the selected completion item.
+</Warning>
+
+## Start Antlers tags quickly
+
+Typing `{{` expands into a spaced Antlers tag and opens suggestions.
+
+For example, type:
+
+```antlers
+{{
+```
+
+The editor prepares the tag with inner spacing so you can start typing the field, tag, or handle you need.
+
+## Pair block tags with Enter
+
+Press **Enter** inside a block-like Antlers tag to create an indented line and matching closing tag.
+
+Before pressing Enter:
+
+```antlers
+{{ collection:projects }}|
+```
+
+After pressing Enter:
+
+```antlers
+{{ collection:projects }}
+  |
+{{ /collection:projects }}
+```
+
+The extension handles common Antlers block patterns, including:
+
+- `if` and `unless` blocks
+- `collection`, `taxonomy`, and navigation blocks
+- Grid, Replicator, Bard, Entries, and multi-value fields from indexed blueprints
+- Slotted partials that contain `{{ slot }}`
+
+It also understands collection tags with attributes. For example, `{{ collection from="projects" }}` closes with `{{ /collection }}`.
+
+## Keep paired tags in sync
+
+Antlers files enable VS Code linked editing by default.
+
+When you rename an HTML opening tag, the matching closing tag updates too:
+
+```html
+<section>
+  Content
+</section>
+```
+
+If you change `section` to `article`, the closing `</section>` updates to `</article>`.
+
+Linked editing also works for exact Antlers pairs:
+
+```antlers
+{{ collection:projects }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /collection:projects }}
+```
+
+If you rename `collection:projects`, the matching closing tag updates with it.
+
+<Note>
+  Linked editing applies to matching pairs. Standalone variables, void HTML tags, and unmatched tags do not enter linked editing.
+</Note>
+
+## Use dynamic partial paths faster
+
+Dynamic partial paths often use single-brace interpolation inside a quoted Antlers attribute.
+
+For example:
+
+```antlers
+{{ partial src="sets.pages.{type}" }}
+```
+
+When you type `{` inside a quoted Antlers attribute value, the extension inserts the matching `}` and leaves your cursor inside the braces.
+
+This helps when writing page-builder paths such as `sets.pages.{type}`.
+
+## Expand a tag into a block
+
+Typing `+` or `..` before the end of an Antlers tag expands it into a matching block while preserving attributes.
+
+For example, when you are writing a tag that should contain inner content, use this helper to avoid manually writing the closing tag.
+
+```antlers
+{{ collection:projects }}
+  ...
+{{ /collection:projects }}
+```
+
+Use Enter-based pairing for the common path. Use `+` or `..` when you are already inside a tag and want to turn it into a block.
+
+## Open partials from their handles
+
+Command-click on macOS or Ctrl-click on Windows/Linux a partial handle to open the matching partial file.
+
+For example, click this handle:
+
+```antlers
+{{ partial:components.card }}
+```
+
+The extension opens:
+
+```txt
+resources/views/partials/components/_card.antlers.html
+```
+
+This works well when you are moving between a template and the partials it renders.
+
+## Extract selected markup
+
+Selected Antlers or HTML can also be extracted into a partial with **Antlers: Extract to Partial**.
+
+For the full workflow, see **Working with partials**.

@@ -1,0 +1,138 @@
+---
+title: "Formatting and diagnostics"
+description: "Format Antlers and HTML templates, sort Tailwind classes, and catch common Statamic template mistakes while you write."
+---
+
+The RWA Antlers VS Code Extension helps keep `.antlers.html` files readable while you write. It formats mixed Antlers and HTML templates, keeps common attribute patterns stable, and reports mistakes that are easy to miss in larger templates.
+
+Use this page to understand what the extension cleans up for you and which problems it can warn about.
+
+## Format Antlers templates
+
+The extension provides a formatter for Antlers files. You can use normal VS Code formatting workflows:
+
+| Action | How to use it |
+| --- | --- |
+| Format the whole file | Run **Format Document** in an `.antlers.html` file |
+| Format selected code | Select markup, then run **Format Selection** |
+| Format pasted code | Paste into an Antlers file. Format on paste is enabled by default for Antlers files. |
+
+The formatter is designed for templates that mix Antlers tags, HTML, attributes, utility classes, and text content.
+
+## What formatting handles
+
+The formatter focuses on practical template cleanup:
+
+- Indents Antlers blocks and nested HTML.
+- Splits complex HTML attributes across multiple lines.
+- Sorts static Tailwind classes in `class` attributes.
+- Preserves Antlers expressions inside quoted HTML attributes.
+- Keeps conditional Antlers attribute blocks intact.
+- Wraps text-only paragraph prose into readable lines.
+- Removes empty whitespace-only lines.
+
+<Warning>
+  Review large formatting changes before committing, especially in complex templates. The formatter is helpful, but you should still check the final diff.
+</Warning>
+
+## Before and after
+
+For example, a pasted template might start like this:
+
+```html
+{{ if hero_title }}<section class="py-12 flex bg-white items-center rounded-card px-6"><div><h1>{{hero_title}}</h1><p>This is a longer paragraph that was pasted with awkward line breaks and should be easier to read after formatting.</p>{{ if hero_image }}<img alt="{{ hero_title }}" src="{{ hero_image }}">{{ /if }}</div></section>{{ /if }}
+```
+
+After formatting, the structure is easier to scan:
+
+```html
+{{ if hero_title }}
+  <section class="flex items-center rounded-card bg-white px-6 py-12">
+    <div>
+      <h1>{{ hero_title }}</h1>
+      <p>
+        This is a longer paragraph that was pasted
+        with awkward line breaks and should be easier
+        to read after formatting.
+      </p>
+
+      {{ if hero_image }}
+        <img alt="{{ hero_title }}" src="{{ hero_image }}">
+      {{ /if }}
+    </div>
+  </section>
+{{ /if }}
+```
+
+Notice that the formatter cleaned up the Antlers spacing, expanded the nested structure, wrapped the paragraph, and sorted the static utility classes.
+
+## Normalize tag spacing
+
+Use **Antlers: Normalize Tag Spacing** when you only want to clean up Antlers tag spacing.
+
+For example:
+
+```antlers
+{{title}}
+```
+
+becomes:
+
+```antlers
+{{ title }}
+```
+
+This is useful when you want consistent `{{ title }}` style without thinking about the whole file.
+
+## Diagnostics
+
+Diagnostics appear as editor warnings or errors while the language server checks the current Antlers file.
+
+The extension can report common template issues such as:
+
+| Diagnostic | Example problem |
+| --- | --- |
+| Unclosed Antlers tags | `{{ collection:projects }}` without a matching close |
+| Mismatched closing tags | `{{ if title }}` closed by `{{ /collection }}` |
+| Repeated opening tags | A second `{{ collection }}` where `{{ /collection }}` was expected |
+| Broken Antlers expressions in attributes | A quoted attribute closes before the Antlers `}}` closes |
+| Inconsistent tag spacing | `{{title}}` instead of `{{ title }}` |
+| Uppercase Antlers names | `{{ HeroTitle }}` where a lowercase handle is expected |
+
+These diagnostics help catch problems before they become confusing frontend output.
+
+## Filename and partial conventions
+
+The extension also checks common Statamic view conventions.
+
+| File convention | What the extension warns about |
+| --- | --- |
+| Antlers views should use `.antlers.html` | A view file uses the wrong extension |
+| View filenames should be lowercase and hyphen-separated | `HeroSection.antlers.html` or `hero_section.antlers.html` outside partials |
+| Partial files should start with `_` | `card.antlers.html` inside `resources/views/partials` |
+| Partial filenames should use underscores after the leading `_` | `_footer-baby.antlers.html` instead of `_footer_baby.antlers.html` |
+
+<Info>
+  Statamic partial files commonly include the leading underscore in the filename, but you omit that underscore when referencing the partial handle.
+</Info>
+
+For example:
+
+| File | Partial handle |
+| --- | --- |
+| `resources/views/partials/_card.antlers.html` | `card` |
+| `resources/views/partials/components/_hero_card.antlers.html` | `components.hero_card` |
+
+## Quick fixes
+
+Some filename diagnostics include quick fixes.
+
+Use the quick action menu when VS Code highlights a filename convention issue. The extension can suggest a rename such as:
+
+| Current file | Suggested fix |
+| --- | --- |
+| `HeroSection.antlers.html` | `hero-section.antlers.html` |
+| `resources/views/partials/card.antlers.html` | `resources/views/partials/_card.antlers.html` |
+| `resources/views/partials/_footer-baby.antlers.html` | `resources/views/partials/_footer_baby.antlers.html` |
+
+This keeps filenames aligned with Statamic conventions and keeps partial handles predictable.
