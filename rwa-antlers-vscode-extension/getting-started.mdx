@@ -1,0 +1,178 @@
+---
+title: "Getting started with the extension"
+description: "Start from an empty home.antlers.html file and use the RWA Statamic Antlers Extension to build a simple page template."
+---
+
+This walkthrough shows the first workflow a new RWA developer should learn: open an empty Antlers template and let the extension suggest fields from the current Statamic page blueprint.
+
+By the end, `home.antlers.html` will render a title, featured image, and content field, then protect those fields with simple conditionals.
+
+## Before you start
+
+Check these things first:
+
+- VS Code is opened at the root of the Statamic project.
+- The RWA Statamic Antlers Extension is installed and enabled.
+- The file is named `resources/views/home.antlers.html`.
+- The file is completely empty before you begin.
+- Your Pages collection has a home entry using the `home` template and a blueprint with `title`, `featured_image`, and `content` fields.
+- The `featured_image` field is an Assets field with **Max files** set to `1`.
+
+In blueprint YAML, that field should look similar to this:
+
+```yaml
+-
+  handle: featured_image
+  field:
+    type: assets
+    max_files: 1
+```
+
+The extension uses that project context to decide which fields to suggest. In this example, the home entry points to the `home` template, the entry uses a page blueprint, and the blueprint provides the `title`, `featured_image`, and `content` fields.
+
+Because `featured_image` is configured as an Assets field with Max files set to `1`, it behaves like a single featured image field for this page.
+
+<Info>
+  More extension docs are coming later. For now, this page is the starting point.
+</Info>
+
+## 1. Add the title field
+
+Open `resources/views/home.antlers.html`.
+
+Type:
+
+```html
+{{ t
+```
+
+Choose the `title` suggestion from IntelliSense. Complete the heading so it becomes:
+
+```html
+<h1>{{ title }}</h1>
+```
+
+This should feel different from normal word completion: `title` is suggested because the extension can see the page blueprint for this template context.
+
+## 2. Add the content field
+
+On a new line, type:
+
+```html
+{{ c
+```
+
+Choose the `content` suggestion.
+
+Your first complete template should now be:
+
+```html
+<h1>{{ title }}</h1>
+
+{{ content }}
+```
+
+This is the simplest useful page template: a heading and the page body, both coming from blueprint fields.
+
+## 3. Add the featured image field
+
+Now add the page's featured image.
+
+On a new line between the title and content, type:
+
+```html
+{{ fea
+```
+
+Keep the IntelliSense suggestion widget open, select `featured_image`, then press `Command+Enter` on macOS or `Ctrl+Enter` on Windows/Linux.
+
+<Warning>
+  `Command+Enter` and `Ctrl+Enter` insert the documented example for the currently selected IntelliSense item. The suggestion widget must still be open and `featured_image` must be selected.
+</Warning>
+
+The extension inserts the example from the `featured_image` suggestion:
+
+```html
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+Notice that the Antlers tag does not need to include `limit="1"` here. The single-image limit comes from the blueprint field's **Max files** setting.
+
+Inside the `featured_image` block, the extension can suggest asset variables such as `url`, `alt`, `title`, `width`, and `height`.
+
+Your template should now be:
+
+```html
+<h1>{{ title }}</h1>
+
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+
+{{ content }}
+```
+
+## 4. Add conditionals around optional output
+
+Next, make the template safer so it does not render empty markup.
+
+Above the heading, type:
+
+```html
+{{ if
+```
+
+Choose the `if` suggestion, then use the `title` field as the condition.
+
+Wrap the heading like this:
+
+```html
+{{ if title }}
+  <h1>{{ title }}</h1>
+{{ /if }}
+```
+
+Do the same for `featured_image` and `content`.
+
+The template should now be:
+
+```html
+{{ if title }}
+  <h1>{{ title }}</h1>
+{{ /if }}
+
+{{ if featured_image }}
+  {{ featured_image }}
+    <img src="{{ url }}" alt="{{ alt ?? title }}">
+  {{ /featured_image }}
+{{ /if }}
+
+{{ if content }}
+  {{ content }}
+{{ /if }}
+```
+
+## 5. Format the file
+
+Run your normal VS Code format command or save the file if format-on-save is enabled.
+
+The extension is the default formatter for Antlers files and keeps Antlers, HTML, and spacing readable inside `.antlers.html` templates.
+
+## If suggestions do not appear
+
+Check these in order:
+
+1. Confirm the filename ends in `.antlers.html`, not just `.html`.
+2. Confirm VS Code is opened at the Statamic project root.
+3. Confirm the extension is installed and enabled.
+4. Confirm the Pages collection has a home entry using the `home` template.
+5. Confirm that entry's blueprint has `title`, `featured_image`, and `content` fields.
+6. Confirm `featured_image` is an Assets field with **Max files** set to `1`.
+7. If `Command+Enter` or `Ctrl+Enter` does not insert the featured image example, open IntelliSense again and make sure `featured_image` is selected before pressing the shortcut.
+8. Reload the VS Code window if the project was just created or renamed.
+
+## Next steps
+
+This is the first article in the new RWA Antlers VS Code Extension docs. More focused guides will be added as the docs are rebuilt from scratch.

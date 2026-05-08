@@ -1,0 +1,153 @@
+---
+title: "Working with partials"
+description: "Create Statamic partials, use project-aware partial suggestions, pass props, navigate to partial files, and extract selected markup into reusable partials."
+---
+
+Partials keep Antlers templates small and reusable. The RWA Antlers VS Code Extension helps by understanding Statamic partial filenames, suggesting partial handles from real files, navigating to partials, and extracting selected markup into new partial files.
+
+## Create a partial file
+
+Create a partial at:
+
+```txt
+resources/views/partials/components/_card.antlers.html
+```
+
+A simple card partial might look like this:
+
+```html
+<article>
+  {{ if image }}
+    {{ image }}
+      <img src="{{ url }}" alt="{{ alt ?? title }}">
+    {{ /image }}
+  {{ /if }}
+
+  {{ if title }}
+    <h2>{{ title }}</h2>
+  {{ /if }}
+
+  {{ if text }}
+    <p>{{ text }}</p>
+  {{ /if }}
+</article>
+```
+
+## Filename to handle convention
+
+Statamic partial filenames usually start with an underscore, but the underscore is removed when you reference the partial handle.
+
+| File | Partial handle |
+| --- | --- |
+| `resources/views/partials/_eyebrow.antlers.html` | `eyebrow` |
+| `resources/views/partials/components/_card.antlers.html` | `components.card` |
+| `resources/views/partials/components/cards/_project.antlers.html` | `components.cards.project` |
+| `resources/views/partials/sections/_hero.antlers.html` | `sections.hero` |
+
+The extension follows this convention when it suggests partial handles.
+
+## Use a partial
+
+For a static partial path, use the shorthand syntax:
+
+```html
+{{ partial:components.card }}
+```
+
+You can also use the `src` attribute syntax:
+
+```html
+{{ partial src="components.card" }}
+```
+
+Use shorthand for known static partials. Use `src=""` when the path needs to be composed or made dynamic, such as page builder set paths later.
+
+## Pass props to a partial
+
+Partials become more useful when you pass the values they need.
+
+You can pass static values:
+
+```html
+{{ partial:components.card title="Latest project" text="A short project summary." }}
+```
+
+You can also bind current Antlers variables into props:
+
+```html
+{{ partial:components.card title="Latest project" :image="featured_image" :text="content" }}
+```
+
+In this example:
+
+- `title="Latest project"` passes a literal string.
+- `:image="featured_image"` passes the current `featured_image` value.
+- `:text="content"` passes the current `content` value.
+
+## Prop suggestions
+
+When a partial uses variables that are not common Statamic context variables, the extension can suggest those names as props on the partial call.
+
+For example, if `components/_card.antlers.html` uses `image`, `title`, and `text`, the extension can suggest those attributes when you call `components.card`.
+
+This helps partial calls stay in sync with the variables the partial expects.
+
+## Open a partial from its handle
+
+Command-click on macOS or Ctrl-click on Windows/Linux a partial handle to open the matching partial file.
+
+For example, command-click or Ctrl-click this handle:
+
+```html
+{{ partial:components.card }}
+```
+
+The extension opens:
+
+```txt
+resources/views/partials/components/_card.antlers.html
+```
+
+## Extract selected markup to a partial
+
+When a template grows too large, use the extension to move selected Antlers or HTML into a partial.
+
+1. Select the markup you want to reuse.
+2. Open the quick action menu.
+3. Choose **Antlers: Extract to Partial**.
+4. Choose a folder under `resources/views/partials`.
+5. Enter a partial name.
+6. The extension creates the partial file and replaces the selection with the correct partial call.
+
+The folder picker starts at `resources/views/partials`. You can navigate existing folders or create a new folder with `Command+N` on macOS or `Ctrl+N` on Windows/Linux.
+
+Partial names are normalized to Statamic conventions. For example:
+
+| Name you enter | File created | Partial call inserted |
+| --- | --- | --- |
+| `card` | `_card.antlers.html` | `{{ partial:card }}` |
+| `Project Card` | `_project_card.antlers.html` | `{{ partial:project_card }}` |
+| `components/card` | `components/_card.antlers.html` | `{{ partial:components.card }}` |
+
+The original selection is moved into the new partial file, and the old location is replaced with a partial call.
+
+For example, selected markup like this:
+
+```html
+<article>
+  <h2>{{ title }}</h2>
+  <p>{{ excerpt }}</p>
+</article>
+```
+
+can become:
+
+```html
+{{ partial:components.card }}
+```
+
+with the selected markup moved to:
+
+```txt
+resources/views/partials/components/_card.antlers.html
+```

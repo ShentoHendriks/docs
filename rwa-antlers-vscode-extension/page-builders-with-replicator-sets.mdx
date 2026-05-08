@@ -1,0 +1,189 @@
+---
+title: "Page builders with Replicator sets"
+description: "Render Statamic Replicator page builders with dynamic set partials, set-aware IntelliSense, and extension refactors."
+---
+
+Replicator page builders work best when each set renders through its own partial. The extension understands this pattern, so it can suggest set fields inside set partial files and help create new sets or fields from selected markup.
+
+This guide uses a `page_builder` Replicator with a `hero_section` set.
+
+## Example blueprint shape
+
+Your page blueprint needs a Replicator field with sets. A simplified version looks like this:
+
+```yaml
+-
+  handle: page_builder
+  field:
+    type: replicator
+    sets:
+      page_sections:
+        display: Page sections
+        sets:
+          hero_section:
+            display: Hero Section
+            fields:
+              -
+                handle: heading
+                field:
+                  type: text
+              -
+                handle: text
+                field:
+                  type: textarea
+              -
+                handle: image
+                field:
+                  type: assets
+                  max_files: 1
+```
+
+The important pieces are:
+
+- `page_builder` is the Replicator field handle.
+- `hero_section` is the set handle.
+- `heading`, `text`, and `image` are fields that belong to that set.
+
+## Set partial location
+
+Create the set partial under `resources/views/partials/sets/pages`:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="sets">
+          <Tree.Folder defaultOpen name="pages">
+            <Tree.File name="_hero_section.antlers.html" />
+          </Tree.Folder>
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+| File | Static handle | Dynamic match |
+| --- | --- | --- |
+| `resources/views/partials/sets/pages/_hero_section.antlers.html` | `sets.pages.hero_section` | `sets.pages.{type}` when `type` is `hero_section` |
+
+## Render the page builder
+
+In the page template, render the Replicator field and send each set to its matching partial:
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.pages.{type}" }}
+{{ /page_builder }}
+```
+
+<Info>
+  Inside a Replicator loop, `{type}` is the current set handle. For a `hero_section` set, `sets.pages.{type}` resolves to `sets.pages.hero_section`.
+</Info>
+
+Use `src=""` here instead of partial shorthand because the partial path is dynamic.
+
+## Build the set partial
+
+Open `resources/views/partials/sets/pages/_hero_section.antlers.html`.
+
+Because the file path matches the `hero_section` set convention, the extension can infer that this partial belongs to the `hero_section` set in the Pages blueprint context.
+
+That means IntelliSense can suggest set fields such as:
+
+- `heading`
+- `text`
+- `image`
+
+A simple set partial could look like this:
+
+```html
+<section>
+  {{ if image }}
+    {{ image }}
+      <img src="{{ url }}" alt="{{ alt ?? heading }}">
+    {{ /image }}
+  {{ /if }}
+
+  {{ if heading }}
+    <h1>{{ heading }}</h1>
+  {{ /if }}
+
+  {{ if text }}
+    <p>{{ text }}</p>
+  {{ /if }}
+</section>
+```
+
+Inside the `image` asset block, suggestions change again to asset variables such as `url`, `alt`, `title`, `width`, and `height`.
+
+## Create a Replicator set from markup
+
+Use **Antlers: Create Replicator Set** when you already have static markup in a template and want to turn it into a reusable page-builder set.
+
+<Steps>
+  <Step title="Select the markup">
+    Select the Antlers or HTML that should become the new set partial.
+  </Step>
+
+  <Step title="Run the quick action">
+    Open the quick action menu and choose **Antlers: Create Replicator Set**.
+  </Step>
+
+  <Step title="Choose the blueprint">
+    Pick the relevant page blueprint. The extension uses this to know where the Replicator set should be added.
+  </Step>
+
+  <Step title="Name the set">
+    Enter a set name such as `Hero Section`. The extension normalizes it to a handle such as `hero_section`.
+  </Step>
+
+  <Step title="Let the extension create the set">
+    The extension creates the set partial, updates the blueprint, and replaces the original selection with a dynamic render loop when needed.
+  </Step>
+</Steps>
+
+The result follows the same convention shown above: a set partial under `resources/views/partials/sets/...` and a render loop using `{{ partial src="sets.pages.{type}" }}`.
+
+## Create fields from set partials
+
+Once you are inside a set partial, you can turn selected placeholder text into real fields for that set.
+
+Open the set partial before using this action. The extension uses the set partial path to know which Replicator set should receive the new field.
+
+For example, this path tells the extension that it is editing the `hero_section` set for Pages:
+
+```txt
+resources/views/partials/sets/pages/_hero_section.antlers.html
+```
+
+<Steps>
+  <Step title="Open the set partial">
+    Open `resources/views/partials/sets/pages/_hero_section.antlers.html`.
+  </Step>
+
+  <Step title="Select placeholder text">
+    Select text that should become editable content, such as `Hero heading`.
+  </Step>
+
+  <Step title="Run the quick action">
+    Open the quick action menu and choose **Create Replicator Set Field**.
+  </Step>
+
+  <Step title="Choose the field name and type">
+    Enter a field name such as `Heading`, then choose the field type, such as Text.
+  </Step>
+
+  <Step title="Let the extension update the set">
+    The extension replaces the selected text with `{{ heading }}` and adds the `heading` field to the matching `hero_section` set in the blueprint.
+  </Step>
+</Steps>
+
+This lets you design a set partial in markup first, then promote static text into real Statamic fields as the component becomes clearer.
+
+## Bard note
+
+Bard sets use a similar `type` idea when rendering set-based content. This article focuses on Replicator page builders first, but the same mental model applies: the current set type can route rendering to a matching partial, and the extension can use that context for better suggestions.
+
+If a specific page needs its own fields or set partial folder, read [Page-specific fields and page builders](/rwa-antlers-vscode-extension/page-specific-fields-and-page-builders).
+
+Next, you may want to document formatting or diagnostics.

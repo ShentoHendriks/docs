@@ -43,3 +43,12 @@
 
 {/* Define what should and shouldn't be documented */}
 {/* Example: Don't document internal admin features */}
+
+## Scoped product instructions
+
+When working on the RWA Antlers VS Code Extension docs, read `rwa-antlers-vscode-extension/CONTEXT.md` first.
+
+This applies only to:
+
+- `rwa-antlers-vscode-extension/**`
+- `statamic/rwa-antlers-vscode-extension.mdx`

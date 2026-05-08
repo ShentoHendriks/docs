@@ -1,0 +1,62 @@
+---
+title: "RWA Antlers VS Code Extension"
+description: "A complete VS Code toolkit for Antlers formatting, diagnostics, refactors, and IntelliSense."
+---
+
+The RWA Antlers VS Code Extension is a complete VS Code toolkit for writing Statamic Antlers templates with IntelliSense, formatting, diagnostics, refactors, and project-aware suggestions.
+
+It turns `.antlers.html` files into a smarter editing environment that understands common Statamic project structure, including blueprints, assets, partials, collections, globals, taxonomies, Bard, Replicator, Grid fields, Entries relationships, HTML, and Tailwind classes.
+
+## Install the extension
+
+Download the latest `.vsix` file from the [GitHub repository](https://github.com/ShentoHendriks/RWA-Statamic-plugin), then install it in VS Code.
+
+In VS Code, run **Extensions: Install from VSIX…** and select the downloaded file.
+
+## What it helps with
+
+<CardGroup cols={2}>
+  <Card title="Project-aware IntelliSense" icon="sparkles">
+    Get suggestions from the Statamic project you have open, not only generic snippets.
+  </Card>
+
+  <Card title="Blueprint fields" icon="brackets-curly">
+    Suggest fields such as `title`, `content`, and `featured_image` from the current page blueprint.
+  </Card>
+
+  <Card title="Asset examples" icon="image">
+    Insert useful image examples and get asset variables such as `url`, `alt`, `title`, `width`, and `height` inside asset blocks.
+  </Card>
+
+  <Card title="Partials and handles" icon="folder-tree">
+    Suggest partial paths, collection handles, taxonomy handles, globals, navigation handles, and related Statamic names from project files.
+  </Card>
+
+  <Card title="Formatting" icon="wand-sparkles">
+    Format mixed Antlers, HTML, attributes, and utility classes inside `.antlers.html` files.
+  </Card>
+
+  <Card title="Diagnostics and refactors" icon="triangle-alert">
+    Catch common Antlers mistakes and use helpers for common template refactors.
+  </Card>
+</CardGroup>
+
+## Example
+
+When the current page blueprint has `title` and `featured_image` fields, the extension can help you build markup like this:
+
+```html
+<h1>{{ title }}</h1>
+
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+The field names come from the current blueprint. Inside the asset block, `url`, `alt`, and `title` come from the selected asset context.
+
+## Start here
+
+<Card title="Start with IntelliSense" icon="rocket" href="/rwa-antlers-vscode-extension/getting-started">
+  Learn the first extension workflow by building a simple `home.antlers.html` template from an empty file.
+</Card>

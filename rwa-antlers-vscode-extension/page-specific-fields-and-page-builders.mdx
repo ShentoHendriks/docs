@@ -1,0 +1,223 @@
+---
+title: "Page-specific fields and page builders"
+description: "Use Set Blueprint to give specific Statamic pages their own fields, blueprints, and Replicator page-builder partials."
+---
+
+Most pages should share the normal Pages collection blueprint. Sometimes a specific page needs its own fields or its own page-builder structure.
+
+Use a page-specific blueprint when the page has content needs that would make the shared Pages blueprint messy or confusing.
+
+| Page | Why it may need its own blueprint |
+| --- | --- |
+| Home | Unique hero fields, featured projects, logo rows, testimonials, or home-only sections |
+| Contact | Form intro, contact details, map content, offices, or support sections |
+| Landing | Campaign-specific hero, proof points, CTAs, or conversion sections |
+| Campaign | Temporary or highly focused sections that should not become global page defaults |
+
+<Info>
+  Use page-specific blueprints when a page genuinely needs unique fields or set partials. Avoid creating one for every page by default, or the Pages collection becomes harder to maintain.
+</Info>
+
+Keep normal content pages on the shared Pages blueprint when they use the same fields and page-builder sets.
+
+## Shared vs page-specific blueprints
+
+| Blueprint type | Example file | Used for |
+| --- | --- | --- |
+| Shared Pages blueprint | `resources/blueprints/collections/pages/page.yaml` | Normal pages that share the same fields and page-builder sets |
+| Home-specific blueprint | `resources/blueprints/collections/pages/home.yaml` | The Home page when it needs its own fields or page-builder sets |
+
+The entry chooses the page-specific blueprint with front matter like this:
+
+```yaml
+---
+title: Home
+template: home
+blueprint: home
+---
+```
+
+The extension updates the `blueprint:` value for you when you use **Set Blueprint…**.
+
+## Example Home blueprint
+
+A simplified Home-specific blueprint can combine top-level fields with a Home-specific page builder:
+
+```yaml
+-
+  handle: hero_heading
+  field:
+    type: text
+-
+  handle: hero_text
+  field:
+    type: textarea
+-
+  handle: page_builder
+  field:
+    type: replicator
+    sets:
+      home_sections:
+        display: Home sections
+        sets:
+          hero_section:
+            display: Hero Section
+            fields:
+              -
+                handle: heading
+                field:
+                  type: text
+              -
+                handle: text
+                field:
+                  type: textarea
+              -
+                handle: image
+                field:
+                  type: assets
+                  max_files: 1
+```
+
+In `home.antlers.html`, IntelliSense can suggest top-level fields such as `hero_heading`, `hero_text`, and `page_builder` from the Home blueprint.
+
+## Shared and Home-specific render loops
+
+The partial path changes when a page has its own blueprint-specific set folder.
+
+| Page-builder type | Render loop |
+| --- | --- |
+| Shared Pages builder | `{{ partial src="sets.pages.{type}" }}` |
+| Home-specific builder | `{{ partial src="sets.pages.home.{type}" }}` |
+
+For the Home page, render the page builder like this:
+
+```html
+{{ page_builder }}
+  {{ partial src="sets.pages.home.{type}" }}
+{{ /page_builder }}
+```
+
+Inside the Replicator loop, `{type}` is still the current set handle. For a `hero_section` set, `sets.pages.home.{type}` resolves to `sets.pages.home.hero_section`.
+
+## Home-specific set partials
+
+Home-specific set partials live under `resources/views/partials/sets/pages/home`:
+
+<Tree>
+  <Tree.Folder defaultOpen name="resources">
+    <Tree.Folder defaultOpen name="views">
+      <Tree.Folder defaultOpen name="partials">
+        <Tree.Folder defaultOpen name="sets">
+          <Tree.Folder defaultOpen name="pages">
+            <Tree.Folder defaultOpen name="home">
+              <Tree.File name="_hero_section.antlers.html" />
+            </Tree.Folder>
+          </Tree.Folder>
+        </Tree.Folder>
+      </Tree.Folder>
+    </Tree.Folder>
+  </Tree.Folder>
+</Tree>
+
+That file is referenced as:
+
+```html
+{{ partial src="sets.pages.home.hero_section" }}
+```
+
+or dynamically from the Home page builder:
+
+```html
+{{ partial src="sets.pages.home.{type}" }}
+```
+
+The extension can use this path to infer that `_hero_section.antlers.html` belongs to the Home-specific `hero_section` set.
+
+## Set the page blueprint
+
+Use **Set Blueprint…** when a page should switch to an existing page-specific blueprint or create a new one.
+
+<Warning>
+  Make sure no text is selected before using **Set Blueprint…**. When text is selected, VS Code shows other refactor actions instead.
+</Warning>
+
+<Info>
+  Use **Set Blueprint…** for blueprint switching and page-specific blueprint creation. Use **Create Replicator Set** after the page is already using the correct blueprint.
+</Info>
+
+<Steps>
+  <Step title="Open the page template">
+    Open `resources/views/home.antlers.html`.
+  </Step>
+
+  <Step title="Clear the selection">
+    Click in the file so no text is selected.
+  </Step>
+
+  <Step title="Run the quick action">
+    Open the quick action menu and choose **Set Blueprint…**.
+  </Step>
+
+  <Step title="Choose or create the Home blueprint">
+    Pick an existing Home blueprint, or choose the create option for a page-specific Home blueprint.
+  </Step>
+
+  <Step title="Let the extension update the page">
+    The extension assigns the entry to `blueprint: home` and clears Statamic's cache when possible so the Control Panel sees the new blueprint state.
+  </Step>
+</Steps>
+
+After this, the Home template receives suggestions from the Home blueprint instead of only the shared Pages blueprint.
+
+## Create top-level fields for the page
+
+After the Home page uses its own blueprint, selected static text in `home.antlers.html` can become a top-level Home field.
+
+<Steps>
+  <Step title="Select static text">
+    Select text in `home.antlers.html`, such as `Build better Statamic pages`.
+  </Step>
+
+  <Step title="Run Create Field">
+    Open the quick action menu and choose **Antlers: Create Field**.
+  </Step>
+
+  <Step title="Choose the field name and type">
+    Enter a field name such as `Hero Heading`, then choose a field type such as Text.
+  </Step>
+
+  <Step title="Replace the static text">
+    The extension replaces the selected text with the new Antlers variable, such as `{{ hero_heading }}`.
+  </Step>
+
+  <Step title="Update the blueprint and entry">
+    The extension adds the field to the Home blueprint. For page-specific blueprints, it can also seed the selected text into the current entry so the value appears in the Control Panel.
+  </Step>
+</Steps>
+
+This is useful when you are shaping a one-off page and discover that static markup should become editable content.
+
+## Create Home-specific Replicator sets
+
+Once Home uses its own blueprint, **Create Replicator Set** creates sets for that Home-specific structure.
+
+The important difference is the partial root:
+
+| Blueprint target | Set partial root | Dynamic render path |
+| --- | --- | --- |
+| Shared Pages blueprint | `resources/views/partials/sets/pages` | `sets.pages.{type}` |
+| Home-specific blueprint | `resources/views/partials/sets/pages/home` | `sets.pages.home.{type}` |
+
+So a Home-specific `hero_section` set uses:
+
+```txt
+resources/views/partials/sets/pages/home/_hero_section.antlers.html
+```
+
+and renders through:
+
+```html
+{{ partial src="sets.pages.home.{type}" }}
+```
+
+That keeps Home-only sections separate from shared page-builder sections.

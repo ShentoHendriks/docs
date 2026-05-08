@@ -60,20 +60,7 @@
               "statamic/grid"
             ]
           },
-          {
-            "group": "RWA Statamic Antlers Extension",
-            "pages": [
-              "statamic/rwa-antlers-extension",
-              "statamic/rwa-antlers-extension-setup",
-              "statamic/rwa-antlers-extension-intellisense",
-              "statamic/rwa-antlers-extension-blueprints",
-              "statamic/rwa-antlers-extension-editing",
-              "statamic/rwa-antlers-extension-formatting",
-              "statamic/rwa-antlers-extension-diagnostics",
-              "statamic/rwa-antlers-extension-refactors",
-              "statamic/rwa-antlers-extension-syntax-tailwind"
-            ]
-          },
+          "statamic/rwa-antlers-vscode-extension",
           {
             "group": "Antlers",
             "pages": [
@@ -90,6 +77,17 @@
               "statamic/deployment"
             ]
           }
+        ]
+      },
+      {
+        "product": "RWA Antlers VS Code Extension",
+        "pages": [
+          "rwa-antlers-vscode-extension/overview",
+          "rwa-antlers-vscode-extension/getting-started",
+          "rwa-antlers-vscode-extension/project-aware-intellisense",
+          "rwa-antlers-vscode-extension/working-with-partials",
+          "rwa-antlers-vscode-extension/page-builders-with-replicator-sets",
+          "rwa-antlers-vscode-extension/page-specific-fields-and-page-builders"
         ]
       },
       {

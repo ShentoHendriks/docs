@@ -1,0 +1,143 @@
+---
+title: "Project-aware IntelliSense"
+description: "Understand what the extension reads from your Statamic project and why suggestions change while you write Antlers templates."
+---
+
+Project-aware IntelliSense means the extension uses the Statamic project you have open in VS Code to decide which suggestions are useful at the current cursor position.
+
+Instead of only suggesting generic snippets, it can suggest real blueprint fields, partial paths, collection handles, asset variables, form handles, and other names from your project.
+
+## What the extension reads
+
+Open VS Code at the root of your Statamic project. The extension builds a workspace index from common Statamic folders and keeps that project context cached while you work.
+
+It reads from folders such as:
+
+| Project files | Used for |
+| --- | --- |
+| `resources/blueprints` | Field suggestions for entries, globals, taxonomies, forms, assets, Bard, Grid, Replicator, and relationship contexts |
+| `resources/fieldsets` | Imported field definitions inside blueprints |
+| `resources/views/partials` | Partial handle and partial path suggestions |
+| `content/collections` | Collection handles, entry context, templates, and blueprint relationships |
+| `content/globals` | Global set handles and global blueprint fields |
+| `content/taxonomies` | Taxonomy handles and term template context |
+| `content/navigation` | Navigation handles |
+| `resources/forms` | Form handles and form-related suggestions |
+
+When relevant files are saved, created, renamed, or moved, the extension refreshes the indexed context so suggestions stay close to the current project structure.
+
+## Page blueprint fields
+
+In a normal page template such as `resources/views/home.antlers.html`, the extension tries to understand which entry and blueprint belong to that template.
+
+If the home entry uses the `home` template and its blueprint has these fields:
+
+- `title`
+- `featured_image`
+- `content`
+
+Then typing inside an Antlers tag can suggest those actual field handles:
+
+```html
+<h1>{{ title }}</h1>
+
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+
+{{ content }}
+```
+
+Those suggestions come from the current blueprint, not from random words in the file.
+
+## Asset block context
+
+Suggestions change when your cursor moves inside a field block.
+
+For example, inside a `featured_image` asset block:
+
+```html
+{{ featured_image }}
+  <img src="{{ url }}" alt="{{ alt ?? title }}">
+{{ /featured_image }}
+```
+
+The extension can suggest asset variables such as:
+
+- `url`
+- `alt`
+- `title`
+- `width`
+- `height`
+
+That is because the cursor is inside the asset field context. Outside the block, suggestions return to the surrounding page or template context.
+
+## Partial handles
+
+Partial suggestions come from files in `resources/views/partials`.
+
+For example, a file like this:
+
+```txt
+resources/views/partials/components/_card.antlers.html
+```
+
+can be suggested as a partial handle like this:
+
+```html
+{{ partial:components.card }}
+```
+
+The extension removes the leading underscore from Statamic partial filenames when suggesting the handle.
+
+## Collection, global, taxonomy, navigation, and form handles
+
+The extension also uses project files to suggest common Statamic handles.
+
+Examples:
+
+```html
+{{ collection:projects }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /collection:projects }}
+```
+
+```html
+{{ nav:main }}
+  <a href="{{ url }}">{{ title }}</a>
+{{ /nav:main }}
+```
+
+```html
+{{ global:company }}
+  <a href="mailto:{{ email }}">{{ email }}</a>
+{{ /global:company }}
+```
+
+These handles are suggested from the Statamic files in your project, such as collection configs, navigation files, global sets, taxonomies, and forms.
+
+## Insert documented examples
+
+Some IntelliSense items include a documented code example.
+
+With the suggestion widget open and an item selected, press `Command+Enter` on macOS or `Ctrl+Enter` on Windows/Linux to insert that selected item's first example.
+
+<Warning>
+  The shortcut uses the currently selected IntelliSense item. If the suggestion widget is closed, or the wrong item is selected, it cannot insert the example you expected.
+</Warning>
+
+This is useful for fields like `featured_image`, where the suggestion can insert a complete asset block instead of only the field name.
+
+## Why suggestions change
+
+Suggestions are based on both project files and cursor context.
+
+For example:
+
+- At the top level of `home.antlers.html`, suggestions can come from the current page blueprint.
+- Inside `{{ featured_image }}`, suggestions can come from the selected asset.
+- Inside a collection loop, suggestions can come from the collection entry context.
+- Inside a partial path, suggestions can come from real partial files.
+- Inside a form tag, suggestions can come from indexed form handles and form blueprints.
+
+This is why the same prefix can produce different suggestions in different places. The extension is trying to match the context you are currently writing in.
