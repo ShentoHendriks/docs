@@ -1,50 +1,43 @@
 ---
-title: "Fluid grid"
+title: "Removed: grid-fluid"
 ---
 
-`grid-fluid` is a full-width fluid grid container without side padding.
+`grid-fluid` is no longer exported by the generated CSS.
 
-Use it when layout should use viewport-wide grid math, but you do not want the side padding from `container-grid-fluid`.
+Use `container-grid vw` when you want the normal contained grid and viewport-scaled descendant text:
 
 ```html
-<section class="grid-fluid">
-  <h1 class="display-l">Large screen headline</h1>
+<section class="container-grid vw">
+  <h1 class="display-l">Viewport-scaled section.</h1>
 </section>
 ```
 
-It:
-
-- fills full available width
-- caps itself to configured `--container-width` below max viewport
-- switches to `100vw` above max viewport
-- does not add `--spacing-container-margin` as side padding
-- uses same gutter, column count, and mobile switch logic as other containers
-- lets text styles keep scaling after max viewport by default
-
-Use `grid-fluid` for:
-
-- full-width sections without container padding
-- custom wrappers that manage their own spacing
-- layouts where edge alignment is handled by child elements
-- wide editorial or visual sections that still need column math
-
-### Font Scaling Inside `grid-fluid`
-
-Text styles inside `grid-fluid` keep scaling after the max viewport breakpoint, same as `container-grid-fluid`.
+Use `container-grid fullscreen` for full viewport grid math while keeping generated padding, margin, and gutter rules:
 
 ```html
-<section class="grid-fluid">
-  <h1 class="display-l">Grid fluid, viewport-scaled headline.</h1>
+<section class="container-grid fullscreen">
+  <h1 class="display-l">Fullscreen section.</h1>
 </section>
 ```
 
-Use the matching `*-no-vw` helper when one text style should stay capped inside `grid-fluid`.
+Use both modifiers when the section needs fullscreen layout and descendant text scaling:
 
 ```html
-<section class="grid-fluid">
-  <h1 class="display-l-no-vw">Grid fluid, capped headline.</h1>
+<section class="container-grid fullscreen vw">
+  <h1 class="display-l">Fullscreen layout with fluid type.</h1>
 </section>
 ```
+
+## Text scaling migration
+
+Old separate text helpers are also removed.
+
+```html
+<h1 class="display-l vw">Viewport-scaled headline.</h1>
+<h1 class="display-l !vw">Fixed headline inside a vw context.</h1>
+```
+
+Use `vw` to enable viewport-scaled text and `!vw` to opt out locally.
 
 ## Related workflow
 

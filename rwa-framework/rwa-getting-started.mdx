@@ -38,9 +38,9 @@ Start with a container:
 </section>
 ```
 
-For more immersive layouts, prefer `container-grid-fluid`.
+For sections where typography should keep scaling with the viewport, add the `vw` modifier to the container.
 
-It starts controlled, then opens up on very large screens. This makes it a strong default for expressive, Awwwards-style websites where layout and typography should keep breathing on wide viewports.
+`container-grid vw` keeps the regular contained layout and passes `vw` mode to descendant text-variable utilities. Use `container-grid fullscreen vw` when the layout should also use full viewport grid math.
 
 Add content with text styles:
 
@@ -70,7 +70,7 @@ Desktop-first is the preferred workflow. Start from the desktop design, then use
 ## Example
 
 ```html
-<section class="container-grid-fluid py-section-xl max-switch:py-section">
+<section class="container-grid vw py-section-xl max-switch:py-section">
   <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
     <p class="label-m mb-md">Project</p>
     <h1 class="display-l">Build faster with shared layout rules.</h1>

@@ -38,11 +38,11 @@ Use `container-grid` for:
 
 Text styles inside `container-grid` keep normal capped `clamp(...)` behavior by default.
 
-Use the matching `*-vw` helper when one text style should keep scaling after the max viewport breakpoint.
+Add the `vw` modifier when one text style should keep scaling after the max viewport breakpoint.
 
 ```html
 <section class="container-grid py-section-xl">
-  <h1 class="display-l-vw">Default container, viewport-scaled headline.</h1>
+  <h1 class="display-l vw">Default container, viewport-scaled headline.</h1>
 </section>
 ```
 

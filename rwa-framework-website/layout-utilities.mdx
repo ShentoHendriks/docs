@@ -27,9 +27,9 @@ The website exports container and column utilities such as:
 
 ```text
 container-grid
-container-grid-fluid
-grid-fluid
-container-grid-fullscreen
+container-grid vw
+container-grid fullscreen
+container-grid fullscreen vw
 container-columns
 w-col-*
 ml-col-*
@@ -42,9 +42,13 @@ gap-x-col-*
 
 Use `container-grid` for normal contained layouts.
 
-Use `container-grid-fluid` when the layout should keep opening up on very wide screens.
+Add the `vw` modifier when the section should keep the normal container layout while passing `vw` mode to descendant text-variable utilities.
 
-Use `container-grid-fullscreen` when the section should use full viewport width while still sharing system variables.
+Add the `fullscreen` modifier when the section should use full viewport width while still sharing system padding, margin, and gutter variables. `fullscreen` is scoped to `container-grid` and does not enable text `vw` scaling by itself.
+
+Use `container-grid fullscreen vw` when a section needs both fullscreen layout and descendant text `vw` scaling.
+
+The generated CSS no longer exports `grid-fluid`, `container-grid-fluid`, or `container-grid-fullscreen` aliases.
 
 ## Mobile fallback
 

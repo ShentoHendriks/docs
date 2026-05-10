@@ -1,13 +1,13 @@
 ---
-title: "Fullscreen container"
+title: "Fullscreen container modifier"
 ---
 
-`container-grid-fullscreen` is viewport-based from start.
+`fullscreen` is a modifier for `container-grid`.
 
-Use it when section should always use full viewport width for grid calculations.
+Use `container-grid fullscreen` when a section should use full viewport width for grid calculations while still keeping generated padding, margin, and gutter rules.
 
 ```html
-<section class="container-grid-fullscreen py-section-xl">
+<section class="container-grid fullscreen py-section-xl">
   <div class="pl-col-1 pr-col-1">
     <h2 class="heading-h2">Fullscreen layout area.</h2>
   </div>
@@ -20,12 +20,12 @@ It:
 - does not cap itself to configured container width
 - keeps side padding from `--spacing-container-margin`
 - calculates column width from `100vw`
-- uses same desktop/mobile column count logic
+- uses the same desktop/mobile column count logic
 - switches to mobile columns below `--container-switch`
 
 This is useful when a layout area is full bleed, but still needs consistent grid math.
 
-Use `container-grid-fullscreen` for:
+Use `container-grid fullscreen` for:
 
 - full-bleed sections
 - app-like canvases
@@ -34,29 +34,37 @@ Use `container-grid-fullscreen` for:
 - background sections where content aligns to grid
 - sections that should ignore max container width
 
-### Font Scaling Inside `container-grid-fullscreen`
+## Font scaling inside `container-grid fullscreen`
 
-`container-grid-fullscreen` changes layout width, but text styles keep normal capped typography by default.
-
-Text styles inside it still use normal generated typography tokens, usually `clamp(...)`.
-
-That means:
+`fullscreen` changes layout width, but text styles keep normal capped typography by default.
 
 ```html
-<section class="container-grid-fullscreen">
+<section class="container-grid fullscreen">
   <h1 class="display-l">Fullscreen layout, controlled type.</h1>
 </section>
 ```
 
-gets fullscreen column math, but `display-l` still stops growing at configured max typography size. Use this when layout should be wide, but typography should stay controlled.
-
-Add the matching `*-vw` helper when the text should keep scaling after the max viewport breakpoint.
+Add `vw` when descendant text variables should use viewport-scaled font sizes:
 
 ```html
-<section class="container-grid-fullscreen">
-  <h1 class="display-l-vw">Fullscreen layout, fluid type.</h1>
+<section class="container-grid fullscreen vw">
+  <h1 class="display-l">Fullscreen layout, fluid type.</h1>
 </section>
 ```
+
+Or add `vw` to a single text variable:
+
+```html
+<section class="container-grid fullscreen">
+  <h1 class="display-l vw">Fullscreen layout, fluid type.</h1>
+</section>
+```
+
+Use `!vw` on a text variable to force the fixed font-size value when it would otherwise inherit `vw`.
+
+## Removed alias
+
+The generated CSS no longer exports `container-grid-fullscreen`. Use `container-grid fullscreen` instead.
 
 ## Related workflow
 

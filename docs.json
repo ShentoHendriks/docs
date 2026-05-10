@@ -175,7 +175,6 @@
               "rwa-framework/containers",
               "rwa-framework/container-grid",
               "rwa-framework/cs",
-              "rwa-framework/grid-fluid",
               "rwa-framework/container-grid-fullscreen",
               "rwa-framework/recommended-usage"
             ]

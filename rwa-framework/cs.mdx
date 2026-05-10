@@ -1,93 +1,54 @@
 ---
-title: "Fluid container"
+title: "VW text modifier"
 ---
 
-`container-grid-fluid` starts like normal container, then becomes viewport-wide on very large screens.
+`vw` is a modifier class for generated text-variable utilities.
 
-Use it when design should keep opening up after configured max viewport.
-
-This is the preferred container for immersive, Awwwards-style websites.
-
-It keeps the layout controlled at normal sizes, but lets sections breathe on large screens. Use it when the page should feel more expressive than a standard content layout.
+Use `container-grid vw` when a normal contained section should keep the regular `container-grid` layout while enabling viewport-scaled descendant text variables.
 
 ```html
-<section class="container-grid-fluid py-section-2xl">
-  <h1 class="display-l">A fluid large-screen section.</h1>
+<section class="container-grid vw py-section-2xl">
+  <h1 class="display-l">A viewport-scaled headline.</h1>
 </section>
 ```
 
-Below max viewport, it behaves like `container-grid`:
+`container-grid vw` does **not** make the section fullscreen. It keeps the same max width, margin, gutter, and column logic as `container-grid`.
 
-- centered
-- capped to configured container width
-- uses same margin and gutter logic
-- uses same mobile/desktop column switch
+## Text scaling inside `container-grid vw`
 
-At and above max viewport, it changes:
-
-- `max-width` becomes `100vw`
-- content width calculation uses full viewport width
-- column width keeps growing with viewport
-
-This makes column-based layouts continue scaling on very wide screens.
-
-### Font Scaling Inside `container-grid-fluid`
-
-Text style utilities receive special behavior inside `container-grid-fluid`.
-
-Generated text styles like `display-l`, `heading-h1`, `body-l`, etc. normally use fluid `clamp(...)` tokens. That means they grow **until** configured max viewport, then **stop**.
-
-Inside `container-grid-fluid`, generated CSS adds an **override above max viewport:**
-
-```postcss
-@media (min-width: [max-viewport]) {
-  .container-grid-fluid .display-l {
-    font-size: [viewport-based-value];
-  }
-}
-```
-
-This means text styles can keep scaling with viewport width inside fluid containers.
-
-So this:
+When `vw` appears on a container or another ancestor, descendant text-variable utilities use their viewport-scaled font-size value:
 
 ```html
-<section class="container-grid-fluid">
+<section class="container-grid vw">
   <h1 class="display-l">Large-screen headline</h1>
 </section>
 ```
 
-will feel more proportional on very wide screens than same headline inside `container-grid`.
+This replaces the old separate `display-l-vw` style utilities.
 
-Use this when typography and layout should scale together.
-
-Use the matching `*-no-vw` helper when one text style should stay capped inside a fluid container.
+Use `!vw` on a text variable to opt out locally:
 
 ```html
-<section class="container-grid-fluid">
-  <h1 class="display-l-no-vw">Fluid container, capped headline.</h1>
+<section class="container-grid vw">
+  <h1 class="display-l !vw">VW context, capped headline.</h1>
 </section>
 ```
 
-Good use cases:
+`!vw` only works on the same element as the text variable. It does not block `vw` for a whole subtree.
 
-- campaign heroes
-- immersive editorial headers
-- wide visual storytelling sections
-- large-screen brand moments
-- layouts where type should stay proportional to viewport
+## Fullscreen with `vw`
 
-## `grid-fluid`
-
-Use `grid-fluid` when you want full-width grid math without container side padding, while keeping the same large-screen fluid typography behavior.
+Use `container-grid fullscreen vw` when a section needs fullscreen grid math and descendant text scaling:
 
 ```html
-<section class="grid-fluid">
-  <h1 class="display-l">Large screen headline</h1>
+<section class="container-grid fullscreen vw">
+  <h1 class="display-l">Fullscreen layout with fluid type.</h1>
 </section>
 ```
 
-For details, see [Fluid grid](/rwa-framework/grid-fluid).
+## Removed aliases
+
+The generated CSS no longer exports `container-grid-fluid`. Use `container-grid vw` for text scaling, or `container-grid fullscreen vw` when the layout should also be fullscreen.
 
 ## Related workflow
 

@@ -92,43 +92,63 @@ Better:
 </section>
 ```
 
-## Fluid Behavior
+## `vw` font-size behavior
 
-Text styles use generated typography tokens, usually `clamp(...)`.
+Text styles use generated typography tokens by default, usually `clamp(...)`. That means text grows between configured min and max viewport widths, then stays capped.
 
-That means text grows between configured min and max viewport widths.
-
-Inside `container-grid-fluid`, text styles can receive special overrides above max viewport, so display typography keeps scaling with very wide layouts.
+Add the `vw` modifier when a text variable should use its viewport-scaled font-size value:
 
 ```html
-<section class="container-grid-fluid">
+<h1 class="display-l vw">Scales wider on large screens.</h1>
+```
+
+A `vw` modifier on an ancestor enables viewport-scaled font sizes for descendant text variables:
+
+```html
+<section class="container-grid vw">
   <h1 class="display-l">Scales wider on large screens.</h1>
 </section>
 ```
 
-Inside `container-grid` and `container-grid-fullscreen`, text styles keep normal capped `clamp(...)` behavior by default.
-
-Add the matching `*-vw` helper when a single text style should keep scaling after the max viewport breakpoint.
+Use `!vw` on the text variable itself to opt out of inherited or direct `vw` scaling:
 
 ```html
-<section class="container-grid-fullscreen">
-  <h1 class="display-l-vw">Scales wider on large screens.</h1>
+<section class="container-grid vw">
+  <h1 class="display-l !vw">Stays capped on large screens.</h1>
 </section>
 ```
 
-Add the matching `*-no-vw` helper when a single text style should stay capped inside a fluid container.
+`!vw` wins over `vw`, but it is local only. It does not block `vw` scaling for a subtree when placed on a parent.
 
-```html
-<section class="container-grid-fluid">
-  <h1 class="display-l-no-vw">Stays capped on large screens.</h1>
-</section>
+The generated CSS uses explicit selectors so local `!vw` beats both inherited and direct `vw`:
+
+```postcss
+.vw .display-l,
+.display-l.vw {
+  font-size: [viewport-scaled font-size value];
+}
+
+.vw .display-l.\!vw,
+.display-l.vw.\!vw,
+.display-l.\!vw {
+  font-size: [default font-size value];
+}
 ```
+
+The generated CSS no longer exports separate `*-vw` text utility classes or `*-no-vw` helpers.
 
 ## Best Practice
 
 Use **text styles** for real content.
 
 Use raw `text-*` classes only for exceptions or one-off technical cases.
+
+Use modifiers after the base text utility in examples:
+
+```html
+<h1 class="display-l vw">Fluid display text.</h1>
+<h1 class="display-l !vw">Fixed display text.</h1>
+```
 
 ## Related workflow
 

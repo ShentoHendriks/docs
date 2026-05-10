@@ -22,7 +22,7 @@ max-desktop:
 ## Usage
 
 ```html
-<section class="container-grid-fluid py-section-xl max-switch:py-section">
+<section class="container-grid vw py-section-xl max-switch:py-section">
   <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
     <h1 class="display-l">Desktop-first responsive layout.</h1>
   </div>
@@ -89,7 +89,7 @@ Desktop-first means base classes define desktop layout. Max variants reduce layo
 Example:
 
 ```html
-<section class="container-grid-fluid py-section-2xl max-desktop:py-section-xl max-switch:py-section">
+<section class="container-grid vw py-section-2xl max-desktop:py-section-xl max-switch:py-section">
   <div class="w-col-10 max-desktop:w-col-8 max-switch:w-col-6">
     <h1 class="display-l">Desktop-first section.</h1>
   </div>
@@ -192,7 +192,7 @@ desktop represents configured maximum viewport.
 Use `max-desktop:` when base style is large-screen and you need to reduce below max viewport.
 
 ```html
-<section class="container-grid-fluid py-section-2xl max-desktop:py-section-xl">
+<section class="container-grid vw py-section-2xl max-desktop:py-section-xl">
   ...
 </section>
 ```
@@ -200,12 +200,12 @@ Use `max-desktop:` when base style is large-screen and you need to reduce below 
 Use `desktop:` for behavior that should only happen at very large sizes.
 
 ```html
-<section class="container-grid-fluid py-section-xl desktop:py-section-2xl">
+<section class="container-grid vw py-section-xl desktop:py-section-2xl">
   <h1 class="display-l">Large-screen behavior.</h1>
 </section>
 ```
 
-`desktop:` can still be useful with `container-grid-fluid`, because fluid containers have special large-screen behavior above max viewport.
+`desktop:` can still be useful with `container-grid vw` when text scaling or spacing should change above the desktop breakpoint.
 
 ## Column Responsiveness
 
@@ -248,7 +248,7 @@ With desktop-first, make smaller states explicit:
 ## Recommended Desktop-First Pattern
 
 ```html
-<section class="container-grid-fluid py-section-xl max-switch:py-section">
+<section class="container-grid vw py-section-xl max-switch:py-section">
   <div class="w-col-9 max-desktop:w-col-8 max-switch:w-col-6">
     <p class="label-m mb-md">Responsive</p>
     <h1 class="display-l">Desktop-first section layout.</h1>

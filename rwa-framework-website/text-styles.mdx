@@ -39,7 +39,7 @@ Use descriptions to explain:
 
 ## Exported CSS
 
-Text variables export as Tailwind `@utility` classes:
+Text variables export as Tailwind `@utility` classes. By default, a text variable uses its fixed font-size value:
 
 ```css
 @utility display-l {
@@ -57,6 +57,34 @@ Use them directly in markup:
 <h1 class="display-l">A clear headline.</h1>
 <p class="body-l">Lead copy using the same system.</p>
 ```
+
+## `vw` text modifier
+
+Add the `vw` modifier to a text variable when that element should use its viewport-scaled font-size value:
+
+```html
+<h1 class="display-l vw">A fluid headline.</h1>
+```
+
+A `vw` modifier on an ancestor also enables viewport-scaled font sizes for descendant text variables:
+
+```html
+<section class="container-grid vw">
+  <h1 class="display-l">A fluid headline.</h1>
+</section>
+```
+
+Use `!vw` on the text variable itself to opt out of inherited or direct `vw` scaling:
+
+```html
+<section class="container-grid vw">
+  <h1 class="display-l !vw">A fixed headline.</h1>
+</section>
+```
+
+`!vw` is local only. It does not block `vw` scaling for an entire subtree when placed on a parent element.
+
+The generated CSS no longer exports separate `*-vw` text utility classes or `no-vw`. Use the `vw` and `!vw` modifiers instead.
 
 ## Related workflow
 
